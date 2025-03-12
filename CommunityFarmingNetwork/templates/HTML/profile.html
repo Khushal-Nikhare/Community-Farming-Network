@@ -758,6 +758,24 @@
     </nav>
   </header>
 
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <i class="fas fa-times close-sidebar"></i>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="#orders"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="#seller"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="#help"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+
   <div class="container">
     <div class="welcome-header">
       <div class="profile-photo-container">
@@ -1022,6 +1040,32 @@
   </div>
 
   <script>
+     // Header scroll effect
+     window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Sidebar functionality
+    const menuButton = document.getElementById('menu-button');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const closeButton = document.querySelector('.close-sidebar');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    menuButton.addEventListener('click', toggleSidebar);
+    closeButton.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
     // Tab navigation
     const navLinks = document.querySelectorAll('.profile-nav a');
     const sections = document.querySelectorAll('.profile-section');

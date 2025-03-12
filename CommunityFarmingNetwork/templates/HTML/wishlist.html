@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #28a745;
+      --secondary-color: #232F3E;
+      --accent-color: #f0c14b;
+      --text-color: #333;
+      --light-bg: #f8f8f8;
+      --white: #ffffff;
+      --shadow: 0 4px 2px -2px gray;
+      --transition: all 0.3s ease-in-out;
+      --border-radius: 15px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      padding: 0 20px;
+      background: rgba(40, 167, 69, 0.1);
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      animation: navbarFadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes navbarFadeIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-container img {
+      height: 65px;
+      transition: var(--transition);
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .cart-icon {
+      display: flex;
+      align-items: center;
+      padding: 8px 15px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .cart-icon:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    .cart-count {
+      background: var(--accent-color);
+      color: var(--secondary-color);
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    #menu-button {
+      color: var(--white);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 18px;
+    }
+
+    #menu-button:hover {
+      transform: scale(1.1);
+    }
+
+    main {
+      margin-top: 70px;
+      padding: 20px;
+      min-height: calc(100vh - 70px);
+      background: var(--light-bg);
+    }
+
+    .wishlist-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--white);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .wishlist-container h1 {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .wishlist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .wishlist-item:last-child {
+      border-bottom: none;
+    }
+
+    .wishlist-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .wishlist-item button {
+      background: var(--primary-color);
+      color: var(--white);
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .wishlist-item button:hover {
+      background: var(--secondary-color);
+    }
+
+    .empty-message {
+      color: #666;
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        height: auto;
+      }
+
+      .logo-container img {
+        height: 30px;
+      }
+
+      .wishlist-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .wishlist-item img {
+        margin-bottom: 10px;
+      }
+    }
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      z-index: 1001;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close-sidebar {
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    .close-sidebar:hover {
+      color: var(--primary-color);
+      transform: rotate(90deg);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+
+    .sidebar-menu a {
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    .sidebar-menu a:hover {
+      background: var(--light-bg);
+      color: var(--primary-color);
+      padding-left: 20px;
+    }
+    /* Footer Styles */
+    footer {
+      background: var(--secondary-color);
+      color: var(--white);
+      padding: 40px 20px;
+    }
+
+    .footer-links {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-section h3 {
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: var(--white);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--accent-color);
+      padding-left: 5px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="logo.png" alt="Farm2Home Logo">
+        </a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html" class="cart-icon">
+          <span style="font-size: 18px;">🛒</span>
+          <span class="cart-count" id="cart-count">0</span>
+          <span style="color:white">Cart</span>
+        </a>
+        <a href="profile.html" style="color:white">
+          <i class="fas fa-user"></i> Profile
+        </a>
+        <a href="javascript:void(0);" id="menu-button" style="color:white">
+          <i class="fas fa-ellipsis-v"></i>
+        </a>
+      </div>
+    </nav>
+     <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <i class="fas fa-times close-sidebar"></i>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="#orders"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="#seller"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="#help"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+  </header>
+
+  <main>
+    <div class="wishlist-container">
+      <h1>Your List</h1>
+      <div id="wishlist-items">
+        <p class="empty-message">Your wish list is empty for now</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <div class="footer-section">
+        <h3>Get to Know Us</h3>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#press">Press Releases</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect with Us</h3>
+        <ul>
+          <li><a href="#facebook">Facebook</a></li>
+          <li><a href="#twitter">Twitter</a></li>
+          <li><a href="#instagram">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Make Money with Us</h3>
+        <ul>
+          <li><a href="#sell">Sell on Farm2Home</a></li>
+          <li><a href="#affiliate">Become an Affiliate</a></li>
+          <li><a href="#advertise">Advertise Your Products</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Let Us Help You</h3>
+        <ul>
+          <li><a href="#help">Help Center</a></li>
+          <li><a href="#returns">Returns</a></li>
+          <li><a href="#shipping">Shipping Rates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Farm2Home. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Sidebar functionality
+    const menuButton = document.getElementById('menu-button');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const closeButton = document.querySelector('.close-sidebar');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    menuButton.addEventListener('click', toggleSidebar);
+    closeButton.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
+    const wishlistItemsContainer = document.getElementById('wishlist-items');
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+    function renderWishlist() {
+      wishlistItemsContainer.innerHTML = '';
+      if (wishlist.length === 0) {
+        wishlistItemsContainer.innerHTML = '<p class="empty-message">Your wish list is empty for now</p>';
+      } else {
+        wishlist.forEach(item => {
+          const itemElement = document.createElement('div');
+          itemElement.className = 'wishlist-item';
+          itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <span>${item.name}</span>
+            <button onclick="removeFromWishlist('${item.name}')">Remove</button>
+          `;
+          wishlistItemsContainer.appendChild(itemElement);
+        });
+      }
+    }
+
+    function addToWishlist(name, image) {
+      wishlist.push({ name, image });
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      renderWishlist();
+    }
+
+    function removeFromWishlist(name) {
+      const index = wishlist.findIndex(item => item.name === name);
+      if (index !== -1) {
+        wishlist.splice(index, 1);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        renderWishlist();
+      }
+    }
+
+    renderWishlist();
+  </script>
+</body>
+</html>
