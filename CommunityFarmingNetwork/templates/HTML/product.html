@@ -306,43 +306,6 @@
             margin-left: 10px;
         }
 
-        .wishlist-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .wishlist-btn:hover {
-            background: var(--primary-color);
-            color: var(--white);
-            transform: scale(1.02);
-        }
-
-        .wishlist-btn.in-wishlist {
-            background: var(--primary-color);
-            color: var(--white);
-        }
-
-        .wishlist-btn i {
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-        }
-
-        .wishlist-btn:hover i {
-            transform: scale(1.2);
-        }
-
         /* Offers Section */
         .offers {
             background: #f9f9f9;
@@ -828,23 +791,22 @@
     </header>
 
     <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Menu</h3>
-            <i class="fas fa-times close-sidebar"></i>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
-            <li><a href="#profile"><i class="fas fa-user"></i> Your Profile</a></li>
-            <li><a href="#orders"><i class="fas fa-box"></i> Your Orders</a></li>
-            <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
-            <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-            <li><a href="#categories"><i class="fas fa-list"></i> Categories</a></li>
-            <li><a href="#deals"><i class="fas fa-tag"></i> Today's Deals</a></li>
-            <li><a href="#seller"><i class="fas fa-store"></i> Become a Seller</a></li>
-            <li><a href="#help"><i class="fas fa-question-circle"></i> Help Center</a></li>
-        </ul>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <i class="fas fa-times close-sidebar"></i>
     </div>
+    <ul class="sidebar-menu">
+      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="#orders"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="#seller"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="#help"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
 
     <div class="overlay"></div>
 
@@ -879,10 +841,6 @@
                 <span class="original-price">$3.99/kg</span>
                 <span class="discount">25% OFF</span>
             </div>
-
-            <button class="wishlist-btn" onclick="toggleWishlist()">
-                <i class="fas fa-heart"></i> Add to Wishlist
-            </button>
 
             <div class="offers">
                 <div class="offer-item">
@@ -1271,73 +1229,6 @@
         const cartCount = document.getElementById('cart-count');
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cartCount.textContent = cart.length;
-
-        // Wishlist functionality
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const wishlistBtn = document.querySelector('.wishlist-btn');
-
-        function isInWishlist() {
-            const params = getUrlParams();
-            return wishlist.some(item => item.name === params.name);
-        }
-
-        function updateWishlistButton() {
-            if (isInWishlist()) {
-                wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> Remove from Wishlist';
-                wishlistBtn.classList.add('in-wishlist');
-            } else {
-                wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
-                wishlistBtn.classList.remove('in-wishlist');
-            }
-        }
-
-        function toggleWishlist() {
-            const params = getUrlParams();
-            const productData = {
-                name: params.name,
-                image: params.image,
-                price: params.price
-            };
-
-            const index = wishlist.findIndex(item => item.name === params.name);
-            
-            if (index === -1) {
-                // Add to wishlist
-                wishlist.push(productData);
-                showToast(`${params.name} added to wishlist!`);
-            } else {
-                // Remove from wishlist
-                wishlist.splice(index, 1);
-                showToast(`${params.name} removed from wishlist!`);
-            }
-            
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            updateWishlistButton();
-
-            // Button animation
-            wishlistBtn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                wishlistBtn.style.transform = 'scale(1)';
-            }, 200);
-        }
-
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-
-        // Update wishlist button state on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            loadProductData();
-            updateSimilarProducts();
-            updateWishlistButton();
-        });
 
         // Thumbnail click handler
         document.querySelectorAll('.thumbnail').forEach(thumb => {
