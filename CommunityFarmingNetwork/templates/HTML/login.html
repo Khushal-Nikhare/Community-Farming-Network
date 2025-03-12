@@ -2,282 +2,507 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Farm2Home - Login & Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Farm2Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* Add animations and transitions */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    :root {
+      --primary-color: #28a745;
+      --secondary-color: #232F3E;
+      --accent-color: #f0c14b;
+      --text-color: #333;
+      --light-bg: #f8f8f8;
+      --white: #ffffff;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease-in-out;
+      --border-radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Arial', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.6;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
     }
-    .container {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 500px;
-      text-align: center;
-      animation: fadeIn 0.5s ease-out;
-      transition: all 0.3s ease;
+
+    .logo-container {
+      margin: 20px 0;
     }
-    .container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+
+    .logo-container img {
+      height: 100px;
+      transition: var(--transition);
     }
-    h2 {
-      margin-bottom: 1rem;
-      animation: fadeIn 0.5s ease-out;
-      position: relative;
-    }
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 3px;
-      background: #4CAF50;
-      transition: width 0.3s ease;
-    }
-    .container:hover h2::after {
-      width: 100px;
-    }
-    .form-group {
-      margin-bottom: 1rem;
-      text-align: left;
-      animation: fadeIn 0.5s ease-out;
-      animation-fill-mode: both;
-    }
-    #login-form .form-group:nth-child(1) { animation-delay: 0.1s; }
-    #login-form .form-group:nth-child(2) { animation-delay: 0.2s; }
-    #step1 .form-group:nth-child(1) { animation-delay: 0.1s; }
-    #step1 .form-group:nth-child(2) { animation-delay: 0.2s; }
-    #step1 .form-group:nth-child(3) { animation-delay: 0.3s; }
-    #step2 .form-group:nth-child(1) { animation-delay: 0.1s; }
-    #step2 .form-group:nth-child(2) { animation-delay: 0.2s; }
-    #step2 .form-group:nth-child(3) { animation-delay: 0.3s; }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: #4CAF50;
-      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-      transform: scale(1.01);
-    }
-    button {
-      padding: 0.75rem;
-      background: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 10px;
-      width: 100%;
-      transition: all 0.3s ease;
-      animation: fadeIn 0.5s ease-out;
-      animation-delay: 0.4s;
-      animation-fill-mode: both;
-    }
-    button:hover {
-      background: #388E3C;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-    }
-    .hidden {
-      display: none;
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    .toggle-button {
-      background: none;
-      border: none;
-      color: #4CAF50;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 10px;
-      transition: all 0.3s ease;
-    }
-    .toggle-button:hover {
-      color: #388E3C;
+
+    .logo-container img:hover {
       transform: scale(1.05);
-      background: none;
-      box-shadow: none;
     }
-    form {
-      transition: all 0.3s ease;
+
+    .auth-container {
+      background: var(--white);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      animation: slideIn 0.5s ease-out;
     }
-    form:not(.hidden) {
-      animation: fadeIn 0.5s ease-out;
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-    /* Add loading animation */
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+
+    .auth-title {
+      text-align: center;
+      color: var(--secondary-color);
+      margin-bottom: 25px;
+      font-size: 1.8em;
     }
-    .loading {
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-color);
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-color);
+      color: var(--white);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .submit-btn:hover {
+      background: #218838;
+      transform: translateY(-2px);
+    }
+
+    .auth-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .auth-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: var(--transition);
+    }
+
+    .auth-links a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 20px 0;
       position: relative;
-      pointer-events: none;
     }
-    .loading::after {
+
+    .divider::before,
+    .divider::after {
       content: '';
       position: absolute;
-      width: 20px;
-      height: 20px;
       top: 50%;
-      left: 50%;
-      margin-left: -10px;
-      margin-top: -10px;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: rotate 0.8s linear infinite;
+      width: 45%;
+      height: 1px;
+      background: #ddd;
     }
-    /* Success animation */
-    @keyframes checkmark {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+
+    .divider::before {
+      left: 0;
     }
-    .success-checkmark {
-      color: #4CAF50;
-      font-size: 48px;
-      animation: checkmark 0.5s ease-out;
+
+    .divider::after {
+      right: 0;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      transition: var(--transition);
+    }
+
+    .close-modal:hover {
+      color: var(--text-color);
+    }
+
+    .success-message {
+      color: var(--primary-color);
+      text-align: center;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      background: rgba(40, 167, 69, 0.1);
+      display: none;
+    }
+
+    .error-message {
+      color: #dc3545;
+      text-align: center;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      background: rgba(220, 53, 69, 0.1);
+      display: none;
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 20px;
+      }
+
+      .logo-container img {
+        height: 70px;
+      }
+
+      .auth-title {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2 id="form-title">Login</h2>
+  <div class="logo-container">
+    <a href="index.html">
+      <img src="logo.png" alt="Farm2Home Logo">
+    </a>
+  </div>
 
-    <!-- Login Form -->
+  <!-- Login Form -->
+  <div class="auth-container" id="login-container">
+    <h2 class="auth-title">Login to Farm2Home</h2>
     <form id="login-form">
       <div class="form-group">
-        <label for="login-gmail">Gmail:</label>
-        <input type="email" id="login-gmail" name="login-gmail" placeholder="example@gmail.com" required>
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required>
       </div>
       <div class="form-group">
-        <label for="login-password">Password:</label>
-        <input type="password" id="login-password" name="login-password" placeholder="Enter your password" required>
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required>
       </div>
-      <button type="submit">Login</button>
-      <p>Don't have an account? <button type="button" class="toggle-button" onclick="toggleForm()">Signup</button></p>
-    </form>
-
-    <!-- Signup Form - Step 1 -->
-    <form id="step1" class="hidden">
-      <div class="form-group">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+      <button type="submit" class="submit-btn">Login</button>
+      <div class="auth-links">
+        <a href="#" id="forgot-password-link">Forgot Password?</a>
+        <a href="#" id="show-signup">Create Account</a>
       </div>
-      <div class="form-group">
-        <label for="gender">Gender:</label>
-        <select id="gender" name="gender" required>
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" required>
-      </div>
-      <button type="button" onclick="nextStep(1)">Next</button>
-      <p>Already have an account? <button type="button" class="toggle-button" onclick="toggleForm()">Login</button></p>
-    </form>
-
-    <!-- Signup Form - Step 2 -->
-    <form id="step2" class="hidden">
-      <div class="form-group">
-        <label for="gmail">Gmail:</label>
-        <input type="email" id="gmail" name="gmail" placeholder="example@gmail.com" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Create Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      </div>
-      <div class="form-group">
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required>
-      </div>
-      <button type="button" onclick="prevStep(2)">Back</button>
-      <button type="submit">Signup</button>
     </form>
   </div>
 
+  <!-- Signup Form -->
+  <div class="auth-container" id="signup-container" style="display: none;">
+    <h2 class="auth-title">Create Account</h2>
+    <form id="signup-form">
+      <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-mobile">Mobile Number</label>
+        <input type="tel" id="signup-mobile" pattern="[0-9]{10}" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" required>
+      </div>
+      <div class="form-group">
+        <label for="signup-confirm-password">Confirm Password</label>
+        <input type="password" id="signup-confirm-password" required>
+      </div>
+      <button type="submit" class="submit-btn">Create Account</button>
+      <div class="auth-links">
+        <a href="#" id="show-login">Already have an account? Login</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div class="modal" id="forgot-password-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      
+      <!-- Step 1: Email Input -->
+      <div id="forgot-step-1">
+        <h3 class="auth-title">Forgot Password</h3>
+        <div class="form-group">
+          <label for="forgot-email">Enter your email</label>
+          <input type="email" id="forgot-email" required>
+        </div>
+        <button class="submit-btn" id="generate-otp-btn">Generate OTP</button>
+      </div>
+
+      <!-- Step 2: OTP Verification -->
+      <div id="forgot-step-2" style="display: none;">
+        <h3 class="auth-title">Enter OTP</h3>
+        <div class="form-group">
+          <label for="otp-input">Enter the OTP sent to your email</label>
+          <input type="text" id="otp-input" maxlength="6" required>
+        </div>
+        <button class="submit-btn" id="verify-otp-btn">Verify OTP</button>
+      </div>
+
+      <!-- Step 3: New Password -->
+      <div id="forgot-step-3" style="display: none;">
+        <h3 class="auth-title">Create New Password</h3>
+        <div class="form-group">
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirm-new-password">Confirm New Password</label>
+          <input type="password" id="confirm-new-password" required>
+        </div>
+        <button class="submit-btn" id="reset-password-btn">Reset Password</button>
+      </div>
+
+      <div class="success-message" id="success-message"></div>
+      <div class="error-message" id="error-message"></div>
+    </div>
+  </div>
+
   <script>
-    function nextStep(currentStep) {
-      document.getElementById("step" + currentStep).classList.add("hidden");
-      document.getElementById("step" + (currentStep + 1)).classList.remove("hidden");
-    }
-  
-    function prevStep(currentStep) {
-      document.getElementById("step" + currentStep).classList.add("hidden");
-      document.getElementById("step" + (currentStep - 1)).classList.remove("hidden");
-    }
-  
-    function toggleForm() {
-      const loginForm = document.getElementById("login-form");
-      const signupForm = document.getElementById("step1");
-      const title = document.getElementById("form-title");
-  
-      if (loginForm.classList.contains("hidden")) {
-        // Show login form
-        loginForm.classList.remove("hidden");
-        signupForm.classList.add("hidden");
-        document.getElementById("step2").classList.add("hidden");
-        title.textContent = "Login";
-      } else {
-        // Show signup form
-        loginForm.classList.add("hidden");
-        signupForm.classList.remove("hidden");
-        title.textContent = "Signup";
-      }
-    }
-  
-    document.getElementById("step2").addEventListener("submit", function (e) {
+    // Form switching functionality
+    const loginContainer = document.getElementById('login-container');
+    const signupContainer = document.getElementById('signup-container');
+    const showSignup = document.getElementById('show-signup');
+    const showLogin = document.getElementById('show-login');
+
+    showSignup.addEventListener('click', (e) => {
       e.preventDefault();
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirm-password").value;
-  
-      if (password !== confirmPassword) {
-        alert("Passwords do not match! Please try again.");
+      loginContainer.style.display = 'none';
+      signupContainer.style.display = 'block';
+    });
+
+    showLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      signupContainer.style.display = 'none';
+      loginContainer.style.display = 'block';
+    });
+
+    // Forgot password functionality
+    const forgotModal = document.getElementById('forgot-password-modal');
+    const forgotLink = document.getElementById('forgot-password-link');
+    const closeModal = document.querySelector('.close-modal');
+    const step1 = document.getElementById('forgot-step-1');
+    const step2 = document.getElementById('forgot-step-2');
+    const step3 = document.getElementById('forgot-step-3');
+    const generateOtpBtn = document.getElementById('generate-otp-btn');
+    const verifyOtpBtn = document.getElementById('verify-otp-btn');
+    const resetPasswordBtn = document.getElementById('reset-password-btn');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+
+    // Show/hide modal
+    forgotLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      forgotModal.classList.add('active');
+    });
+
+    closeModal.addEventListener('click', () => {
+      forgotModal.classList.remove('active');
+      // Reset the form state
+      step1.style.display = 'block';
+      step2.style.display = 'none';
+      step3.style.display = 'none';
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+    });
+
+    // Generate OTP
+    generateOtpBtn.addEventListener('click', () => {
+      const email = document.getElementById('forgot-email').value;
+      if (email) {
+        // Here you would typically make an API call to send OTP
+        // For demo, we'll just simulate it
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+        successMessage.textContent = 'OTP sent to your email!';
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
       } else {
-        alert("Signup successful!");
-        window.location.href = "index.html";
+        errorMessage.textContent = 'Please enter your email address';
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
       }
     });
-  
-    document.getElementById("login-form").addEventListener("submit", function (e) {
+
+    // Verify OTP
+    verifyOtpBtn.addEventListener('click', () => {
+      const otp = document.getElementById('otp-input').value;
+      if (otp && otp.length === 6) {
+        // Here you would verify the OTP with your backend
+        // For demo, we'll just simulate it
+        step2.style.display = 'none';
+        step3.style.display = 'block';
+        successMessage.textContent = 'OTP verified successfully!';
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+      } else {
+        errorMessage.textContent = 'Please enter a valid OTP';
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+      }
+    });
+
+    // Reset Password
+    resetPasswordBtn.addEventListener('click', () => {
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-new-password').value;
+
+      if (newPassword && confirmPassword) {
+        if (newPassword === confirmPassword) {
+          // Here you would update the password in your backend
+          // For demo, we'll just simulate it
+          successMessage.textContent = 'Password reset successful! Redirecting to login...';
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+
+          setTimeout(() => {
+            forgotModal.classList.remove('active');
+            // Reset the form state
+            step1.style.display = 'block';
+            step2.style.display = 'none';
+            step3.style.display = 'none';
+            successMessage.style.display = 'none';
+            // Clear all inputs
+            document.getElementById('forgot-email').value = '';
+            document.getElementById('otp-input').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+          }, 2000);
+        } else {
+          errorMessage.textContent = 'Passwords do not match';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        }
+      } else {
+        errorMessage.textContent = 'Please fill in all fields';
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+      }
+    });
+
+    // Form submission handlers
+    document.getElementById('login-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      alert("Login successful!");
-      window.location.href = "index.html";
+      // Here you would handle login form submission
+      // For demo, we'll just redirect to index
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would handle signup form submission
+      // For demo, we'll just show success and redirect
+      alert('Account created successfully!');
+      window.location.href = 'index.html';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === forgotModal) {
+        forgotModal.classList.remove('active');
+        // Reset the form state
+        step1.style.display = 'block';
+        step2.style.display = 'none';
+        step3.style.display = 'none';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+      }
     });
   </script>
-  
 </body>
 </html>
