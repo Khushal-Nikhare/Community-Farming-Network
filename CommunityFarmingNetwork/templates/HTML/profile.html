@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm2Home - Your Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #28a745;
+      --secondary-color: #232F3E;
+      --accent-color: #f0c14b;
+      --text-color: #333;
+      --light-bg: #f8f8f8;
+      --white: #ffffff;
+      --shadow: 0 4px 10px rgba(0,0,0,0.1);
+      --border-radius: 15px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background-color: var(--light-bg);
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--primary-color);
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .logo-container img {
+      height: 50px;
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-icons a {
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Main Content Styles */
+    .container {
+      max-width: 1200px;
+      margin: 100px auto 50px;
+      padding: 0 20px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .welcome-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      background: var(--white);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .profile-photo-container {
+      position: relative;
+      margin-right: 20px;
+    }
+
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary-color);
+    }
+
+    .change-photo {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: var(--primary-color);
+      color: var(--white);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .change-photo:hover {
+      background: var(--secondary-color);
+      transform: scale(1.1);
+    }
+
+    .welcome-text h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .profile-sections {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+    }
+
+    /* Sidebar Navigation */
+    .profile-nav {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      animation: fadeIn 0.5s ease-out;
+      animation-delay: 0.1s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .profile-nav ul {
+      list-style: none;
+    }
+
+    .profile-nav li {
+      margin-bottom: 15px;
+    }
+
+    .profile-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .profile-nav a:hover, .profile-nav a.active {
+      background: var(--light-bg);
+      color: var(--primary-color);
+      padding-left: 15px;
+    }
+
+    /* Content Sections */
+    .profile-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.5s ease-out;
+      animation-delay: 0.2s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .profile-section {
+      display: none;
+    }
+
+    .profile-section.active {
+      display: block;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--light-bg);
+      padding-bottom: 10px;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      background: var(--light-bg);
+      color: var(--text-color);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary:hover {
+      background: #219a3a;
+    }
+
+    .btn-secondary:hover {
+      background: #e8e8e8;
+    }
+
+    /* Address Card */
+    .address-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .address-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .address-card:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-color: var(--primary-color);
+    }
+
+    .address-card h4 {
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .address-actions {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .address-actions button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .address-actions button:hover {
+      color: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    .add-address-btn {
+      margin-top: 20px;
+    }
+
+    /* Order History */
+    .order-history {
+      margin-top: 20px;
+    }
+
+    .order-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .order-id {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .order-date {
+      color: #777;
+    }
+
+    .order-items {
+      margin-bottom: 15px;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .order-item-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .order-item-name {
+      flex: 1;
+    }
+
+    .order-item-price {
+      font-weight: bold;
+    }
+
+    .order-total {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .order-status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: var(--white);
+    }
+
+    .status-delivered {
+      background-color: var(--primary-color);
+    }
+
+    .status-shipping {
+      background-color: var(--accent-color);
+      color: var(--secondary-color);
+    }
+
+    .status-processing {
+      background-color: #17a2b8;
+    }
+
+    .status-cancelled {
+      background-color: #dc3545;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+    }
+
+    .modal-backdrop.active .modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #777;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--primary-color);
+      transform: rotate(90deg);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    /* Profile Upload */
+    .photo-upload-area {
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      margin: 20px 0;
+      transition: all 0.3s ease;
+    }
+
+    .photo-upload-area:hover {
+      border-color: var(--primary-color);
+    }
+
+    .photo-upload-icon {
+      font-size: 40px;
+      color: #ddd;
+      margin-bottom: 15px;
+    }
+
+    .photo-upload-text {
+      margin-bottom: 15px;
+      color: #777;
+    }
+
+    #photo-upload {
+      display: none;
+    }
+
+    .photo-preview {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 20px auto;
+      border: 4px solid var(--primary-color);
+      display: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .profile-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-nav {
+        margin-bottom: 30px;
+      }
+
+      .welcome-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .profile-photo-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .address-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="logo.png" alt="Farm2Home Logo">
+        </a>
+      </div>
+      <div class="nav-icons">
+        <a href="index.html">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="cart.html">
+          <i class="fas fa-shopping-cart"></i> Cart
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="welcome-header">
+      <div class="profile-photo-container">
+        <img src="user-placeholder.jpg" alt="Profile Photo" class="profile-photo" id="profile-img">
+        <div class="change-photo" onclick="openModal('photo-modal')">
+          <i class="fas fa-camera"></i>
+        </div>
+      </div>
+      <div class="welcome-text">
+        <h1>Hey, <span id="username">John Doe</span>!</h1>
+        <p>Welcome to your profile page where you can manage your account settings and view your orders.</p>
+      </div>
+    </div>
+
+    <div class="profile-sections">
+      <div class="profile-nav">
+        <ul>
+          <li><a href="#" class="active" data-section="info-section"><i class="fas fa-user"></i> Personal Information</a></li>
+          <li><a href="#" data-section="address-section"><i class="fas fa-map-marker-alt"></i> Delivery Addresses</a></li>
+          <li><a href="#" data-section="password-section"><i class="fas fa-lock"></i> Change Password</a></li>
+          <li><a href="#" data-section="orders-section"><i class="fas fa-box"></i> Order History</a></li>
+          <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+      </div>
+
+      <div class="profile-content">
+        <!-- Personal Information Section -->
+        <section id="info-section" class="profile-section active">
+          <h2 class="section-title">Personal Information</h2>
+          <form id="info-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" value="John Doe">
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="john.doe@example.com" disabled>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Mobile Number</label>
+                <input type="tel" id="phone" value="+1 (555) 123-4567">
+              </div>
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" value="1990-01-15">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </form>
+        </section>
+
+        <!-- Delivery Addresses Section -->
+        <section id="address-section" class="profile-section">
+          <h2 class="section-title">Delivery Addresses</h2>
+          <div class="address-cards">
+            <div class="address-card">
+              <div class="address-actions">
+                <button onclick="editAddress(1)"><i class="fas fa-edit"></i></button>
+                <button onclick="deleteAddress(1)"><i class="fas fa-trash-alt"></i></button>
+              </div>
+              <h4>Home</h4>
+              <p>123 Main Street</p>
+              <p>Apt 4B</p>
+              <p>New York, NY 10001</p>
+              <p>United States</p>
+              <p>Phone: +1 (555) 123-4567</p>
+            </div>
+            <div class="address-card">
+              <div class="address-actions">
+                <button onclick="editAddress(2)"><i class="fas fa-edit"></i></button>
+                <button onclick="deleteAddress(2)"><i class="fas fa-trash-alt"></i></button>
+              </div>
+              <h4>Office</h4>
+              <p>456 Business Ave</p>
+              <p>Suite 200</p>
+              <p>New York, NY 10022</p>
+              <p>United States</p>
+              <p>Phone: +1 (555) 987-6543</p>
+            </div>
+          </div>
+          <button class="btn btn-primary add-address-btn" onclick="openModal('address-modal')">
+            <i class="fas fa-plus"></i> Add New Address
+          </button>
+        </section>
+
+        <!-- Change Password Section -->
+        <section id="password-section" class="profile-section">
+          <h2 class="section-title">Change Password</h2>
+          <form id="password-form">
+            <div class="form-group">
+              <label for="current-password">Current Password</label>
+              <input type="password" id="current-password" required>
+            </div>
+            <div class="form-group">
+              <label for="new-password">New Password</label>
+              <input type="password" id="new-password" required>
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Confirm New Password</label>
+              <input type="password" id="confirm-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </form>
+        </section>
+
+        <!-- Order History Section -->
+        <section id="orders-section" class="profile-section">
+          <h2 class="section-title">Order History</h2>
+          <div class="order-history">
+            <div class="order-card">
+              <div class="order-header">
+                <span class="order-id">Order #12345</span>
+                <span class="order-date">June 15, 2023</span>
+                <span class="order-status status-delivered">Delivered</span>
+              </div>
+              <div class="order-items">
+                <div class="order-item">
+                  <img src="tomatoes.jpg" alt="Tomatoes" class="order-item-img">
+                  <div class="order-item-name">Fresh Tomatoes</div>
+                  <div class="order-item-qty">2 kg</div>
+                  <div class="order-item-price">$5.98</div>
+                </div>
+                <div class="order-item">
+                  <img src="apples.jpg" alt="Apples" class="order-item-img">
+                  <div class="order-item-name">Organic Apples</div>
+                  <div class="order-item-qty">1.5 kg</div>
+                  <div class="order-item-price">$5.99</div>
+                </div>
+              </div>
+              <div class="order-total">Total: $11.97</div>
+            </div>
+
+            <div class="order-card">
+              <div class="order-header">
+                <span class="order-id">Order #12344</span>
+                <span class="order-date">June 2, 2023</span>
+                <span class="order-status status-shipping">Shipping</span>
+              </div>
+              <div class="order-items">
+                <div class="order-item">
+                  <img src="rice.jpg" alt="Rice" class="order-item-img">
+                  <div class="order-item-name">Organic Rice</div>
+                  <div class="order-item-qty">3 kg</div>
+                  <div class="order-item-price">$17.97</div>
+                </div>
+              </div>
+              <div class="order-total">Total: $17.97</div>
+            </div>
+
+            <div class="order-card">
+              <div class="order-header">
+                <span class="order-id">Order #12343</span>
+                <span class="order-date">May 20, 2023</span>
+                <span class="order-status status-delivered">Delivered</span>
+              </div>
+              <div class="order-items">
+                <div class="order-item">
+                  <img src="tomatoes.jpg" alt="Tomatoes" class="order-item-img">
+                  <div class="order-item-name">Fresh Tomatoes</div>
+                  <div class="order-item-qty">1 kg</div>
+                  <div class="order-item-price">$2.99</div>
+                </div>
+                <div class="order-item">
+                  <img src="apples.jpg" alt="Apples" class="order-item-img">
+                  <div class="order-item-name">Organic Apples</div>
+                  <div class="order-item-qty">2 kg</div>
+                  <div class="order-item-price">$7.98</div>
+                </div>
+                <div class="order-item">
+                  <img src="rice.jpg" alt="Rice" class="order-item-img">
+                  <div class="order-item-name">Organic Rice</div>
+                  <div class="order-item-qty">1 kg</div>
+                  <div class="order-item-price">$5.99</div>
+                </div>
+              </div>
+              <div class="order-total">Total: $16.96</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Photo Modal -->
+  <div class="modal-backdrop" id="photo-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Change Profile Photo</h3>
+        <button class="modal-close" onclick="closeModal('photo-modal')">&times;</button>
+      </div>
+      <div class="photo-upload-area" id="upload-area">
+        <div class="photo-upload-icon">
+          <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="photo-upload-text">
+          <p>Drag your photo here or click to browse</p>
+          <p>JPG, PNG or GIF (Max. 5MB)</p>
+        </div>
+        <input type="file" id="photo-upload" accept="image/*">
+      </div>
+      <img src="" alt="Preview" class="photo-preview" id="photo-preview">
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('photo-modal')">Cancel</button>
+        <button class="btn btn-primary" id="save-photo">Save Photo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address Modal -->
+  <div class="modal-backdrop" id="address-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New Address</h3>
+        <button class="modal-close" onclick="closeModal('address-modal')">&times;</button>
+      </div>
+      <form id="address-form">
+        <div class="form-group">
+          <label for="address-title">Address Title</label>
+          <input type="text" id="address-title" placeholder="e.g. Home, Office, etc." required>
+        </div>
+        <div class="form-group">
+          <label for="address-line1">Address Line 1</label>
+          <input type="text" id="address-line1" placeholder="Street address" required>
+        </div>
+        <div class="form-group">
+          <label for="address-line2">Address Line 2 (Optional)</label>
+          <input type="text" id="address-line2" placeholder="Apartment, suite, unit, etc.">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" required>
+          </div>
+          <div class="form-group">
+            <label for="state">State/Province</label>
+            <input type="text" id="state" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="zip">ZIP/Postal Code</label>
+            <input type="text" id="zip" required>
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address-phone">Phone Number</label>
+          <input type="tel" id="address-phone" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('address-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Address</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Tab navigation
+    const navLinks = document.querySelectorAll('.profile-nav a');
+    const sections = document.querySelectorAll('.profile-section');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        
+        // Remove active class from all links
+        navLinks.forEach(link => link.classList.remove('active'));
+        
+        // Add active class to clicked link
+        link.classList.add('active');
+        
+        // Hide all sections
+        sections.forEach(section => section.classList.remove('active'));
+        
+        // Show the target section
+        const targetSection = document.getElementById(link.dataset.section);
+        targetSection.classList.add('active');
+      });
+    });
+
+    // Modal functionality
+    function openModal(modalId) {
+      try {
+        const modal = document.getElementById(modalId);
+        if (!modal) {
+            console.error(`Modal with ID "${modalId}" not found`);
+          return;
+        }
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } catch (error) {
+        console.error('Error opening modal:', error);
+      }
+    }
+
+    function closeModal(modalId) {
+      try {
+        const modal = document.getElementById(modalId);
+        if (!modal) {
+            console.error(`Modal with ID "${modalId}" not found`);
+          return;
+        }
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      } catch (error) {
+        console.error('Error closing modal:', error);
+      }
+    }
+
+    // Photo upload preview
+    const uploadArea = document.getElementById('upload-area');
+    const photoUpload = document.getElementById('photo-upload');
+    const photoPreview = document.getElementById('photo-preview');
+
+    uploadArea.addEventListener('click', () => {
+      photoUpload.click();
+    });
+
+    uploadArea.addEventListener('dragover', e => {
+      e.preventDefault();
+      uploadArea.style.borderColor = 'var(--primary-color)';
+      uploadArea.style.backgroundColor = 'rgba(40, 167, 69, 0.05)';
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.style.borderColor = '#ddd';
+      uploadArea.style.backgroundColor = '';
+    });
+
+    uploadArea.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#ddd';
+      uploadArea.style.backgroundColor = '';
+      
+      if (e.dataTransfer.files.length) {
+        photoUpload.files = e.dataTransfer.files;
+        handleFileUpload(e.dataTransfer.files[0]);
+      }
+    });
+
+    photoUpload.addEventListener('change', () => {
+      if (photoUpload.files.length) {
+        handleFileUpload(photoUpload.files[0]);
+      }
+    });
+
+    function handleFileUpload(file) {
+      try {
+        if (!file) {
+          console.error('No file provided');
+          return;
+        }
+        
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            if (!e.target || !e.target.result) {
+              alert('Error loading the image. Please try again.');
+              return;
+            }
+            
+            photoPreview.src = e.target.result;
+            photoPreview.style.display = 'block';
+            uploadArea.style.display = 'none';
+          };
+          
+          reader.onerror = function() {
+            alert('Error reading the file. Please try again.');
+            console.error('FileReader error');
+          };
+          
+          reader.readAsDataURL(file);
+        } else {
+          alert('Please select an image file (JPG, PNG, or GIF)');
+        }
+      } catch (error) {
+        console.error('Error handling file upload:', error);
+        alert('An error occurred while processing your image. Please try again.');
+      }
+    }
+
+    // Save photo functionality
+    document.getElementById('save-photo').addEventListener('click', () => {
+      if (photoPreview.src) {
+        document.getElementById('profile-img').src = photoPreview.src;
+        closeModal('photo-modal');
+        
+        // Reset the upload form
+        setTimeout(() => {
+          photoPreview.style.display = 'none';
+          uploadArea.style.display = 'block';
+          photoUpload.value = '';
+        }, 300);
+      }
+    });
+
+    // Form submissions (just for demo - would connect to backend in real app)
+    document.getElementById('info-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const fullName = document.getElementById('full-name').value;
+      document.getElementById('username').textContent = fullName;
+      alert('Personal information updated successfully!');
+    });
+
+    document.getElementById('password-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      // Simple validation
+      if (!currentPassword) {
+        alert('Please enter your current password');
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        alert('New passwords do not match');
+        return;
+      }
+      
+      alert('Password updated successfully!');
+      e.target.reset();
+    });
+
+    document.getElementById('address-form').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('New address added successfully!');
+      closeModal('address-modal');
+      e.target.reset();
+    });
+
+    // Address manipulation functions
+    function editAddress(id) {
+      // For demo, just open the add address modal
+      // In real app, would pre-fill form with address data
+      openModal('address-modal');
+    }
+
+    function deleteAddress(id) {
+      if (confirm('Are you sure you want to delete this address?')) {
+        alert('Address deleted successfully');
+      }
+    }
+
+    // Image error handling
+    document.addEventListener('DOMContentLoaded', () => {
+      // Handle missing profile image
+      const profileImg = document.getElementById('profile-img');
+      profileImg.onerror = function() {
+        this.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+        console.log('Default profile image loaded');
+      };
+      
+      // Handle missing product images
+      document.querySelectorAll('.order-item-img').forEach(img => {
+        img.onerror = function() {
+          this.src = 'https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png';
+          console.log('Default product image loaded');
+        };
+      });
+
+      // Enhanced localStorage handling
+      try {
+        const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (storedUser) {
+          document.getElementById('username').textContent = storedUser.name || 'User';
+          document.getElementById('full-name').value = storedUser.name || '';
+          document.getElementById('email').value = storedUser.email || '';
+        } else {
+          console.log('No user data found in localStorage');
+        }
+      } catch (error) {
+        console.error('Error loading user data from localStorage:', error);
+        // Set default values if localStorage fails
+        document.getElementById('username').textContent = 'User';
+      }
+    });
+  </script>
+</body>
+</html>
