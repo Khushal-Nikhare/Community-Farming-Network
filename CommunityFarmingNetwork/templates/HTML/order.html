@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Page</title>
+  <title>Orders - Farm2Home</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
@@ -28,9 +28,10 @@
       font-family: 'Arial', sans-serif;
       color: var(--text-color);
       line-height: 1.6;
-      overflow-x: hidden;
+      background-color: var(--light-bg);
     }
 
+    /* Header styles */
     header {
       background-color: var(--primary-color);
       padding: 10px 20px;
@@ -43,108 +44,659 @@
       transition: var(--transition);
     }
 
+    header.scrolled {
+      padding: 5px 20px;
+      background-color: rgba(40, 167, 69, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
     .navbar {
       max-width: 1200px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
-      padding: 0 20px;
-      background: rgba(40, 167, 69, 0.1);
-      border-radius: 30px;
-      backdrop-filter: blur(10px);
-      animation: navbarFadeIn 0.5s ease-in-out;
+      height: 50px;
     }
 
-    @keyframes navbarFadeIn {
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-container img {
+      height: 63px;
+      transition: var(--transition);
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    .search-container {
+      flex: 0 1 400px;
+      margin: 0 20px;
+      position: relative;
+      animation: slideDown 0.5s ease-in-out;
+    }
+
+    @keyframes slideDown {
       from { transform: translateY(-20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
-    .content {
-      padding: 100px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
+    .search-bar {
+      width: 100%;
+      padding: 8px 35px 8px 15px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      transition: var(--transition);
+      background: rgba(255, 255, 255, 0.9);
     }
 
-    .order-section {
-      margin-bottom: 40px;
-      padding: 20px;
-      background: var(--light-bg);
-      border-radius: var(--border-radius);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .search-bar:focus {
+      outline: none;
+      background: var(--white);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transform: scale(1.02);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary-color);
+      cursor: pointer;
       transition: var(--transition);
+    }
+
+    .search-icon:hover {
+      color: var(--secondary-color);
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cart-icon {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--white);
+      gap: 5px;
+      transition: var(--transition);
+    }
+
+    .cart-icon:hover {
+      transform: scale(1.05);
+    }
+
+    .cart-count {
+      background: var(--accent-color);
+      color: var(--secondary-color);
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    #menu-button {
+      color: var(--white);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 18px;
+    }
+
+    #menu-button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      z-index: 1001;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close-sidebar {
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    .close-sidebar:hover {
+      color: var(--primary-color);
+      transform: rotate(90deg);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+
+    .sidebar-menu a {
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    .sidebar-menu a:hover {
+      background: var(--light-bg);
+      color: var(--primary-color);
+      padding-left: 20px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 1000;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Order Sections */
+    .order-container {
+      max-width: 1200px;
+      margin: 100px auto 40px;
+      padding: 20px;
+    }
+
+    .order-tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .order-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .order-tab {
+      flex: 1;
+      min-width: 200px;
+      padding: 20px;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .order-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-color);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1;
+    }
+
+    .order-tab:hover::before {
+      opacity: 0.1;
+    }
+
+    .order-tab.active {
+      background: var(--primary-color);
+      color: var(--white);
+    }
+
+    .order-tab i {
+      font-size: 24px;
+      margin-bottom: 10px;
+      transition: var(--transition);
+    }
+
+    .order-tab:hover i {
+      transform: scale(1.1);
+    }
+
+    .order-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      min-height: 400px;
       animation: fadeIn 0.5s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .order-section:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    footer {
-      background-color: var(--secondary-color);
-      color: var(--white);
+    .empty-state {
       text-align: center;
-      padding: 20px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+      padding: 40px;
+      color: #666;
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      transition: var(--transition);
+    }
+
+    .order-item:hover {
+      background: var(--light-bg);
+    }
+
+    .order-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+
+    .order-details {
+      flex: 1;
+    }
+
+    .order-status {
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 14px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .status-delivered {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .status-cancelled {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    /* Footer styling */
+    footer {
+      background: var(--secondary-color);
+      color: var(--white);
+      padding: 40px 20px;
+    }
+
+    .footer-links {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-section h3 {
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: var(--white);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--accent-color);
+      padding-left: 5px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        height: auto;
+      .search-container {
+        display: none;
       }
 
-      .content {
-        padding: 80px 10px;
+      .order-tabs {
+        flex-direction: column;
+      }
+
+      .order-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .order-item img {
+        margin: 0 0 20px 0;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="navbar">
+    <nav class="navbar">
       <div class="logo-container">
-        <img src="logo.png" alt="Logo">
-        <h1>Farm2Home</h1>
+        <a href="index.html">
+          <img src="logo.png" alt="Farm2Home Logo">
+        </a>
+      </div>
+      <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search for fresh products...">
+        <i class="fas fa-search search-icon"></i>
       </div>
       <div class="nav-icons">
-        <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">3</span></a>
-        <i id="menu-button" class="fas fa-bars"></i>
+        <a href="cart.html" class="cart-icon">
+          <span style="font-size: 18px;">🛒</span>
+          <span class="cart-count" id="cart-count">0</span>
+          <span style="color:white">Cart</span>
+        </a>
+        <a href="javascript:void(0);" id="menu-button" style="color:white">
+          <i class="fas fa-ellipsis-v"></i>
+        </a>
       </div>
-    </div>
+    </nav>
   </header>
 
-  <div class="content">
-    <div class="order-section">
-      <h2>Orders</h2>
-      <p>View your past orders and manage them easily.</p>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <i class="fas fa-times close-sidebar"></i>
     </div>
-    <div class="order-section">
-      <h2>Buy Again</h2>
-      <p>Quickly reorder items you've purchased before.</p>
+    <ul class="sidebar-menu">
+      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="order.html"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="seller.html"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+
+  <div class="overlay"></div>
+
+  <div class="order-container">
+    <div class="order-tabs">
+      <div class="order-tab active" data-tab="my-orders">
+        <i class="fas fa-box"></i>
+        <h3>My Orders</h3>
+      </div>
+      <div class="order-tab" data-tab="track-order">
+        <i class="fas fa-truck"></i>
+        <h3>Track Order</h3>
+      </div>
+      <div class="order-tab" data-tab="cancelled">
+        <i class="fas fa-times-circle"></i>
+        <h3>Cancelled Orders</h3>
+      </div>
+      <div class="order-tab" data-tab="buy-again">
+        <i class="fas fa-redo"></i>
+        <h3>Buy Again</h3>
+      </div>
     </div>
-    <div class="order-section">
-      <h2>Track Your Order</h2>
-      <p>Track the status of your current orders.</p>
-    </div>
-    <div class="order-section">
-      <h2>Cancelled Orders</h2>
-      <p>Review orders that have been cancelled.</p>
+
+    <div class="order-content">
+      <!-- My Orders Section -->
+      <div class="tab-content active" id="my-orders">
+        <div class="empty-state">
+          <i class="fas fa-box-open"></i>
+          <h3>No Orders Yet</h3>
+          <p>Start shopping to see your orders here!</p>
+        </div>
+      </div>
+
+      <!-- Track Order Section -->
+      <div class="tab-content" id="track-order">
+        <div class="empty-state">
+          <i class="fas fa-truck-loading"></i>
+          <h3>No Active Deliveries</h3>
+          <p>Your order tracking will appear here when you place an order.</p>
+        </div>
+      </div>
+
+      <!-- Cancelled Orders Section -->
+      <div class="tab-content" id="cancelled">
+        <div class="empty-state">
+          <i class="fas fa-ban"></i>
+          <h3>No Cancelled Orders</h3>
+          <p>You haven't cancelled any orders yet.</p>
+        </div>
+      </div>
+
+      <!-- Buy Again Section -->
+      <div class="tab-content" id="buy-again">
+        <div class="empty-state">
+          <i class="fas fa-history"></i>
+          <h3>No Previous Orders</h3>
+          <p>Your previously purchased items will appear here.</p>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2023 Farm2Home. All rights reserved.</p>
+    <div class="footer-links">
+      <div class="footer-section">
+        <h3>Get to Know Us</h3>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#press">Press Releases</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect with Us</h3>
+        <ul>
+          <li><a href="#facebook">Facebook</a></li>
+          <li><a href="#twitter">Twitter</a></li>
+          <li><a href="#instagram">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Make Money with Us</h3>
+        <ul>
+          <li><a href="#sell">Sell on Farm2Home</a></li>
+          <li><a href="#affiliate">Become an Affiliate</a></li>
+          <li><a href="#advertise">Advertise Your Products</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Let Us Help You</h3>
+        <ul>
+          <li><a href="#help">Help Center</a></li>
+          <li><a href="#returns">Returns</a></li>
+          <li><a href="#shipping">Shipping Rates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Farm2Home. All rights reserved.</p>
+    </div>
   </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Sidebar functionality
+    const menuButton = document.getElementById('menu-button');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const closeButton = document.querySelector('.close-sidebar');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    menuButton.addEventListener('click', toggleSidebar);
+    closeButton.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
+    // Initialize cart from localStorage
+    const cartCount = document.getElementById('cart-count');
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cartCount.textContent = cart.length;
+
+    // Order tabs functionality
+    const orderTabs = document.querySelectorAll('.order-tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    orderTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and contents
+        orderTabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        // Add active class to clicked tab and corresponding content
+        tab.classList.add('active');
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Load orders from localStorage
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      const cancelledOrders = JSON.parse(localStorage.getItem('cancelledOrders')) || [];
+      const buyAgainItems = JSON.parse(localStorage.getItem('buyAgainItems')) || [];
+
+      // Update My Orders section
+      const myOrdersContent = document.getElementById('my-orders');
+      if (orders.length > 0) {
+        myOrdersContent.innerHTML = orders.map(order => `
+          <div class="order-item">
+            <img src="${order.image}" alt="${order.name}">
+            <div class="order-details">
+              <h3>${order.name}</h3>
+              <p>Order ID: ${order.id}</p>
+              <p>Date: ${order.date}</p>
+              <span class="order-status status-delivered">Delivered</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Update Cancelled Orders section
+      const cancelledContent = document.getElementById('cancelled');
+      if (cancelledOrders.length > 0) {
+        cancelledContent.innerHTML = cancelledOrders.map(order => `
+          <div class="order-item">
+            <img src="${order.image}" alt="${order.name}">
+            <div class="order-details">
+              <h3>${order.name}</h3>
+              <p>Order ID: ${order.id}</p>
+              <p>Date: ${order.date}</p>
+              <span class="order-status status-cancelled">Cancelled</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Update Buy Again section
+      const buyAgainContent = document.getElementById('buy-again');
+      if (buyAgainItems.length > 0) {
+        buyAgainContent.innerHTML = buyAgainItems.map(item => `
+          <div class="order-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="order-details">
+              <h3>${item.name}</h3>
+              <p>Previously purchased on: ${item.date}</p>
+              <button class="add-to-cart-btn" onclick="addToCart('${item.id}')">Add to Cart</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Load orders when page loads
+    document.addEventListener('DOMContentLoaded', loadOrders);
+  </script>
 </body>
 </html>
