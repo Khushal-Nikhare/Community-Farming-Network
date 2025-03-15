@@ -122,18 +122,14 @@ resetPasswordBtn.addEventListener('click', () => {
 
 // Form submission handlers
 document.getElementById('login-form').addEventListener('submit', (e) => {
-    e.preventDefault();
     // Here you would handle login form submission
     // For demo, we'll just redirect to home
-    window.location.href = '/';
 });
 
 document.getElementById('signup-form').addEventListener('submit', (e) => {
-    e.preventDefault();
     // Here you would handle signup form submission
     // For demo, we'll just show success and redirect
     alert('Account created successfully!');
-    window.location.href = '/';
 });
 
 // Close modal when clicking outside
