@@ -124,11 +124,13 @@ resetPasswordBtn.addEventListener('click', () => {
 document.getElementById('login-form').addEventListener('submit', (e) => {
     // Here you would handle login form submission
     // For demo, we'll just redirect to home
+    window.location.href = "{% url 'home' %}";
 });
 
 document.getElementById('signup-form').addEventListener('submit', (e) => {
     // Here you would handle signup form submission
     // For demo, we'll just show success and redirect
+    window.location.href = "{% url 'home' %}";
     alert('Account created successfully!');
 });
 
