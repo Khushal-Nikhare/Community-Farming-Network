@@ -1,15 +1,48 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.home, name="home"),
-    path('cart/', views.cart, name="cart"),
-    path('help/', views.help, name="help"),
-    path('login/', views.login, name="login"),
-    path('order/', views.order, name="order"),
-    path('product/', views.product, name="product"),
-    path('seller/', views.seller, name="seller"),
-    path('profile/', views.profile, name="profile"),
-    path('wishlist/', views.wishlist, name="wishlist"),
-    path('login/', views.login_signup, name='login'),
+    path("", views.home, name="home"),
+    path("cart/", views.cart, name="cart"),
+    path("help/", views.help, name="help"),
+    # path('login/', views.login, name="login"),
+    path("register/", views.register_view, name="register"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(
+            template_name="registration/password_reset.html"
+        ),
+        name="password_reset",
+    ),
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="registration/password_reset_done.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="registration/password_reset_confirm.html"
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="registration/password_reset_complete.html"
+        ),
+        name="password_reset_complete",
+    ),
+    path("mail/", views.test_email),
+    path("order/", views.order, name="order"),
+    path("product/", views.product, name="product"),
+    path("seller/", views.seller, name="seller"),
+    path("profile/", views.profile, name="profile"),
+    path("wishlist/", views.wishlist, name="wishlist"),
+    # path("login/", views.login_signup, name="login"),
 ]

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +31,7 @@
       {% csrf_token %}
       <div class="form-group">
         <label for="login-email">Email</label>
-        <input type="text" name="username" id="login-email" required>
+        <input type="text" name="email" id="login-email" required>
       </div>
       <div class="form-group">
         <label for="login-password">Password</label>
@@ -49,7 +48,7 @@
   <!-- Signup Form -->
   <div class="auth-container" id="signup-container" style="display: none;">
     <h2 class="auth-title">Create Account</h2>
-    <form id="signup-form" method="POST" action="{% url 'login' %}">
+    <form id="signup-form" method="POST" action="{% url 'register' %}">
       {% csrf_token %}
       <div class="form-group">
         <label for="signup-name">Full Name</label>
