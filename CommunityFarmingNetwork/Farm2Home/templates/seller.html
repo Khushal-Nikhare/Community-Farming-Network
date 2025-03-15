@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Become a Seller - Farm2Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/seller.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/seller.css' %}">
 </head>
 <body>
     <!-- Header -->
     <header>
         <nav class="navbar">
             <div class="logo-container">
-                <img src="logo.png" alt="Farm2Home Logo">
+                <img src="{% static '/img/logo.png' %}" alt="Farm2Home Logo">
             </div>
             <div class="search-container">
                 <input type="text" class="search-bar" placeholder="Search for fresh products...">
@@ -39,13 +39,13 @@
             <i class="fas fa-times close-sidebar"></i>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
-            <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
-            <li><a href="order.html"><i class="fas fa-box"></i> Your Orders</a></li>
-            <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
-            <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-            <li><a href="seller.html"><i class="fas fa-store"></i> Become a Seller</a></li>
-            <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+            <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+            <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Your Profile</a></li>
+            <li><a href="{% url 'order' %}"><i class="fas fa-box"></i> Your Orders</a></li>
+            <li><a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wishlist</a></li>
+            <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+            <li><a href="{% url 'seller' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+            <li><a href="{% url 'help' %}"><i class="fas fa-question-circle"></i> Help Center</a></li>
             <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
         </ul>
     </div>
@@ -65,18 +65,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" required>
-                </div>
-
-                <div class="form-group">
                     <label for="mobile">Mobile Number</label>
                     <input type="tel" id="mobile" pattern="[0-9]{10}" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="checkbox" id="upiConnected" style="width: auto;">
-                    <label for="upiConnected" style="display: inline;">This number is connected to UPI</label>
                 </div>
 
                 <div class="form-group">
@@ -85,18 +75,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="tradingName">Trading Name</label>
-                    <input type="text" id="tradingName" required>
-                </div>
-
-                <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="aadhar">Aadhar Number</label>
-                    <input type="text" id="aadhar" pattern="[0-9]{12}" required>
                 </div>
 
                 <div class="form-group">
@@ -107,11 +87,6 @@
                 <div class="form-group">
                     <label for="bank">Bank Account Number</label>
                     <input type="text" id="bank" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="ifsc">IFSC Code</label>
-                    <input type="text" id="ifsc" required>
                 </div>
 
                 <button type="submit" class="btn" id="sendOtp">Send OTP</button>
@@ -211,6 +186,7 @@
         </div>
     </footer>
 
-    <script src="js/seller.js"></script>
+    <script src="{% static 'js/seller.js' %}"></script>
+
 </body>
 </html>

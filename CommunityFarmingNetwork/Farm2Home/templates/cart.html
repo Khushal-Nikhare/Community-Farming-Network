@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farm2Home - Shopping Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
 </head>
 <body>
     <header>
         <nav class="navbar">
-            <a href="index.html" class="logo-container">
-                <img src="logo.png" alt="Farm2Home Logo">
+            <a href="{% url 'home' %}" class="logo-container">
+                <img src="{% static '/img/logo.png' %}" alt="Farm2Home Logo">
             </a>
             <a href="index.html" class="continue-shopping">
                 <i class="fas fa-arrow-left"></i> Continue Shopping
@@ -53,6 +53,6 @@
 
     <div class="toast" id="toast"></div>
 
-    <script src="js/cart.js"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
 </body>
 </html>

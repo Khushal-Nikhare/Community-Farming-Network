@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farm2Home - Your Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="css/profile.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 </head>
 <body>
   <header>
     <nav class="navbar">
       <div class="logo-container">
-        <img src="logo.png" alt="Farm2Home Logo">
+        <img src="{% static '/img/logo.png' %}" alt="Farm2Home Logo">
       </div>
       <div class="search-container">
         <input type="text" class="search-bar" placeholder="Search for fresh products...">
@@ -38,13 +38,13 @@
       <i class="fas fa-times close-sidebar"></i>
     </div>
     <ul class="sidebar-menu">
-      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
-      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
-      <li><a href="order.html"><i class="fas fa-box"></i> Your Orders</a></li>
-      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
-      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-      <li><a href="seller.html"><i class="fas fa-store"></i> Become a Seller</a></li>
-      <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="{% url 'order' %}"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="{% url 'seller' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="{% url 'help' %}"><i class="fas fa-question-circle"></i> Help Center</a></li>
       <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
     </ul>
   </div>
@@ -52,7 +52,7 @@
   <div class="container">
     <div class="welcome-header">
       <div class="profile-photo-container">
-        <img src="user-placeholder.jpg" alt="Profile Photo" class="profile-photo" id="profile-img">
+        <img src="{% static '/img/user-placeholder.png' %}" alt="Profile Photo" class="profile-photo" id="profile-img">
         <div class="change-photo" onclick="openModal('photo-modal')">
           <i class="fas fa-camera"></i>
         </div>
@@ -169,13 +169,13 @@
               </div>
               <div class="order-items">
                 <div class="order-item">
-                  <img src="tomatoes.jpg" alt="Tomatoes" class="order-item-img">
+                  <img src="{% static '/img/tomatoes.jpg' %}" alt="Tomatoes" class="order-item-img">
                   <div class="order-item-name">Fresh Tomatoes</div>
                   <div class="order-item-qty">2 kg</div>
                   <div class="order-item-price">$5.98</div>
                 </div>
                 <div class="order-item">
-                  <img src="apples.jpg" alt="Apples" class="order-item-img">
+                  <img src="{% static '/img/apples.jpg' %}" alt="Apples" class="order-item-img">
                   <div class="order-item-name">Organic Apples</div>
                   <div class="order-item-qty">1.5 kg</div>
                   <div class="order-item-price">$5.99</div>
@@ -192,7 +192,7 @@
               </div>
               <div class="order-items">
                 <div class="order-item">
-                  <img src="rice.jpg" alt="Rice" class="order-item-img">
+                  <img src="{% static '/img/rice.jpg' %}" alt="Rice" class="order-item-img">
                   <div class="order-item-name">Organic Rice</div>
                   <div class="order-item-qty">3 kg</div>
                   <div class="order-item-price">$17.97</div>
@@ -209,19 +209,19 @@
               </div>
               <div class="order-items">
                 <div class="order-item">
-                  <img src="tomatoes.jpg" alt="Tomatoes" class="order-item-img">
+                  <img src="{% static '/img/tomatoes.jpg' %}" alt="Tomatoes" class="order-item-img">
                   <div class="order-item-name">Fresh Tomatoes</div>
                   <div class="order-item-qty">1 kg</div>
                   <div class="order-item-price">$2.99</div>
                 </div>
                 <div class="order-item">
-                  <img src="apples.jpg" alt="Apples" class="order-item-img">
+                  <img src="{% static '/img/apples.jpg' %}" alt="Apples" class="order-item-img">
                   <div class="order-item-name">Organic Apples</div>
                   <div class="order-item-qty">2 kg</div>
                   <div class="order-item-price">$7.98</div>
                 </div>
                 <div class="order-item">
-                  <img src="rice.jpg" alt="Rice" class="order-item-img">
+                  <img src="{% static '/img/rice.jpg' %}" alt="Rice" class="order-item-img">
                   <div class="order-item-name">Organic Rice</div>
                   <div class="order-item-qty">1 kg</div>
                   <div class="order-item-price">$5.99</div>
@@ -312,6 +312,7 @@
     </div>
   </div>
 
-  <script src="js/profile.js"></script>
+  <script src="{% static 'js/profile.js' %}"></script>
+
 </body>
 </html>

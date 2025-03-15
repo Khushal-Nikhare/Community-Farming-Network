@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details - Farm2Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/product.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}">
 </head>
 <body>
     <!-- Header from index.html -->
     <header>
         <nav class="navbar">
             <div class="logo-container">
-                <a href="index.html">
-                    <img src="logo.png" alt="Farm2Home Logo">
+                <a href="{% url 'home' %}">
+                    <img src="{% static '/img/logo.png' %}" alt="Farm2Home Logo">
                 </a>
             </div>
             <div class="search-container">
@@ -41,14 +41,14 @@
       <i class="fas fa-times close-sidebar"></i>
     </div>
     <ul class="sidebar-menu">
-      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
-      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
-      <li><a href="order.html"><i class="fas fa-box"></i> Your Orders</a></li>
-      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
-      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-      <li><a href="seller.html"><i class="fas fa-store"></i> Become a Seller</a></li>
-      <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
-      <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+        <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Your Profile</a></li>
+        <li><a href="{% url 'order' %}"><i class="fas fa-box"></i> Your Orders</a></li>
+        <li><a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wishlist</a></li>
+        <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+        <li><a href="{% url 'seller' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+        <li><a href="{% url 'help' %}"><i class="fas fa-question-circle"></i> Help Center</a></li>
+        <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
     </ul>
   </div>
 
@@ -57,11 +57,11 @@
     <!-- Product Container -->
     <div class="product-container">
         <div class="product-images">
-            <img src="tomatoes.jpg" alt="Fresh Tomatoes" class="main-image">
+            <img src="{% static '/img/tomatoes.jpg' %}" alt="Fresh Tomatoes" class="main-image">
             <div class="thumbnail-container">
-                <img src="tomatoes.jpg" alt="Tomato View 1" class="thumbnail active">
-                <img src="tomatoes-2.jpg" alt="Tomato View 2" class="thumbnail">
-                <img src="tomatoes-3.jpg" alt="Tomato View 3" class="thumbnail">
+                <img src="{% static '/img/tomatoes.jpg' %}" alt="Tomato View 1" class="thumbnail active">
+                <img src="{% static '/img/tomatoes-2.jpg' %}" alt="Tomato View 2" class="thumbnail">
+                <img src="{% static '/img/tomatoes-3.jpg' %}" alt="Tomato View 3" class="thumbnail">
             </div>
         </div>
 
@@ -199,6 +199,7 @@
         </div>
     </footer>
 
-    <script src="js/product.js"></script>
+    <script src="{% static 'js/product.js' %}"></script>
+
 </body>
 </html>
