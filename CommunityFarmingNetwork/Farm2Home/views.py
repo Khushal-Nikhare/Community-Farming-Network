@@ -45,34 +45,38 @@ def wishlist(request):
     return render(request, "wishlist.html") 
 
 
-def signup_view(request):
+def login_signup(request):
     if request.method == "POST":
-        form = CustomUserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)  # Don't save to DB yet
-            user.set_password(form.cleaned_data["password"])  # Hash password
-            user.save()  # Save user to DB
-            login(request, user)  # Auto-login after registration
-            messages.success(request, "Signup successful! Welcome to Farm2Home.")
-            return redirect("home")  # Redirect to home page
-    else:
-        form = CustomUserRegistrationForm()
+        if "signup-form" in request.POST:  # If Signup Form is Submitted
+            username = request.POST["username"]
+            email = request.POST["email"]
+            password = request.POST["password"]
+            confirm_password = request.POST["confirm_password"]
 
-    return render(request, "signup.html", {"form": form})
+            if password != confirm_password:
+                messages.error(request, "Passwords do not match!")
+            elif User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists!")
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, "Email is already registered!")
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.save()
+                messages.success(request, "Signup successful! You can now log in.")
 
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        elif "login-form" in request.POST:  # If Login Form is Submitted
+            username = request.POST["username"]
+            password = request.POST["password"]
+            user = authenticate(request, username=username, password=password)
 
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect("home")
-        else:
-            messages.error(request, "Invalid username or password!")
+            if user is not None:
+                login(request, user)
+                messages.success(request, "Login successful!")
+                return redirect("home")
+            else:
+                messages.error(request, "Invalid username or password")
 
-    return render(request, "login.html", {"signup": False})
+    return render(request, "accounts/login.html")
 
 def logout_view(request):
     logout(request)
