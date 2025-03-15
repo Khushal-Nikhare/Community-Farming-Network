@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   {% load static %}
   <meta charset="UTF-8">
@@ -9,24 +11,32 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
   <div class="logo-container">
     <a href="{% url 'home' %}">
-      <img src="{% static '/img/logo.png' %}" alt="Farm2Home Logo">
+      <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo">
     </a>
   </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: red;">{{ message }}</p>
+  {% endfor %}
+  {% endif %}
 
   <!-- Login Form -->
   <div class="auth-container" id="login-container">
     <h2 class="auth-title">Login to Farm2Home</h2>
-    <form id="login-form">
+    <form id="login-form" method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
       <div class="form-group">
         <label for="login-email">Email</label>
-        <input type="email" id="login-email" required>
+        <input type="text" name="username" id="login-email" required>
       </div>
       <div class="form-group">
         <label for="login-password">Password</label>
-        <input type="password" id="login-password" required>
+        <input type="password" name="password" id="login-password" required>
       </div>
       <button type="submit" class="submit-btn">Login</button>
       <div class="auth-links">
@@ -39,26 +49,27 @@
   <!-- Signup Form -->
   <div class="auth-container" id="signup-container" style="display: none;">
     <h2 class="auth-title">Create Account</h2>
-    <form id="signup-form">
+    <form id="signup-form" method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
       <div class="form-group">
         <label for="signup-name">Full Name</label>
-        <input type="text" id="signup-name" required>
+        <input type="text" name="username" id="signup-name" required>
       </div>
       <div class="form-group">
         <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" required>
+        <input type="email" name="email" id="signup-email" required>
       </div>
       <div class="form-group">
         <label for="signup-mobile">Mobile Number</label>
-        <input type="tel" id="signup-mobile" pattern="[0-9]{10}" required>
+        <input type="tel" name="mobile" id="signup-mobile" pattern="[0-9]{10}" required>
       </div>
       <div class="form-group">
         <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" required>
+        <input type="password" name="password" id="signup-password" required>
       </div>
       <div class="form-group">
         <label for="signup-confirm-password">Confirm Password</label>
-        <input type="password" id="signup-confirm-password" required>
+        <input type="password" name="confirm_password"  id="signup-confirm-password" required>
       </div>
       <button type="submit" class="submit-btn">Create Account</button>
       <div class="auth-links">
@@ -71,7 +82,7 @@
   <div class="modal" id="forgot-password-modal">
     <div class="modal-content">
       <span class="close-modal">&times;</span>
-      
+
       <!-- Step 1: Email Input -->
       <div id="forgot-step-1">
         <h3 class="auth-title">Forgot Password</h3>
@@ -114,4 +125,5 @@
   <script src="{% static 'js/login.js' %}"></script>
 
 </body>
+
 </html>
