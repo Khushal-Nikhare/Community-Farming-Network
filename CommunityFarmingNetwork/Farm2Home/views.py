@@ -56,7 +56,7 @@ def login_signup(request):
             if password != confirm_password:
                 messages.error(request, "Passwords do not match!")
             elif User.objects.filter(username=username).exists():
-                messages.error(request, "Username already exists!")
+                messages.error(request, " Username already exists!")
             elif User.objects.filter(email=email).exists():
                 messages.error(request, "Email is already registered!")
             else:
