@@ -21,11 +21,11 @@
   {% if messages %}
     {% for message in messages %}
       <p style="color: red;">{{ message }}</p>
-  {% endfor %}
+    {% endfor %}
   {% endif %}
 
   <!-- Login Form -->
-  <div class="auth-container" id="login-container">
+  <div class="auth-container" id="login-container" {% if request.path != '/login/' %}style="display: none;"{% endif %}>
     <h2 class="auth-title">Login to Farm2Home</h2>
     <form id="login-form" method="POST" action="{% url 'login' %}">
       {% csrf_token %}
@@ -40,15 +40,15 @@
       <button type="submit" class="submit-btn">Login</button>
       <div class="auth-links">
         <a href="#" id="forgot-password-link">Forgot Password?</a>
-        <a href="#" id="show-signup">Create Account</a>
+        <a href="{% url 'signup' %}" id="show-signup">Create Account</a>
       </div>
     </form>
   </div>
 
   <!-- Signup Form -->
-  <div class="auth-container" id="signup-container" style="display: none;">
+  <div class="auth-container" id="signup-container" {% if request.path != '/signup/' %}style="display: none;"{% endif %}>
     <h2 class="auth-title">Create Account</h2>
-    <form id="signup-form" method="POST" action="{% url 'register' %}">
+    <form id="signup-form" method="POST" action="{% url 'signup' %}">
       {% csrf_token %}
       <div class="form-group">
         <label for="signup-name">Full Name</label>
@@ -72,7 +72,7 @@
       </div>
       <button type="submit" class="submit-btn">Create Account</button>
       <div class="auth-links">
-        <a href="#" id="show-login">Already have an account? Login</a>
+        <a href="{% url 'login' %}" id="show-login">Already have an account? Login</a>
       </div>
     </form>
   </div>

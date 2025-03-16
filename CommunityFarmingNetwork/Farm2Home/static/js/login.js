@@ -1,21 +1,3 @@
-// Form switching functionality
-const loginContainer = document.getElementById('login-container');
-const signupContainer = document.getElementById('signup-container');
-const showSignup = document.getElementById('show-signup');
-const showLogin = document.getElementById('show-login');
-
-showSignup.addEventListener('click', (e) => {
-    e.preventDefault();
-    loginContainer.style.display = 'none';
-    signupContainer.style.display = 'block';
-});
-
-showLogin.addEventListener('click', (e) => {
-    e.preventDefault();
-    signupContainer.style.display = 'none';
-    loginContainer.style.display = 'block';
-});
-
 // Forgot password functionality
 const forgotModal = document.getElementById('forgot-password-modal');
 const forgotLink = document.getElementById('forgot-password-link');
@@ -120,16 +102,16 @@ closeModal.addEventListener('click', () => {
 // });
 
 // Form submission handlers
-document.getElementById('login-form').addEventListener('submit', (e) => {
-    // Here you would handle login form submission
-    // For demo, we'll just redirect to home
-});
+// document.getElementById('login-form').addEventListener('submit', (e) => {
+//     // Here you would handle login form submission
+//     // For demo, we'll just redirect to home
+// });
 
-document.getElementById('signup-form').addEventListener('submit', (e) => {
-    // Here you would handle signup form submission
-    // For demo, we'll just show success and redirect
-    alert('Account created successfully!');
-});
+// document.getElementById('signup-form').addEventListener('submit', (e) => {
+//     // Here you would handle signup form submission
+//     // For demo, we'll just show success and redirect
+//     alert('Account created successfully!');
+// });
 
 // Close modal when clicking outside
 window.addEventListener('click', (e) => {
@@ -143,3 +125,4 @@ window.addEventListener('click', (e) => {
         errorMessage.style.display = 'none';
     }
 });
+
