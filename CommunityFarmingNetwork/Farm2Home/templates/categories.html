@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm2Home - Categories</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/categories.css' %}">
+</head>
+<body>
+  <!-- Navbar from home.html -->
+  <header>
+    <nav class="navbar">
+      <div class="logo-container">
+        <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo">
+      </div>
+      <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search for fresh products...">
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      <div class="nav-icons">
+        <a href="{% url 'cart' %}" class="cart-icon">
+          <span style="font-size: 18px;">🛒</span>
+          <span class="cart-count" id="cart-count">0</span>
+          <span style="color:white">Cart</span>
+        </a>
+        <a href="javascript:void(0);" id="menu-button" style="color:white">
+          <i class="fas fa-ellipsis-v"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <i class="fas fa-times close-sidebar"></i>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="{% url 'order' %}"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="{% url 'seller' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="{% url 'help' %}"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+
+  <div class="overlay"></div>
+
+  <!-- Main Content -->
+  <main class="products-container">
+    <h1>RESULT</h1>
+    <div class="products-grid">
+      <!-- Product Card 1 -->
+      <div class="product-card">
+        <span class="discount-badge">15% OFF</span>
+        <img src="{% static 'img/tomatoes.jpg' %}" alt="Fresh Tomatoes" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Farmers Market</div>
+          <h3 class="product-name">Fresh Red Tomatoes</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.2)</span>
+          </div>
+          <div class="product-price">
+            Rs 65 <span class="original-price">Rs 75</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 2 -->
+      <div class="product-card">
+        <span class="discount-badge">10% OFF</span>
+        <img src="{% static 'img/potatoes.jpg' %}" alt="Fresh Potatoes" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Organic Farms</div>
+          <h3 class="product-name">Premium Potatoes</h3>
+          <div class="rating">
+            ★★★★★ <span>(4.7)</span>
+          </div>
+          <div class="product-price">
+            Rs 40 <span class="original-price">Rs 45</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 3 -->
+      <div class="product-card">
+        <span class="discount-badge">20% OFF</span>
+        <img src="{% static 'img/onions.jpg' %}" alt="Red Onions" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Village Produce</div>
+          <h3 class="product-name">Farm Fresh Red Onions</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.1)</span>
+          </div>
+          <div class="product-price">
+            Rs 55 <span class="original-price">Rs 70</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 4 -->
+      <div class="product-card">
+        <span class="discount-badge">12% OFF</span>
+        <img src="{% static 'img/cauliflower.jpg' %}" alt="Cauliflower" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Green Garden Farms</div>
+          <h3 class="product-name">Organic Cauliflower</h3>
+          <div class="rating">
+            ★★★★★ <span>(4.6)</span>
+          </div>
+          <div class="product-price">
+            Rs 35 <span class="original-price">Rs 40</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 5 -->
+      <div class="product-card">
+        <span class="discount-badge">25% OFF</span>
+        <img src="{% static 'img/carrots.jpg' %}" alt="Carrots" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Pure Organics</div>
+          <h3 class="product-name">Fresh Orange Carrots</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.3)</span>
+          </div>
+          <div class="product-price">
+            Rs 45 <span class="original-price">Rs 60</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 6 -->
+      <div class="product-card">
+        <span class="discount-badge">18% OFF</span>
+        <img src="{% static 'img/cucumbers.jpg' %}" alt="Cucumbers" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Fresh Harvest</div>
+          <h3 class="product-name">Green Cucumbers</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.0)</span>
+          </div>
+          <div class="product-price">
+            Rs 30 <span class="original-price">Rs 37</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 7 -->
+      <div class="product-card">
+        <span class="discount-badge">22% OFF</span>
+        <img src="{% static 'img/capsicum.jpg' %}" alt="Bell Peppers" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Farm Fresh Market</div>
+          <h3 class="product-name">Colorful Bell Peppers</h3>
+          <div class="rating">
+            ★★★★★ <span>(4.9)</span>
+          </div>
+          <div class="product-price">
+            Rs 80 <span class="original-price">Rs 105</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 8 -->
+      <div class="product-card">
+        <span class="discount-badge">10% OFF</span>
+        <img src="{% static 'img/brinjal.jpg' %}" alt="Eggplant" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Rural Farms</div>
+          <h3 class="product-name">Purple Eggplant</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.2)</span>
+          </div>
+          <div class="product-price">
+            Rs 45 <span class="original-price">Rs 50</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 9 -->
+      <div class="product-card">
+        <span class="discount-badge">15% OFF</span>
+        <img src="{% static 'img/spinach.jpg' %}" alt="Spinach" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Green Leaf Farms</div>
+          <h3 class="product-name">Fresh Green Spinach</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.4)</span>
+          </div>
+          <div class="product-price">
+            Rs 30 <span class="original-price">Rs 35</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 10 -->
+      <div class="product-card">
+        <span class="discount-badge">20% OFF</span>
+        <img src="{% static 'img/beans.jpg' %}" alt="Green Beans" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Village Produce</div>
+          <h3 class="product-name">Fresh Green Beans</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.1)</span>
+          </div>
+          <div class="product-price">
+            Rs 40 <span class="original-price">Rs 50</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 11 -->
+      <div class="product-card">
+        <span class="discount-badge">18% OFF</span>
+        <img src="{% static 'img/coriander.jpg' %}" alt="Coriander" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Herb Garden</div>
+          <h3 class="product-name">Fresh Coriander Leaves</h3>
+          <div class="rating">
+            ★★★★★ <span>(4.7)</span>
+          </div>
+          <div class="product-price">
+            Rs 15 <span class="original-price">Rs 18</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Card 12 -->
+      <div class="product-card">
+        <span class="discount-badge">14% OFF</span>
+        <img src="{% static 'img/ginger.jpg' %}" alt="Ginger" class="product-image">
+        <div class="product-info">
+          <div class="store-name">Spice Garden</div>
+          <h3 class="product-name">Fresh Ginger Root</h3>
+          <div class="rating">
+            ★★★★☆ <span>(4.3)</span>
+          </div>
+          <div class="product-price">
+            Rs 120 <span class="original-price">Rs 140</span>
+          </div>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer from home.html -->
+  <footer>
+    <div class="footer-links">
+      <div class="footer-section">
+        <h3>Get to Know Us</h3>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#press">Press Releases</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect with Us</h3>
+        <ul>
+          <li><a href="#facebook">Facebook</a></li>
+          <li><a href="#twitter">Twitter</a></li>
+          <li><a href="#instagram">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Make Money with Us</h3>
+        <ul>
+          <li><a href="#sell">Sell on Farm2Home</a></li>
+          <li><a href="#affiliate">Become an Affiliate</a></li>
+          <li><a href="#advertise">Advertise Your Products</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Let Us Help You</h3>
+        <ul>
+          <li><a href="#help">Help Center</a></li>
+          <li><a href="#returns">Returns</a></li>
+          <li><a href="#shipping">Shipping Rates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Farm2Home. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
