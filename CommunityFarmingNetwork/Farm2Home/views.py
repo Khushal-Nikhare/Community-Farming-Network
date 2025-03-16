@@ -261,3 +261,6 @@ def cart_view(request):
     }
     
     return render(request, 'cart.html', context)
+
+def categories(request):
+    return render(request, "categories.html")

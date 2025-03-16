@@ -45,5 +45,7 @@ urlpatterns = [
     path("seller/", views.seller, name="seller"),
     path("profile/", views.profile, name="profile"),
     path("wishlist/", views.wishlist, name="wishlist"),
+    path("categories/", views.categories, name="categories"),
+
     # path("login/", views.login_signup, name="login"),
 ]
