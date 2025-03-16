@@ -2,7 +2,10 @@
 <html lang="en">
 
 <head>
+
     {% load static %}
+    {% load cart_tags %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Farm2Home - Shopping Cart</title>
@@ -23,6 +26,7 @@
         </nav>
     </header>
 
+
     <div class="cart-container">
         <div class="cart-items">
             <div class="cart-header">
@@ -30,33 +34,63 @@
                 <span id="cart-count">0</span>
             </div>
             <div id="cart-items-container">
-                <!-- Cart items will be loaded here dynamically via JavaScript -->
+                {% if cart_items %}
+                {% for cart_item in cart_items %}
+                <div class="cart-item" data-item-id="{{ cart_item.id }}">
+                    <img src="{{ cart_item.product.photo.url }}" alt="{{ cart_item.product.name }}" />
+                    <div class="item-details">
+                        <h3 class="item-name">{{ cart_item.product.name }}</h3>
+                        <p class="item-price">₹{{ cart_item.product.price }}</p>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn"
+                                onclick="updateQuantity({{ cart_item.id }}, {{ cart_item.quantity|add:'-1' }})">
+                                -
+                            </button>
+                            <input type="number" class="quantity-input" value="{{ cart_item.quantity }}" min="1"
+                                onchange="updateQuantity('{{ cart_item.id }}', this.value)" />
+                            <button class="quantity-btn"
+                                onclick="updateQuantity('{{ cart_item.id }}', '{{ cart_item.quantity|add:'1' }}')">
+                                +
+                            </button>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem('{{ cart_item.id }}')">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                    <div class="item-total">
+                        <p>Total: ₹{{ cart_item.product.price|multiply:cart_item.quantity }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
                 <div class="empty-cart">
                     <i class="fas fa-shopping-cart"></i>
                     <h3>Your cart is empty</h3>
                     <p>Looks like you haven't added anything to your cart yet.</p>
-                    <a href="/categories/" class="continue-shopping">Start Shopping</a>
+                    <a href="{% url 'home' %}" class="continue-shopping">Start Shopping</a>
                 </div>
+                {% endif %}
             </div>
         </div>
-        
+
+
         <div class="cart-summary">
             <h3>Order Summary</h3>
             <div class="summary-row">
                 <span>Subtotal:</span>
-                <span id="subtotal">₹0.00</span>
+                <span id="subtotal">₹{{subtotal}}</span>
             </div>
             <div class="summary-row">
                 <span>Shipping:</span>
-                <span id="shipping">₹0.00</span>
+                <span id="shipping">₹{{shipping}}</span>
             </div>
             <div class="summary-row">
                 <span>Tax:</span>
-                <span id="tax">₹0.00</span>
+                <span id="tax">₹{{tax}}</span>
             </div>
             <div class="summary-row total-row">
                 <span>Total:</span>
-                <span id="total">₹0.00</span>
+                <span id="total">₹{{total}}</span>
             </div>
             <button class="checkout-btn">Proceed to Checkout</button>
         </div>

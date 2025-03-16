@@ -12,6 +12,15 @@ class UserProfile(models.Model):
 
 
 class Product(models.Model):
+    VEGETABLES = 'Vegetables'
+    FRUITS = 'Fruits'
+    GRAINS = 'Grains'
+    
+    CATEGORY_CHOICES = [
+        (VEGETABLES, 'Vegetables'),
+        (FRUITS, 'Fruits'),
+        (GRAINS, 'Grains'),
+    ]
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     photo = models.ImageField(
@@ -19,6 +28,11 @@ class Product(models.Model):
         default="static/photos/default.jpg",  # Add a default image
     )
     description = models.TextField()
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default=VEGETABLES,
+    )
 
     def __str__(self):
         return self.name
