@@ -1,19 +1,35 @@
+from decimal import Decimal
+import json
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .models import UserProfile
-
+from .models import UserProfile,Product, Cart
+from django.views.decorators.http import require_http_methods
 
 # Create your views here.
 def home(request):
-    return render(request, "home.html")
+    # Get all products from the database
+    products = Product.objects.all()
+    
+    # Get cart count if user is authenticated
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).count()
+    
+    # Create context dictionary with products
+    context = {
+        'products': products,
+        'featured_products': Product.objects.order_by('-id')[:3],
+        'latest_products': Product.objects.order_by('-id')[:8],
+        'cart_count': cart_count
+    }
+    return render(request, "home.html", context)
 
-
-def cart(request):
-    return render(request, "cart.html")
+# def cart(request):
+#     return render(request, "cart.html")
 
 
 def help(request):
@@ -102,12 +118,17 @@ def wishlist(request):
 
 def signup_view(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-        mobile = request.POST["mobile"]
-        password = request.POST["password"]
-        confirm_password = request.POST["confirm_password"]
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        mobile = request.POST.get("mobile")
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        
         print(username, email, mobile, password, confirm_password)
+        user= User.objects.filter(username=username, email=email)
+        if user.exists():
+            messages.info(request, 'Username or email already exists!')
+        
         if password == confirm_password:
             try:
                 user = User.objects.create_user(username=username, password=password, email=email)
@@ -126,22 +147,29 @@ def signup_view(request):
 
 def login_view(request):
     if request.method == "POST":
-        email = request.POST.get("email")  # Use .get() to avoid KeyError
-        password = request.POST.get("password")  # Use .get() to avoid KeyError
+        email = request.POST.get("email")
+        password = request.POST.get("password")
         print(email, password)  # Debugging
+        
         if email and password:
             try:
-                user = User.objects.get(email=email)
-                user = authenticate(request, username=user.username, password=password)
-                if user is not None:
-                    login(request, user)
-                    print("User logged in")
-                    messages.success(request, "Login successful!")
-                    return redirect("profile")
+                # Get the first user with this email
+                user = User.objects.filter(email=email).first()
+                if user:
+                    # Authenticate with username and password
+                    authenticated_user = authenticate(request, username=user.username, password=password)
+                    if authenticated_user is not None:
+                        login(request, authenticated_user)
+                        print("User logged in")
+                        messages.success(request, "Login successful!")
+                        return redirect("profile")
+                    else:
+                        messages.error(request, "Invalid email or password")
                 else:
-                    messages.error(request, "Invalid email or password")
-            except User.DoesNotExist:
-                messages.error(request, "Invalid email or password")
+                    messages.error(request, "No user found")
+            except Exception as e:
+                print(f"Login error: {e}")  # Debug log
+                messages.error(request, "An error occurred during login")
         else:
             messages.error(request, "Please fill in all fields")
 
@@ -171,3 +199,67 @@ def test_email(request):
 
 
 
+@require_http_methods(["POST"])
+def add_to_cart(request):
+    print(request.user)
+    if not request.user.is_authenticated:
+        print("User not authenticated")
+        return JsonResponse({
+            'error': 'login_required',
+            'message': 'Please login to add items to cart'
+        }, status=401)
+
+    try:
+        print("Adding to cart")
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        quantity = data.get('quantity', 1)
+
+        # Get or create cart item
+        cart_item, created = Cart.objects.get_or_create(
+            user=request.user,
+            product_id=product_id,
+            defaults={'quantity': quantity}
+        )
+
+        # If cart item already exists, update quantity
+        if not created:
+            cart_item.quantity += quantity
+            cart_item.save()
+
+        # Get total cart count
+        cart_count = Cart.objects.filter(user=request.user).count()
+
+        return JsonResponse({
+            'message': 'Product added to cart successfully',
+            'cart_count': cart_count
+        })
+
+    except Exception as e:
+        print(f"Error adding to cart: {e}")
+        return JsonResponse({
+            'error': 'server_error',
+            'message': str(e)
+        }, status=500)
+
+
+@login_required
+def cart_view(request):
+    # Get all cart items for the current user
+    cart_items = Cart.objects.filter(user=request.user).select_related('product')
+    
+    # Calculate totals
+    subtotal = sum(item.product.price * item.quantity for item in cart_items)
+    shipping = 40.00 if subtotal > 0 else 0  # Example shipping cost
+    tax = subtotal * 0.18  # 18% tax
+    total = subtotal + shipping + tax
+    
+    context = {
+        'cart_items': cart_items,
+        'subtotal': subtotal,
+        'shipping': shipping,
+        'tax': tax,
+        'total': total,
+    }
+    
+    return render(request, 'cart.html', context)

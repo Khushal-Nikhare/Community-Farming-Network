@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load cart_tags %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Farm2Home - Shopping Cart</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 </head>
+
 <body>
     <header>
         <nav class="navbar">
             <a href="{% url 'home' %}" class="logo-container">
-                <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo">
+                <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo" />
             </a>
             <a href="index.html" class="continue-shopping">
                 <i class="fas fa-arrow-left"></i> Continue Shopping
@@ -25,35 +28,71 @@
         <div class="cart-items">
             <div class="cart-header">
                 <h2>Shopping Cart</h2>
-                <span id="cart-count"></span>
+                <span id="cart-count">{{ cart_items|length }}</span>
             </div>
-            <div id="cart-items-container"></div>
+            <div id="cart-items-container">
+                {% if cart_items %}
+                    {% for cart_item in cart_items %}
+                    <div class="cart-item" data-item-id="{{ cart_item.id }}">
+                        <img src="{{ cart_item.product.photo.url }}" alt="{{ cart_item.product.name }}" />
+                        <div class="item-details">
+                            <h3 class="item-name">{{ cart_item.product.name }}</h3>
+                            <p class="item-price">₹{{ cart_item.product.price }}</p>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity({{ cart_item.id }}, {{ cart_item.quantity|add:'-1' }})">
+                                    -
+                                </button>
+                                <input type="number" class="quantity-input" value="{{ cart_item.quantity }}" min="1"
+                                    onchange="updateQuantity({{ cart_item.id }}, this.value)" />
+                                <button class="quantity-btn" onclick="updateQuantity({{ cart_item.id }}, {{ cart_item.quantity|add:'1' }})">
+                                    +
+                                </button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem({{ cart_item.id }})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                        <div class="item-total">
+                            <p>Total: ₹{{ cart_item.product.price|multiply:cart_item.quantity }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Looks like you haven't added anything to your cart yet.</p>
+                        <a href="{% url 'home' %}" class="continue-shopping">Start Shopping</a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
+    </div>
 
-        <div class="cart-summary">
-            <h3>Order Summary</h3>
-            <div class="summary-row">
-                <span>Subtotal:</span>
-                <span id="subtotal">₹0.00</span>
-            </div>
-            <div class="summary-row">
-                <span>Shipping:</span>
-                <span id="shipping">₹0.00</span>
-            </div>
-            <div class="summary-row">
-                <span>Tax:</span>
-                <span id="tax">₹0.00</span>
-            </div>
-            <div class="summary-row total-row">
-                <span>Total:</span>
-                <span id="total">₹0.00</span>
-            </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
+    <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-row">
+            <span>Subtotal:</span>
+            <span id="subtotal">₹0.00</span>
         </div>
+        <div class="summary-row">
+            <span>Shipping:</span>
+            <span id="shipping">₹0.00</span>
+        </div>
+        <div class="summary-row">
+            <span>Tax:</span>
+            <span id="tax">₹0.00</span>
+        </div>
+        <div class="summary-row total-row">
+            <span>Total:</span>
+            <span id="total">₹0.00</span>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
     </div>
 
     <div class="toast" id="toast"></div>
 
     <script src="{% static 'js/cart.js' %}"></script>
 </body>
+
 </html>

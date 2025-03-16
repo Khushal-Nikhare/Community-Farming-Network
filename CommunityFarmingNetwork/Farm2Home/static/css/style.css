@@ -176,7 +176,8 @@ header.scrolled {
   color: var(--white);
   cursor: pointer;
   transition: var(--transition);
-  font-size: 18px;
+  font-size: 25px;
+  padding: 5px;
 }
 
 #menu-button:hover {

@@ -74,7 +74,7 @@ carousel.addEventListener('mouseenter', () => clearInterval(carouselInterval));
 carousel.addEventListener('mouseleave', () => carouselInterval = setInterval(nextSlide, 5000));
 
 // Enhanced shopping cart functionality with localStorage
-const cartCount = document.getElementById('cart-count');
+// const cartCount = document.getElementById('cart-count');
 const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
 // Initialize cart from localStorage
@@ -215,3 +215,42 @@ document.addEventListener('click', function (e) {
         suggestionsContainer.classList.remove('active');
     }
 });
+
+// Fetch CSRF token from cookie
+
+async function addToCart(productId) {
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        const response = await fetch('/add-to-cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: 1
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Update cart count
+            const cartCount = document.getElementById('cart-count');
+            cartCount.textContent = data.cart_count;
+
+            // Show success message
+            // alert('Product added to cart successfully!');
+        } else {
+            if (data.error === "login_required") {
+                window.location.href = '/login/';
+            } else {
+                alert(data.message || 'Failed to add product to cart');
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while adding to cart');
+    }
+}
