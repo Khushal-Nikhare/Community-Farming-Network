@@ -4,6 +4,7 @@
   {% load static %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token }}">
   <title>Farm2Home - Fresh from Farms to Your Doorstep</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
@@ -23,7 +24,7 @@
       <div class="nav-icons">
         <a href="{% url 'cart' %}" class="cart-icon">
           <span style="font-size: 18px;">🛒</span>
-          <span class="cart-count" id="cart-count">0</span>
+          <span class="cart-count" id="cart-count">{{ cart_count }}</span>
           <span style="color:white">Cart</span>
         </a>
         <a href="javascript:void(0);" id="menu-button" style="color:white">
@@ -98,33 +99,18 @@
     <section class="products-section">
       <h2 class="section-title">Featured Products</h2>
       <div class="products-grid">
-        <div class="product-card">
-          <a href="{% url 'product' %}?id=tomatoes&name=Fresh Tomatoes&price=2.99&image=/static/img/tomatoes.jpg&description=Farm-fresh red tomatoes" class="product-link">
-            <img src="{% static '/img/tomatoes.jpg' %}" alt="Fresh Tomatoes">
-            <h4>Fresh Tomatoes</h4>
-            <p>Farm-fresh red tomatoes</p>
-            <div class="price">$2.99/kg</div>
-          </a>
-          <button class="add-to-cart">Add to Cart</button>
-        </div>
-        <div class="product-card">
-          <a href="{% url 'product' %}?id=apples&name=Organic%20Apples&price=3.99&image=/static/img/apples.jpg&description=Sweet%20and%20juicy%20apples" class="product-link">
-            <img src="{% static '/img/apples.jpg' %}" alt="Organic Apples">
-            <h4>Organic Apples</h4>
-            <p>Sweet and juicy apples</p>
-            <div class="price">$3.99/kg</div>
-          </a>
-          <button class="add-to-cart">Add to Cart</button>
-        </div>
-        <div class="product-card">
-          <a href="{% url 'product' %}?id=rice&name=Organic%20Rice&price=5.99&image=/static/img/rice.jpg&description=Premium%20quality%20rice" class="product-link">
-            <img src="{% static '/img/rice.jpg' %}" alt="Organic Rice">
-            <h4>Organic Rice</h4>
-            <p>Premium quality rice</p>
-            <div class="price">$5.99/kg</div>
-          </a>
-          <button class="add-to-cart">Add to Cart</button>
-        </div>
+        
+        {% for featured_product in featured_products %}
+          <div class="product-card">
+            <a href="{% url 'product' %}?id={{ featured_product.id }}&name={{ featured_product.name }}&price={{ featured_product.price }}&image={{ featured_product.photo.url }}&description={{ featured_product.description }}" class="product-link">
+              <img src="{{ featured_product.photo.url }}" alt="Fresh Tomatoes">
+              <h4>{{ featured_product.name }}</h4>
+              <p>{{ featured_product.description }}</p>
+              <div class="price">₹{{ featured_product.price }}/kg</div>
+            </a>
+            <button onclick="addToCart({{ featured_product.id }})" class="add-to-cart">Add to Cart</button>
+          </div>
+        {% endfor %}
       </div>
     </section>
 
