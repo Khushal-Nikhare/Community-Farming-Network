@@ -245,13 +245,11 @@ def add_to_cart(request):
 
 @login_required
 def cart_view(request):
-    # Get all cart items for the current user
     cart_items = Cart.objects.filter(user=request.user).select_related('product')
     
-    # Calculate totals
     subtotal = sum(item.product.price * item.quantity for item in cart_items)
-    shipping = 40.00 if subtotal > 0 else 0  # Example shipping cost
-    tax = subtotal * 0.18  # 18% tax
+    shipping = Decimal('40.00') if subtotal > 0 else Decimal('0.00')
+    tax = subtotal * Decimal('0.18')
     total = subtotal + shipping + tax
     
     context = {
@@ -259,7 +257,7 @@ def cart_view(request):
         'subtotal': subtotal,
         'shipping': shipping,
         'tax': tax,
-        'total': total,
+        'total': total
     }
     
     return render(request, 'cart.html', context)
