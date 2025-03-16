@@ -72,21 +72,21 @@
     <section class="category-section">
       <h2 class="section-title">Shop by Category</h2>
       <div class="categories-grid">
-        <a href="{% url 'categories' %}" class="category-link">
+        <a href="/categories/" class="category-link">
           <div class="category">
             <img src="{% static '/img/vegetables.jpg' %}" alt="Fresh Vegetables">
             <h3>Vegetables</h3>
             <p>Farm-fresh vegetables daily</p>
           </div>
         </a>
-        <a href="{% url 'categories' %}" class="category-link">
+        <a href="/categories/" class="category-link">
           <div class="category">
             <img src="{% static '/img/fruits.jpg' %}" alt="Organic Fruits">
             <h3>Fruits</h3>
             <p>Seasonal and exotic fruits</p>
           </div>
         </a>
-        <a href="{% url 'categories' %}" class="category-link">
+        <a href="/categories/" class="category-link">
           <div class="category">
             <img src="{% static '/img/grains.jpg' %}" alt="Organic Grains">
             <h3>Grains</h3>
@@ -99,18 +99,33 @@
     <section class="products-section">
       <h2 class="section-title">Featured Products</h2>
       <div class="products-grid">
-        
-        {% for featured_product in featured_products %}
-          <div class="product-card">
-            <a href="{% url 'product' %}?id={{ featured_product.id }}&name={{ featured_product.name }}&price={{ featured_product.price }}&image={{ featured_product.photo.url }}&description={{ featured_product.description }}" class="product-link">
-              <img src="{{ featured_product.photo.url }}" alt="Fresh Tomatoes">
-              <h4>{{ featured_product.name }}</h4>
-              <p>{{ featured_product.description }}</p>
-              <div class="price">₹{{ featured_product.price }}/kg</div>
-            </a>
-            <button onclick="addToCart({{featured_product.id}})" class="add-to-cart">Add to Cart</button>
-          </div>
-        {% endfor %}
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=tomatoes&name=Fresh%20Tomatoes&price=2.99&image=/static/img/tomatoes.jpg&description=Farm-fresh%20red%20tomatoes" class="product-link">
+            <img src="{% static '/img/tomatoes.jpg' %}" alt="Fresh Tomatoes">
+            <h4>Fresh Tomatoes</h4>
+            <p>Farm-fresh red tomatoes</p>
+            <div class="price">₹65/kg</div>
+          </a>
+          <button onclick="addToCart('tomatoes')" class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=apples&name=Organic%20Apples&price=3.99&image=/static/img/apples.jpg&description=Sweet%20and%20juicy%20apples" class="product-link">
+            <img src="{% static '/img/apples.jpg' %}" alt="Organic Apples">
+            <h4>Organic Apples</h4>
+            <p>Sweet and juicy apples</p>
+            <div class="price">₹120/kg</div>
+          </a>
+          <button onclick="addToCart('apples')" class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=rice&name=Organic%20Rice&price=5.99&image=/static/img/rice.jpg&description=Premium%20quality%20rice" class="product-link">
+            <img src="{% static '/img/rice.jpg' %}" alt="Organic Rice">
+            <h4>Organic Rice</h4>
+            <p>Premium quality rice</p>
+            <div class="price">₹90/kg</div>
+          </a>
+          <button onclick="addToCart('rice')" class="add-to-cart">Add to Cart</button>
+        </div>
       </div>
     </section>
 
