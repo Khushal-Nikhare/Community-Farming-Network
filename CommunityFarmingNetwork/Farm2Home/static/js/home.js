@@ -1,4 +1,3 @@
-
 // Header scroll effect
 window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
@@ -217,9 +216,54 @@ document.addEventListener('click', function (e) {
 });
 
 // Fetch CSRF token from cookie
-
 async function addToCart(productId) {
     try {
+        // Check if productId is a string (identifier) or number (database ID)
+        if (typeof productId === 'string') {
+            // Client-side approach using localStorage for static products
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Find the product details from the DOM
+            const productCard = document.querySelector(`.product-card button[onclick*="${productId}"]`).closest('.product-card');
+            const productLink = productCard.querySelector('.product-link');
+            const name = productLink.querySelector('h4').textContent;
+            const price = parseInt(productLink.querySelector('.price').textContent.replace('₹', '').replace('/kg', ''));
+            const image = productLink.querySelector('img').src;
+            
+            // Check if product already exists in cart
+            let existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                // Increase quantity if item already in cart
+                existingItem.quantity += 1;
+            } else {
+                // Add new item to cart
+                cart.push({
+                    id: productId,
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count in DOM
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                let totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+            
+            // Show toast notification
+            showAddedToCartMessage(name);
+            
+            return;
+        }
+        
+        // If productId is a number, use the original server-side approach
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
         const response = await fetch('/add-to-cart/', {
             method: 'POST',
@@ -251,6 +295,48 @@ async function addToCart(productId) {
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred while adding to cart');
     }
+}
+
+// Show message when product is added to cart
+function showAddedToCartMessage(productName) {
+    // Create a notification element
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.innerHTML = `${productName} added to cart!`;
+    
+    // Style the notification
+    Object.assign(notification.style, {
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        backgroundColor: '#27ae60',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        zIndex: '1000',
+        opacity: '0',
+        transform: 'translateY(20px)',
+        transition: 'opacity 0.3s, transform 0.3s'
+    });
+    
+    // Add to document
+    document.body.appendChild(notification);
+    
+    // Trigger animation
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 100);
+    
+    // Remove after 2 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(20px)';
+        
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 2000);
 }
