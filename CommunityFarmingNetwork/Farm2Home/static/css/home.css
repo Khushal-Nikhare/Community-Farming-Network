@@ -381,3 +381,48 @@ main {
   background: var(--light-bg);
   color: var(--primary-color);
 }
+
+/* Top Products section */
+section.products-section:nth-of-type(2) .products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 20px;
+}
+
+/* Force top products to be exactly 3 cards per row like categories */
+@media (min-width: 481px) {
+  section.products-section:nth-of-type(2) .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+}
+
+section.products-section:nth-of-type(2) .product-card {
+  width: 100%;
+  margin: 0;
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+}
+
+section.products-section:nth-of-type(2) .product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+}
+
+/* Make sure responsive design still works */
+@media (max-width: 768px) {
+  section.products-section:nth-of-type(2) .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  section.products-section:nth-of-type(2) .products-grid {
+    grid-template-columns: 1fr;
+  }
+}

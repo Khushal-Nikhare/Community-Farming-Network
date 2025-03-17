@@ -1,4 +1,3 @@
-
 // Header scroll effect
 window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
@@ -36,8 +35,8 @@ function loadProductData() {
         if (params.price) {
             const price = parseFloat(params.price);
             const originalPrice = (price * 1.33).toFixed(2); // Original price is 33% higher for this example
-            document.querySelector('.price').textContent = `$${params.price}/kg`;
-            document.querySelector('.original-price').textContent = `$${originalPrice}/kg`;
+            document.querySelector('.price').textContent = `₹${params.price}/kg`;
+            document.querySelector('.original-price').textContent = `₹${originalPrice}/kg`;
         }
 
         // Product image
@@ -188,7 +187,7 @@ function updateSimilarProducts() {
                         <img src="${product.image}" alt="${product.name}">
                         <h4>${product.name}</h4>
                         <p>${product.description}</p>
-                        <div class="price">$${product.price.toFixed(2)}/kg</div>
+                        <div class="price">₹${product.price.toFixed(2)}/kg</div>
                     </a>
                     <button class="add-to-cart">Add to Cart</button>
                 `;
@@ -207,7 +206,7 @@ function attachAddToCartListeners() {
             const product = button.parentElement;
             const productLink = product.querySelector('a');
             const productName = product.querySelector('h4').textContent;
-            const productPrice = parseFloat(product.querySelector('.price').textContent.replace('$', ''));
+            const productPrice = parseFloat(product.querySelector('.price').textContent.replace('₹', ''));
             const productImage = product.querySelector('img').src;
 
             const cartItem = {
@@ -300,7 +299,7 @@ document.querySelector('.add-to-cart-btn').addEventListener('click', () => {
     // Get product details from the page
     const product = {
         name: document.querySelector('.product-title').textContent,
-        price: parseFloat(document.querySelector('.price').textContent.replace('$', '')),
+        price: parseFloat(document.querySelector('.price').textContent.replace('₹', '')),
         image: document.querySelector('.main-image').src,
         style: 'Standard',
         quantity: 1

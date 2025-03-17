@@ -137,4 +137,16 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Add styles for product links */
+.product-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.product-link:hover .product-name {
+  color: var(--primary-color);
+}
   
