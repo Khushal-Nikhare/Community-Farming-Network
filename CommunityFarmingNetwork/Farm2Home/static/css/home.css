@@ -265,6 +265,19 @@ main {
   z-index: 10;
 }
 
+/* Ensure discount badges are applied to all product sections */
+.products-section .product-card .discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e74c3c;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  z-index: 10;
+}
+
 /* Product Link Styles */
 .product-link {
   display: block;
