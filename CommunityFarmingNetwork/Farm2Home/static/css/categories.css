@@ -5,6 +5,37 @@
   padding: 0 1rem;
 }
 
+/* Section Styles */
+.products-section {
+  margin: 3rem 0;
+}
+
+/* Add top margin to the first products section to prevent navbar overlap */
+main.products-container > section.products-section:first-child {
+  margin-top: 5rem;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 0.8rem;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #27ae60;
+  border-radius: 1.5px;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -71,11 +102,31 @@
   padding: 0.3rem 0.6rem;
   border-radius: 3px;
   font-size: 0.8rem;
+  z-index: 10;
+}
+
+/* Ensure discount badges in Top Products and Suggested Products match */
+.products-section .discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e74c3c;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  z-index: 10;
 }
 
 .rating {
   color: #f39c12;
   margin: 0.5rem 0;
+}
+
+/* Ensure product cards in all sections have relative positioning for badge placement */
+.products-section .product-card {
+  position: relative;
+  overflow: hidden;
 }
 
 /* Add to Cart Button Styles */

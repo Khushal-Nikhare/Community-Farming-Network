@@ -55,6 +55,133 @@
 
   <!-- Main Content -->
   <main class="products-container">
+    <section class="products-section">
+      <h2 class="section-title">Top Products</h2>
+      <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=mangoes&name=Fresh%20Mangoes&price=150&image=/static/img/mangoes.jpg&description=Sweet%20seasonal%20mangoes" class="product-link">
+            <span class="discount-badge">20% OFF</span>
+            <img src="{% static '/img/mangoes.jpg' %}" alt="Fresh Mangoes" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Tropical Farms</div>
+              <h3 class="product-name">Fresh Mangoes</h3>
+              <div class="rating">
+                ★★★★☆ <span>(4.5)</span>
+              </div>
+              <div class="product-price">
+                ₹ 150 <span class="original-price">₹ 188</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('mangoes', 'Fresh Mangoes', 150, '{% static '/img/mangoes.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+        
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=oranges&name=Juicy%20Oranges&price=80&image=/static/img/oranges.jpg&description=Juicy%20citrus%20oranges" class="product-link">
+            <span class="discount-badge">15% OFF</span>
+            <img src="{% static '/img/oranges.jpg' %}" alt="Juicy Oranges" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Citrus Grove</div>
+              <h3 class="product-name">Juicy Oranges</h3>
+              <div class="rating">
+                ★★★★☆ <span>(4.2)</span>
+              </div>
+              <div class="product-price">
+                ₹ 80 <span class="original-price">₹ 94</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('oranges', 'Juicy Oranges', 80, '{% static '/img/oranges.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+        
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=bananas&name=Organic%20Bananas&price=60&image=/static/img/bananas.jpg&description=Organic%20fresh%20bananas" class="product-link">
+            <span class="discount-badge">10% OFF</span>
+            <img src="{% static '/img/bananas.jpg' %}" alt="Organic Bananas" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Green Earth Farms</div>
+              <h3 class="product-name">Organic Bananas</h3>
+              <div class="rating">
+                ★★★★★ <span>(4.8)</span>
+              </div>
+              <div class="product-price">
+                ₹ 60 <span class="original-price">₹ 67</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('bananas', 'Organic Bananas', 60, '{% static '/img/bananas.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      
+      <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=wheat&name=Organic%20Wheat&price=50&image=/static/img/wheat.jpg&description=Organic%20whole%20wheat" class="product-link">
+            <span class="discount-badge">25% OFF</span>
+            <img src="{% static '/img/wheat.jpg' %}" alt="Organic Wheat" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Grain Fields</div>
+              <h3 class="product-name">Organic Wheat</h3>
+              <div class="rating">
+                ★★★★☆ <span>(4.3)</span>
+              </div>
+              <div class="product-price">
+                ₹ 50 <span class="original-price">₹ 67</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('wheat', 'Organic Wheat', 50, '{% static '/img/wheat.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=millets&name=Mixed%20Millets&price=70&image=/static/img/millets.jpg&description=Nutritious%20mixed%20millets" class="product-link">
+            <span class="discount-badge">18% OFF</span>
+            <img src="{% static '/img/millets.jpg' %}" alt="Mixed Millets" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Heritage Grains</div>
+              <h3 class="product-name">Mixed Millets</h3>
+              <div class="rating">
+                ★★★★★ <span>(4.7)</span>
+              </div>
+              <div class="product-price">
+                ₹ 70 <span class="original-price">₹ 85</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('millets', 'Mixed Millets', 70, '{% static '/img/millets.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=honey&name=Pure%20Honey&price=220&image=/static/img/honey.jpg&description=Pure%20natural%20honey" class="product-link">
+            <span class="discount-badge">12% OFF</span>
+            <img src="{% static '/img/honey.jpg' %}" alt="Pure Honey" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Wild Apiaries</div>
+              <h3 class="product-name">Pure Honey</h3>
+              <div class="rating">
+                ★★★★★ <span>(4.9)</span>
+              </div>
+              <div class="product-price">
+                ₹ 220 <span class="original-price">₹ 250</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('honey', 'Pure Honey', 220, '{% static '/img/honey.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </section>
+    
     <h1>RESULT</h1>
     <div class="products-grid">
       <!-- Product Card 1 -->
@@ -285,6 +412,71 @@
         <button class="add-to-cart" onclick="addToCart('ginger', 'Fresh Ginger Root', 120, '{% static 'img/ginger.jpg' %}')">Add to Cart</button>
       </div>
     </div>
+    
+    <section class="products-section">
+      <h2 class="section-title">Suggested Products</h2>
+      <div class="products-grid">
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=apple_juice&name=Fresh%20Apple%20Juice&price=85&image=/static/img/apple_juice.jpg&description=Freshly%20pressed%20apple%20juice" class="product-link">
+            <span class="discount-badge">15% OFF</span>
+            <img src="{% static '/img/apple_juice.jpg' %}" alt="Fresh Apple Juice" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Fresh Squeeze</div>
+              <h3 class="product-name">Fresh Apple Juice</h3>
+              <div class="rating">
+                ★★★★☆ <span>(4.4)</span>
+              </div>
+              <div class="product-price">
+                ₹ 85 <span class="original-price">₹ 100</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('apple_juice', 'Fresh Apple Juice', 85, '{% static '/img/apple_juice.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+        
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=brown_bread&name=Whole%20Grain%20Bread&price=45&image=/static/img/bread.jpg&description=Freshly%20baked%20whole%20grain%20bread" class="product-link">
+            <span class="discount-badge">10% OFF</span>
+            <img src="{% static '/img/bread.jpg' %}" alt="Whole Grain Bread" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Artisan Bakery</div>
+              <h3 class="product-name">Whole Grain Bread</h3>
+              <div class="rating">
+                ★★★★★ <span>(4.6)</span>
+              </div>
+              <div class="product-price">
+                ₹ 45 <span class="original-price">₹ 50</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('brown_bread', 'Whole Grain Bread', 45, '{% static '/img/bread.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+        
+        <div class="product-card">
+          <a href="{% url 'product' %}?id=strawberry&name=Fresh%20Strawberries&price=130&image=/static/img/strawberry.jpg&description=Juicy%20fresh%20strawberries" class="product-link">
+            <span class="discount-badge">20% OFF</span>
+            <img src="{% static '/img/strawberry.jpg' %}" alt="Fresh Strawberries" class="product-image" />
+            <div class="product-info">
+              <div class="store-name">Berry Farm</div>
+              <h3 class="product-name">Fresh Strawberries</h3>
+              <div class="rating">
+                ★★★★★ <span>(4.8)</span>
+              </div>
+              <div class="product-price">
+                ₹ 130 <span class="original-price">₹ 163</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('strawberry', 'Fresh Strawberries', 130, '{% static '/img/strawberry.jpg' %}')" class="add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Footer from home.html -->
