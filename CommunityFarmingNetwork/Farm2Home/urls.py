@@ -49,5 +49,6 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("wishlist/", views.wishlist, name="wishlist"),
     path("categories/", views.categories, name="categories"),
+    path("seller_profile/", views.seller_profile, name="seller_profile"),
     # path("login/", views.login_signup, name="login"),
 ]

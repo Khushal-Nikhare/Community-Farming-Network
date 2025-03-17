@@ -309,6 +309,9 @@ def remove_from_cart(request):
 def categories(request):
     return render(request, "categories.html")
 
+def seller_profile(request):
+    return render(request, "seller_profile.html")
+
 @require_GET
 @login_required
 def get_cart(request):

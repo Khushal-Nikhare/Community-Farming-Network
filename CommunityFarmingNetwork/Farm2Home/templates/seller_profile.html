@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farm2Home - Seller Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="{%static'css/profile.css' %"}>
-  <link rel="stylesheet" href="{%static 'css/seller_profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/seller_profile.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
 </head>
@@ -40,14 +40,15 @@
       <i class="fas fa-times close-sidebar"></i>
     </div>
     <ul class="sidebar-menu">
-      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
-      <li><a href="profile.html"><i class="fas fa-user"></i> Your Profile</a></li>
-      <li><a href="order.html"><i class="fas fa-box"></i> Your Orders</a></li>
-      <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
-      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-      <li><a href="seller.html"><i class="fas fa-store"></i> Become a Seller</a></li>
-      <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
-      <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+      <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login & Signup</a></li>
+      <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Your Profile</a></li>
+      <li><a href="{% url 'order' %}"><i class="fas fa-box"></i> Your Orders</a></li>
+      <li><a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+      <li><a href="{% url 'seller' %}"><i class="fas fa-store"></i> Become a Seller</a></li>
+      <li><a href="{% url 'seller_profile' %}"><i class="fas fa-user-tie"></i> Seller Profile</a></li>
+      <li><a href="{% url 'help' %}"><i class="fas fa-question-circle"></i> Help Center</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
     </ul>
   </div>
 
