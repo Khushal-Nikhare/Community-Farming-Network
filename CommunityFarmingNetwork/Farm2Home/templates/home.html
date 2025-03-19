@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  {% load static %}
+  <head>
+    {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token }}" />
-  <title>Farm2Home - Fresh from Farms to Your Doorstep</title>
+    <title>Farm2Home - Fresh from Farms to Your Doorstep</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -16,41 +16,41 @@
       type="text/css"
       href="{% static 'css/style.css' %}"
     />
-</head>
-<body>
-  <header>
-    <nav class="navbar">
-      <div class="logo-container">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo-container">
           <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo" />
-      </div>
-      <div class="search-container">
+        </div>
+        <div class="search-container">
           <input
             type="text"
             class="search-bar"
             placeholder="Search for fresh products..."
           />
-        <i class="fas fa-search search-icon"></i>
-      </div>
-      <div class="nav-icons">
-        <a href="{% url 'cart' %}" class="cart-icon">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="nav-icons">
+          <a href="{% url 'cart' %}" class="cart-icon">
             <span style="font-size: 18px">🛒</span>
             <span class="cart-count" id="cart-count">{{ cart_count }}</span>
             <span style="color: white">Cart</span>
           </a>
           <a href="javascript:void(0);" id="menu-button" style="color: white">
-          <i class="fas fa-ellipsis-v"></i>
-        </a>
-      </div>
-    </nav>
-  </header>
+            <i class="fas fa-ellipsis-v"></i>
+          </a>
+        </div>
+      </nav>
+    </header>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <h3>Menu</h3>
-      <i class="fas fa-times close-sidebar"></i>
-    </div>
-    <ul class="sidebar-menu">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>Menu</h3>
+        <i class="fas fa-times close-sidebar"></i>
+      </div>
+      <ul class="sidebar-menu">
         <li>
           <a href="{% url 'login' %}"
             ><i class="fas fa-sign-in-alt"></i> Login & Signup</a
@@ -79,7 +79,11 @@
             ><i class="fas fa-store"></i> Become a Seller</a
           >
         </li>
-        <li><a href="{% url 'seller_profile' %}"><i class="fas fa-user-tie"></i> Seller Profile</a></li>
+        <li>
+          <a href="{% url 'seller_profile' %}"
+            ><i class="fas fa-user-tie"></i> Seller Profile</a
+          >
+        </li>
         <li>
           <a href="{% url 'help' %}"
             ><i class="fas fa-question-circle"></i> Help Center</a
@@ -90,17 +94,17 @@
             ><i class="fas fa-sign-out-alt"></i> Log Out</a
           >
         </li>
-    </ul>
-  </div>
+      </ul>
+    </div>
 
-  <div class="overlay"></div>
+    <div class="overlay"></div>
 
-  <main>
-    <div class="carousel">
-      <button class="slider-btn left-btn">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <div class="slides">
+    <main>
+      <div class="carousel">
+        <button class="slider-btn left-btn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="slides">
           <img
             src="{% static '/img/1.1.jpg' %}"
             alt="Fresh Vegetables"
@@ -116,37 +120,37 @@
             alt="Farm Products"
             loading="lazy"
           />
+        </div>
+        <button class="slider-btn right-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
-      <button class="slider-btn right-btn">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
 
-    <section class="category-section">
-      <h2 class="section-title">Shop by Category</h2>
-      <div class="categories-grid">
-          <a href="{% url 'categories' %}"class="category-link">
-        <div class="category">
+      <section class="category-section">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="categories-grid">
+          <a href="{% url 'categories' %}" class="category-link">
+            <div class="category">
               <img
                 src="{% static '/img/vegetables.jpg' %}"
                 alt="Fresh Vegetables"
               />
-          <h3>Vegetables</h3>
-          <p>Farm-fresh vegetables daily</p>
-        </div>
+              <h3>Vegetables</h3>
+              <p>Farm-fresh vegetables daily</p>
+            </div>
           </a>
           <a href="{% url 'categories' %}" class="category-link">
-        <div class="category">
+            <div class="category">
               <img src="{% static '/img/fruits.jpg' %}" alt="Organic Fruits" />
-          <h3>Fruits</h3>
-          <p>Seasonal and exotic fruits</p>
-        </div>
+              <h3>Fruits</h3>
+              <p>Seasonal and exotic fruits</p>
+            </div>
           </a>
           <a href="{% url 'categories' %}" class="category-link">
-        <div class="category">
+            <div class="category">
               <img src="{% static '/img/grains.jpg' %}" alt="Organic Grains" />
-          <h3>Grains</h3>
-          <p>Pure and organic grains</p>
+              <h3>Grains</h3>
+              <p>Pure and organic grains</p>
             </div>
           </a>
         </div>
@@ -154,9 +158,20 @@
 
       <section class="products-section">
         <h2 class="section-title">Top Products</h2>
-        <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+        <div
+          class="products-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+          "
+        >
+          {% comment %}
           <div class="product-card">
-            <a href="{% url 'product' %}?id=mangoes&name=Fresh%20Mangoes&price=150&image=/static/img/mangoes.jpg&description=Sweet%20seasonal%20mangoes" class="product-link">
+            <a
+              href="{% url 'product' %}?id=mangoes&name=Fresh%20Mangoes&price=150&image=/static/img/mangoes.jpg&description=Sweet%20seasonal%20mangoes"
+              class="product-link"
+            >
               <span class="discount-badge">20% OFF</span>
               <img src="{% static '/img/mangoes.jpg' %}" alt="Fresh Mangoes" />
               <h4>Fresh Mangoes</h4>
@@ -167,9 +182,36 @@
               Add to Cart
             </button>
           </div>
-          
+          {% endcomment %} {% for top_product in top_products %}
           <div class="product-card">
-            <a href="{% url 'product' %}?id=oranges&name=Juicy%20Oranges&price=80&image=/static/img/oranges.jpg&description=Juicy%20citrus%20oranges" class="product-link">
+            <a
+              href="{% url 'product' top_product.productId %} "
+              class="product-link"
+            >
+              <span class="discount-badge">20% OFF</span>
+              <img
+                src="{{ top_product.productImage.url }}"
+                alt="Fresh Tomatoes"
+              />
+              <h4>{{ top_product.productName }}</h4>
+              <p>{{ top_product.productDescription }}</p>
+              <div class="price">
+                ₹{{ top_product.productPrice }}/{{ top_product.pricePerUnit }}
+              </div>
+            </a>
+            <button
+              onclick="addToCart({{ top_product.productId }})"
+              class="add-to-cart"
+            >
+              Add to Cart
+            </button>
+          </div>
+          {% endfor %} {% comment %}
+          <div class="product-card">
+            <a
+              href="{% url 'product' %}?id=oranges&name=Juicy%20Oranges&price=80&image=/static/img/oranges.jpg&description=Juicy%20citrus%20oranges"
+              class="product-link"
+            >
               <span class="discount-badge">15% OFF</span>
               <img src="{% static '/img/oranges.jpg' %}" alt="Juicy Oranges" />
               <h4>Juicy Oranges</h4>
@@ -180,11 +222,17 @@
               Add to Cart
             </button>
           </div>
-          
+
           <div class="product-card">
-            <a href="{% url 'product' %}?id=bananas&name=Organic%20Bananas&price=60&image=/static/img/bananas.jpg&description=Organic%20fresh%20bananas" class="product-link">
+            <a
+              href="{% url 'product' %}?id=bananas&name=Organic%20Bananas&price=60&image=/static/img/bananas.jpg&description=Organic%20fresh%20bananas"
+              class="product-link"
+            >
               <span class="discount-badge">10% OFF</span>
-              <img src="{% static '/img/bananas.jpg' %}" alt="Organic Bananas" />
+              <img
+                src="{% static '/img/bananas.jpg' %}"
+                alt="Organic Bananas"
+              />
               <h4>Organic Bananas</h4>
               <p>Organic fresh bananas</p>
               <div class="price">₹60/kg</div>
@@ -194,10 +242,21 @@
             </button>
           </div>
         </div>
-        
-        <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
+
+        <div
+          class="products-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+          "
+        >
           <div class="product-card">
-            <a href="{% url 'product' %}?id=wheat&name=Organic%20Wheat&price=50&image=/static/img/wheat.jpg&description=Organic%20whole%20wheat" class="product-link">
+            <a
+              href="{% url 'product' %}?id=wheat&name=Organic%20Wheat&price=50&image=/static/img/wheat.jpg&description=Organic%20whole%20wheat"
+              class="product-link"
+            >
               <span class="discount-badge">25% OFF</span>
               <img src="{% static '/img/wheat.jpg' %}" alt="Organic Wheat" />
               <h4>Organic Wheat</h4>
@@ -210,7 +269,10 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=millets&name=Mixed%20Millets&price=70&image=/static/img/millets.jpg&description=Nutritious%20mixed%20millets" class="product-link">
+            <a
+              href="{% url 'product' %}?id=millets&name=Mixed%20Millets&price=70&image=/static/img/millets.jpg&description=Nutritious%20mixed%20millets"
+              class="product-link"
+            >
               <span class="discount-badge">18% OFF</span>
               <img src="{% static '/img/millets.jpg' %}" alt="Mixed Millets" />
               <h4>Mixed Millets</h4>
@@ -223,7 +285,10 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=honey&name=Pure%20Honey&price=220&image=/static/img/honey.jpg&description=Pure%20natural%20honey" class="product-link">
+            <a
+              href="{% url 'product' %}?id=honey&name=Pure%20Honey&price=220&image=/static/img/honey.jpg&description=Pure%20natural%20honey"
+              class="product-link"
+            >
               <span class="discount-badge">12% OFF</span>
               <img src="{% static '/img/honey.jpg' %}" alt="Pure Honey" />
               <h4>Pure Honey</h4>
@@ -233,45 +298,59 @@
             <button onclick="addToCart('honey')" class="add-to-cart">
               Add to Cart
             </button>
+          </div>
+          {% endcomment %}
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="products-section">
+      <section class="products-section">
         <h2 class="section-title">Suggested Products</h2>
-      <div class="products-grid">
-        <div class="product-card">
-            <a href="{% url 'product' %}?id=tomatoes&name=Fresh%20Tomatoes&price=65&image=/static/img/tomatoes.jpg&description=Farm-fresh%20red%20tomatoes" class="product-link">
+        <div class="products-grid">
+          {% comment %}
+          <div class="product-card">
+            <a
+              href="{% url 'product' %}?id=tomatoes&name=Fresh%20Tomatoes&price=65&image=/static/img/tomatoes.jpg&description=Farm-fresh%20red%20tomatoes"
+              class="product-link"
+            >
               <span class="discount-badge">15% OFF</span>
-              <img src="{% static '/img/tomatoes.jpg' %}" alt="Fresh Tomatoes" />
-            <h4>Fresh Tomatoes</h4>
-            <p>Farm-fresh red tomatoes</p>
+              <img
+                src="{% static '/img/tomatoes.jpg' %}"
+                alt="Fresh Tomatoes"
+              />
+              <h4>Fresh Tomatoes</h4>
+              <p>Farm-fresh red tomatoes</p>
               <div class="price">₹65/kg</div>
-          </a>
+            </a>
             <button onclick="addToCart('tomatoes')" class="add-to-cart">
               Add to Cart
             </button>
-        </div>
-          
-        <div class="product-card">
-            <a href="{% url 'product' %}?id=apples&name=Organic%20Apples&price=120&image=/static/img/apples.jpg&description=Sweet%20and%20juicy%20apples" class="product-link">
+          </div>
+
+          <div class="product-card">
+            <a
+              href="{% url 'product' %}?id=apples&name=Organic%20Apples&price=120&image=/static/img/apples.jpg&description=Sweet%20and%20juicy%20apples"
+              class="product-link"
+            >
               <span class="discount-badge">10% OFF</span>
               <img src="{% static '/img/apples.jpg' %}" alt="Organic Apples" />
-            <h4>Organic Apples</h4>
-            <p>Sweet and juicy apples</p>
+              <h4>Organic Apples</h4>
+              <p>Sweet and juicy apples</p>
               <div class="price">₹120/kg</div>
-          </a>
+            </a>
             <button onclick="addToCart('apples')" class="add-to-cart">
               Add to Cart
             </button>
-        </div>
-          
-        <div class="product-card">
-            <a href="{% url 'product' %}?id=rice&name=Organic%20Rice&price=90&image=/static/img/rice.jpg&description=Premium%20quality%20rice" class="product-link">
+          </div>
+
+          <div class="product-card">
+            <a
+              href="{% url 'product' %}?id=rice&name=Organic%20Rice&price=90&image=/static/img/rice.jpg&description=Premium%20quality%20rice"
+              class="product-link"
+            >
               <span class="discount-badge">20% OFF</span>
               <img src="{% static '/img/rice.jpg' %}" alt="Organic Rice" />
-            <h4>Organic Rice</h4>
-            <p>Premium quality rice</p>
+              <h4>Organic Rice</h4>
+              <p>Premium quality rice</p>
               <div class="price">₹90/kg</div>
             </a>
             <button onclick="addToCart('rice')" class="add-to-cart">
@@ -281,9 +360,15 @@
 
           <!-- Additional Product Cards -->
           <div class="product-card">
-            <a href="{% url 'product' %}?id=potatoes&name=Premium%20Potatoes&price=40&image=/static/img/potatoes.jpg&description=Premium%20quality%20potatoes" class="product-link">
+            <a
+              href="{% url 'product' %}?id=potatoes&name=Premium%20Potatoes&price=40&image=/static/img/potatoes.jpg&description=Premium%20quality%20potatoes"
+              class="product-link"
+            >
               <span class="discount-badge">10% OFF</span>
-              <img src="{% static '/img/potatoes.jpg' %}" alt="Premium Potatoes" />
+              <img
+                src="{% static '/img/potatoes.jpg' %}"
+                alt="Premium Potatoes"
+              />
               <h4>Premium Potatoes</h4>
               <p>Premium quality potatoes</p>
               <div class="price">₹40/kg</div>
@@ -294,9 +379,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=onions&name=Farm%20Fresh%20Red%20Onions&price=55&image=/static/img/onions.jpg&description=Farm%20fresh%20red%20onions" class="product-link">
+            <a
+              href="{% url 'product' %}?id=onions&name=Farm%20Fresh%20Red%20Onions&price=55&image=/static/img/onions.jpg&description=Farm%20fresh%20red%20onions"
+              class="product-link"
+            >
               <span class="discount-badge">20% OFF</span>
-              <img src="{% static '/img/onions.jpg' %}" alt="Farm Fresh Red Onions" />
+              <img
+                src="{% static '/img/onions.jpg' %}"
+                alt="Farm Fresh Red Onions"
+              />
               <h4>Farm Fresh Red Onions</h4>
               <p>Farm fresh red onions</p>
               <div class="price">₹55/kg</div>
@@ -307,9 +398,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=carrots&name=Fresh%20Orange%20Carrots&price=45&image=/static/img/carrots.jpg&description=Fresh%20orange%20carrots" class="product-link">
+            <a
+              href="{% url 'product' %}?id=carrots&name=Fresh%20Orange%20Carrots&price=45&image=/static/img/carrots.jpg&description=Fresh%20orange%20carrots"
+              class="product-link"
+            >
               <span class="discount-badge">25% OFF</span>
-              <img src="{% static '/img/carrots.jpg' %}" alt="Fresh Orange Carrots" />
+              <img
+                src="{% static '/img/carrots.jpg' %}"
+                alt="Fresh Orange Carrots"
+              />
               <h4>Fresh Orange Carrots</h4>
               <p>Fresh orange carrots</p>
               <div class="price">₹45/kg</div>
@@ -320,9 +417,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=cauliflower&name=Organic%20Cauliflower&price=35&image=/static/img/cauliflower.jpg&description=Organic%20cauliflower" class="product-link">
+            <a
+              href="{% url 'product' %}?id=cauliflower&name=Organic%20Cauliflower&price=35&image=/static/img/cauliflower.jpg&description=Organic%20cauliflower"
+              class="product-link"
+            >
               <span class="discount-badge">12% OFF</span>
-              <img src="{% static '/img/cauliflower.jpg' %}" alt="Organic Cauliflower" />
+              <img
+                src="{% static '/img/cauliflower.jpg' %}"
+                alt="Organic Cauliflower"
+              />
               <h4>Organic Cauliflower</h4>
               <p>Organic cauliflower</p>
               <div class="price">₹35/kg</div>
@@ -333,9 +436,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=cucumbers&name=Green%20Cucumbers&price=30&image=/static/img/cucumbers.jpg&description=Fresh%20green%20cucumbers" class="product-link">
+            <a
+              href="{% url 'product' %}?id=cucumbers&name=Green%20Cucumbers&price=30&image=/static/img/cucumbers.jpg&description=Fresh%20green%20cucumbers"
+              class="product-link"
+            >
               <span class="discount-badge">18% OFF</span>
-              <img src="{% static '/img/cucumbers.jpg' %}" alt="Green Cucumbers" />
+              <img
+                src="{% static '/img/cucumbers.jpg' %}"
+                alt="Green Cucumbers"
+              />
               <h4>Green Cucumbers</h4>
               <p>Fresh green cucumbers</p>
               <div class="price">₹30/kg</div>
@@ -346,9 +455,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=spinach&name=Fresh%20Green%20Spinach&price=30&image=/static/img/spinach.jpg&description=Fresh%20green%20spinach" class="product-link">
+            <a
+              href="{% url 'product' %}?id=spinach&name=Fresh%20Green%20Spinach&price=30&image=/static/img/spinach.jpg&description=Fresh%20green%20spinach"
+              class="product-link"
+            >
               <span class="discount-badge">15% OFF</span>
-              <img src="{% static '/img/spinach.jpg' %}" alt="Fresh Green Spinach" />
+              <img
+                src="{% static '/img/spinach.jpg' %}"
+                alt="Fresh Green Spinach"
+              />
               <h4>Fresh Green Spinach</h4>
               <p>Fresh green spinach</p>
               <div class="price">₹30/kg</div>
@@ -359,9 +474,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=capsicum&name=Colorful%20Bell%20Peppers&price=80&image=/static/img/capsicum.jpg&description=Colorful%20bell%20peppers" class="product-link">
+            <a
+              href="{% url 'product' %}?id=capsicum&name=Colorful%20Bell%20Peppers&price=80&image=/static/img/capsicum.jpg&description=Colorful%20bell%20peppers"
+              class="product-link"
+            >
               <span class="discount-badge">22% OFF</span>
-              <img src="{% static '/img/capsicum.jpg' %}" alt="Colorful Bell Peppers" />
+              <img
+                src="{% static '/img/capsicum.jpg' %}"
+                alt="Colorful Bell Peppers"
+              />
               <h4>Colorful Bell Peppers</h4>
               <p>Colorful bell peppers</p>
               <div class="price">₹80/kg</div>
@@ -372,9 +493,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=brinjal&name=Purple%20Eggplant&price=45&image=/static/img/brinjal.jpg&description=Purple%20eggplant" class="product-link">
+            <a
+              href="{% url 'product' %}?id=brinjal&name=Purple%20Eggplant&price=45&image=/static/img/brinjal.jpg&description=Purple%20eggplant"
+              class="product-link"
+            >
               <span class="discount-badge">10% OFF</span>
-              <img src="{% static '/img/brinjal.jpg' %}" alt="Purple Eggplant" />
+              <img
+                src="{% static '/img/brinjal.jpg' %}"
+                alt="Purple Eggplant"
+              />
               <h4>Purple Eggplant</h4>
               <p>Purple eggplant</p>
               <div class="price">₹45/kg</div>
@@ -385,9 +512,15 @@
           </div>
 
           <div class="product-card">
-            <a href="{% url 'product' %}?id=ginger&name=Fresh%20Ginger%20Root&price=120&image=/static/img/ginger.jpg&description=Fresh%20ginger%20root" class="product-link">
+            <a
+              href="{% url 'product' %}?id=ginger&name=Fresh%20Ginger%20Root&price=120&image=/static/img/ginger.jpg&description=Fresh%20ginger%20root"
+              class="product-link"
+            >
               <span class="discount-badge">14% OFF</span>
-              <img src="{% static '/img/ginger.jpg' %}" alt="Fresh Ginger Root" />
+              <img
+                src="{% static '/img/ginger.jpg' %}"
+                alt="Fresh Ginger Root"
+              />
               <h4>Fresh Ginger Root</h4>
               <p>Fresh ginger root</p>
               <div class="price">₹120/kg</div>
@@ -395,70 +528,71 @@
             <button onclick="addToCart('ginger')" class="add-to-cart">
               Add to Cart
             </button>
+          </div>
+          {% endcomment %}
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="contact-section">
-      <h2 class="section-title">Contact Us</h2>
-      <form class="contact-form">
-        <div class="form-group">
-          <label for="name">Name</label>
+      <section class="contact-section">
+        <h2 class="section-title">Contact Us</h2>
+        <form class="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
             <input type="text" id="name" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
             <input type="email" id="email" required />
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send Message</button>
-      </form>
-    </section>
-  </main>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </section>
+    </main>
 
-  <footer>
-    <div class="footer-links">
-      <div class="footer-section">
-        <h3>Get to Know Us</h3>
-        <ul>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#careers">Careers</a></li>
-          <li><a href="#press">Press Releases</a></li>
-        </ul>
+    <footer>
+      <div class="footer-links">
+        <div class="footer-section">
+          <h3>Get to Know Us</h3>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#press">Press Releases</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Connect with Us</h3>
+          <ul>
+            <li><a href="#facebook">Facebook</a></li>
+            <li><a href="#twitter">Twitter</a></li>
+            <li><a href="#instagram">Instagram</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Make Money with Us</h3>
+          <ul>
+            <li><a href="#sell">Sell on Farm2Home</a></li>
+            <li><a href="#affiliate">Become an Affiliate</a></li>
+            <li><a href="#advertise">Advertise Your Products</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Let Us Help You</h3>
+          <ul>
+            <li><a href="#help">Help Center</a></li>
+            <li><a href="#returns">Returns</a></li>
+            <li><a href="#shipping">Shipping Rates</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-section">
-        <h3>Connect with Us</h3>
-        <ul>
-          <li><a href="#facebook">Facebook</a></li>
-          <li><a href="#twitter">Twitter</a></li>
-          <li><a href="#instagram">Instagram</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Farm2Home. All rights reserved.</p>
       </div>
-      <div class="footer-section">
-        <h3>Make Money with Us</h3>
-        <ul>
-          <li><a href="#sell">Sell on Farm2Home</a></li>
-          <li><a href="#affiliate">Become an Affiliate</a></li>
-          <li><a href="#advertise">Advertise Your Products</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Let Us Help You</h3>
-        <ul>
-          <li><a href="#help">Help Center</a></li>
-          <li><a href="#returns">Returns</a></li>
-          <li><a href="#shipping">Shipping Rates</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Farm2Home. All rights reserved.</p>
-    </div>
-  </footer>
+    </footer>
 
-  <script src="{% static 'js/home.js' %}"></script>
-</body>
+    <script src="{% static 'js/home.js' %}"></script>
+  </body>
 </html>

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .models import UserProfile, Product, Cart
+from .models import UserProfile, Product, Cart, TradingProfile
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
 
 
@@ -23,44 +23,29 @@ def home(request):
     # Create context dictionary with products
     context = {
         "products": products,
-        "featured_products": Product.objects.order_by("-id")[:3],
-        "latest_products": Product.objects.order_by("-id")[:8],
+        "top_products": Product.objects.order_by("-productId")[:8],
+        "suggested_products": Product.objects.order_by("productId")[:12],
         "cart_count": cart_count,
     }
+    print(products.values())
     return render(request, "home.html", context)
-
-
-# def cart(request):
-#     return render(request, "cart.html")
 
 
 def help(request):
     return render(request, "help.html")
 
 
-# def login(request):
-#     return render(request, "login.html")
-
-
 def order(request):
     return render(request, "order.html")
 
 
-def product(request):
-    product_id = request.GET.get("id", "")
-    name = request.GET.get("name", "")
-    price = request.GET.get("price", "")
-    image = request.GET.get("image", "")
-    description = request.GET.get("description", "")
-
-    context = {
-        "product_id": product_id,
-        "name": name,
-        "price": price,
-        "image": image,
-        "description": description,
-    }
-    return render(request, "product.html", context)
+def product(request, productId):
+    print("Product view")
+    if request.method == "GET":
+        product = Product.objects.get(productId=productId)
+        print(product)
+        return render(request,"product.html",{"product": product,},)
+    return redirect("home")
 
 
 @login_required(login_url="/login/")
@@ -68,8 +53,7 @@ def profile(request):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
-        user_profile = UserProfile(user=request.user)
-        user_profile.save()
+        return redirect("login")
 
     context = {
         "user": request.user,
@@ -78,46 +62,129 @@ def profile(request):
     return render(request, "profile.html", context)
 
 
+@login_required(login_url="/login/")
 def seller(request):
+    if request.method == "POST":
+        tradingName = request.POST.get("tradingName")
+        address = request.POST.get("address")
+        mobile = request.POST.get("mobile")
+        upi_connected = (
+            request.POST.get("upi_connected") == "on"
+        )  # Check if the checkbox is checked
+        dob = request.POST.get("dob")
+        aadhar = request.POST.get("aadhar")
+        pan = request.POST.get("pan")
+        accountNumber = request.POST.get("accountNumber")
+        ifsc = request.POST.get("ifsc")
+        print(
+            tradingName,
+            address,
+            mobile,
+            upi_connected,
+            dob,
+            aadhar,
+            pan,
+            accountNumber,
+            ifsc,
+        )
+        # Check if a trading profile already exists for this user
+        if TradingProfile.objects.filter(user=request.user).exists():
+            messages.info(request, "A trading profile already exists for this user!")
+            return render(request, "seller.html")
+
+        # Create the trading profile for the current user
+        trading_profile = TradingProfile(
+            user=request.user,
+            tradingName=tradingName,
+            address=address,
+            mobile=mobile,
+            upi_connected=upi_connected,
+            dob=dob,
+            aadhar=aadhar,
+            pan=pan,
+            accountNumber=accountNumber,
+            ifsc=ifsc,
+        )
+        print(trading_profile)
+        trading_profile.save()
+        messages.success(request, "Trading profile created successfully!")
+        return redirect("seller_profile")
+
     return render(request, "seller.html")
+
+
+@login_required(login_url="/login/")
+def seller_profile(request):
+    try:
+        trading_profile = TradingProfile.objects.get(user=request.user)
+    except TradingProfile.DoesNotExist:
+        return redirect("seller")
+
+    context = {
+        "tradingName": trading_profile.tradingName,
+        "address": trading_profile.address,
+        "mobile": trading_profile.mobile,
+        "upi_connected": trading_profile.upi_connected,
+        "dob": trading_profile.dob,
+        "aadhar": trading_profile.aadhar,
+        "pan": trading_profile.pan,
+        "accountNumber": trading_profile.accountNumber,
+        "ifsc": trading_profile.ifsc,
+    }
+
+    return render(request, "seller_profile.html", context)
+
+
+def add_product(request):
+    if request.method == "POST":
+        productName = request.POST.get("productName")
+        # productCategory = request.POST.get("productCategory")
+        productDescription = request.POST.get("productDescription")
+        productImage = request.FILES["productImage"]
+        productPrice = request.POST.get("productPrice")
+        pricePerUnit = request.POST.get("pricePerUnit")
+        productDiscount_inPercentage = request.POST.get("productOffer")
+        returnPolicy_inHours = request.POST.get("returnPolicy")
+        organicCertified = request.POST.get("organicCertified") == "on"
+        pesticidefree = request.POST.get("pesticidefree") == "on"
+        freshHarvested = request.POST.get("freshHarvested") == "on"
+        naturalFarming = request.POST.get("naturalFarming") == "on"
+        print(
+            productName,
+            productDescription,
+            productImage,
+            productPrice,
+            pricePerUnit,
+            productDiscount_inPercentage,
+            returnPolicy_inHours,
+            organicCertified,
+            pesticidefree,
+            freshHarvested,
+            naturalFarming,
+        )
+
+        product = Product.objects.create(
+            user=request.user,
+            productName=productName,
+            productDescription=productDescription,
+            productImage=productImage,
+            productPrice=productPrice,
+            pricePerUnit=pricePerUnit,
+            productDiscount_inPercentage=productDiscount_inPercentage,
+            returnPolicy_inHours=returnPolicy_inHours,
+            organicCertified=organicCertified,
+            pesticidefree=pesticidefree,
+            freshHarvested=freshHarvested,
+            naturalFarming=naturalFarming,
+        )
+        product.save()
+        messages.success(request, "Product added successfully!")
+        return redirect("seller_profile")
+    return render(request, "add_product.html")
 
 
 def wishlist(request):
     return render(request, "wishlist.html")
-
-
-# def login_signup(request):
-#     if request.method == "POST":
-#         if "signup-form" in request.POST:  # If Signup Form is Submitted
-#             username = request.POST["username"]
-#             email = request.POST["email"]
-#             password = request.POST["password"]
-#             confirm_password = request.POST["confirm_password"]
-
-#             if password != confirm_password:
-#                 messages.error(request, "Passwords do not match!")
-#             elif User.objects.filter(username=username).exists():
-#                 messages.error(request, " Username already exists!")
-#             elif User.objects.filter(email=email).exists():
-#                 messages.error(request, "Email is already registered!")
-#             else:
-#                 user = User.objects.create_user(username=username, email=email, password=password)
-#                 user.save()
-#                 messages.success(request, "Signup successful! You can now log in.")
-
-#         elif "login-form" in request.POST:  # If Login Form is Submitted
-#             username = request.POST["username"]
-#             password = request.POST["password"]
-#             user = authenticate(request, username=username, password=password)
-
-#             if user is not None:
-#                 login(request, user)
-#                 messages.success(request, "Login successful!")
-#                 return redirect("home")
-#             else:
-#                 messages.error(request, "Invalid username or password")
-
-#     return render(request, "accounts/login.html")
 
 
 def signup_view(request):
@@ -218,6 +285,7 @@ def add_to_cart(request):
     try:
         print("Adding to cart")
         data = json.loads(request.body)
+        print(data)
         product_id = data.get("product_id")
         quantity = data.get("quantity", 1)
 
@@ -249,13 +317,13 @@ def cart_view(request):
 
     subtotal = sum(item.product.price * item.quantity for item in cart_items)
     shipping = Decimal("40.00") if subtotal > 0 else Decimal("0.00")
-    tax= subtotal * Decimal("0.18")
-    
+    tax = subtotal * Decimal("0.18")
+
     # Format all monetary values to 2 decimal places
     subtotal = f"{subtotal:.2f}"
     shipping = f"{shipping:.2f}"
     tax = f"{tax:.2f}"
-    
+
     # Convert string to Decimal for total calculation
     total = Decimal(subtotal) + Decimal(shipping) + Decimal(tax)
     total = f"{total:.2f}"
@@ -270,24 +338,26 @@ def cart_view(request):
 
     return render(request, "cart.html", context)
 
+
 @require_POST
 @login_required
 def update_cart(request):
     print("Updating cart")
     try:
         data = json.loads(request.body)
-        cart_item_id = data.get('cart_item_id')
-        quantity = data.get('quantity')
+        cart_item_id = data.get("cart_item_id")
+        quantity = data.get("quantity")
 
         cart_item = Cart.objects.get(id=cart_item_id, user=request.user)
         cart_item.quantity = quantity
         cart_item.save()
 
-        return JsonResponse({'message': 'Quantity updated successfully'})
+        return JsonResponse({"message": "Quantity updated successfully"})
     except Cart.DoesNotExist:
-        return JsonResponse({'message': 'Cart item not found'}, status=404)
+        return JsonResponse({"message": "Cart item not found"}, status=404)
     except Exception as e:
-        return JsonResponse({'message': str(e)}, status=500)
+        return JsonResponse({"message": str(e)}, status=500)
+
 
 @require_POST
 @login_required
@@ -295,38 +365,37 @@ def remove_from_cart(request):
     print("Removing from cart")
     try:
         data = json.loads(request.body)
-        cart_item_id = data.get('cart_item_id')
+        cart_item_id = data.get("cart_item_id")
 
         cart_item = Cart.objects.get(id=cart_item_id, user=request.user)
         cart_item.delete()
 
-        return JsonResponse({'message': 'Item removed successfully'})
+        return JsonResponse({"message": "Item removed successfully"})
     except Cart.DoesNotExist:
-        return JsonResponse({'message': 'Cart item not found'}, status=404)
+        return JsonResponse({"message": "Cart item not found"}, status=404)
     except Exception as e:
-        return JsonResponse({'message': str(e)}, status=500)
+        return JsonResponse({"message": str(e)}, status=500)
+
 
 def categories(request):
     return render(request, "categories.html")
 
-def seller_profile(request):
-    return render(request, "seller_profile.html")
 
 @require_GET
 @login_required
 def get_cart(request):
-    cart_items = Cart.objects.filter(user=request.user).select_related('product')
+    cart_items = Cart.objects.filter(user=request.user).select_related("product")
     cart_data = []
     for item in cart_items:
-        cart_data.append({
-            'id': item.id,
-            'product': {
-                'name': item.product.name,
-                'price': float(item.product.price),
-                'photo': {
-                    'url': item.product.photo.url
-                }
-            },
-            'quantity': item.quantity
-        })
-    return JsonResponse({'cart_items': cart_data})
+        cart_data.append(
+            {
+                "id": item.id,
+                "product": {
+                    "name": item.product.name,
+                    "price": float(item.product.price),
+                    "photo": {"url": item.product.photo.url},
+                },
+                "quantity": item.quantity,
+            }
+        )
+    return JsonResponse({"cart_items": cart_data})

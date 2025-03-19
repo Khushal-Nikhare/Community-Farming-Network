@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="welcome-text">
-        <h1>Hey, <span id="username">John Doe</span>!</h1>
+        <h1>Hey, <span id="username">{{ user.username }}</span>!</h1>
         <p>Welcome to your seller profile where you can manage your products, see analytics, and track orders.</p>
       </div>
     </div>
@@ -111,31 +111,31 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="full-name">Full Name</label>
-                <input type="text" id="full-name" value="John Doe">
+                <input type="text" id="full-name" value="{{ user.username }}">
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" value="john.doe@example.com" disabled>
+                <input type="email" id="email" value="{{ user.email }}" disabled>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="phone">Mobile Number</label>
-                <input type="tel" id="phone" value="+1 (555) 123-4567">
+                <input type="tel" id="phone" value="{{ mobile }}">
               </div>
               <div class="form-group">
                 <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" value="1990-01-15">
+                <input type="date" id="dob" value="{{ dob|date:'Y-m-d' }}">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="business-name">Business Name</label>
-                <input type="text" id="business-name" value="Fresh Farm Produce">
+                <input type="text" id="business-name" value="{{ tradingName }}">
               </div>
               <div class="form-group">
                 <label for="pan">PAN Number</label>
-                <input type="text" id="pan" value="ABCDE1234F">
+                <input type="text" id="pan" value="{{ pan }}">
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -407,7 +407,7 @@
   </div>
 
   <!-- Add Product Button -->
-  <button class="add-product-btn" onclick="window.location.href='add_product.html'">
+  <button class="add-product-btn" onclick="window.location.href= {% url 'add_product' %}">
     <i class="fas fa-plus"></i>
     Add New Product
   </button>

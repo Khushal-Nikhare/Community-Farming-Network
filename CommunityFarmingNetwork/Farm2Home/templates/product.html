@@ -59,17 +59,17 @@
     <!-- Product Container -->
     <div class="product-container">
         <div class="product-images">
-            <img src="{% static '/img/tomatoes.jpg' %}" alt="Fresh Tomatoes" class="main-image">
+            <img src="{{ product.productImage.url }}" alt="Fresh Tomatoes" class="main-image">
             <div class="thumbnail-container">
-                <img src="{% static '/img/tomatoes.jpg' %}" alt="Tomato View 1" class="thumbnail active">
-                <img src="{% static '/img/tomatoes-2.jpg' %}" alt="Tomato View 2" class="thumbnail">
-                <img src="{% static '/img/tomatoes-3.jpg' %}" alt="Tomato View 3" class="thumbnail">
+                <img src="{{ product.productImage.url }}" alt="Tomato View 1" class="thumbnail active">
+                <img src="{{ product.productImage.url }}" alt="Tomato View 2" class="thumbnail">
+                <img src="{{ product.productImage.url }}" alt="Tomato View 3" class="thumbnail">
             </div>
         </div>
 
         <div class="product-info">
             <a href="#" class="shop-name">Visit FreshVeg Farm Store</a>
-            <h1 class="product-title">Premium Fresh Red Tomatoes</h1>
+            <h1 class="product-title">{{ product.name }}</h1>
             
             <div class="rating">
                 <div class="stars">
@@ -84,8 +84,8 @@
 
             <div class="price-section">
                 <span class="price">₹2.99/kg</span>
-                <span class="original-price">₹3.99/kg</span>
-                <span class="discount">25% OFF</span>
+                <span class="original-price">₹{{product.productPrice}}/{{product.pricePerUnit}}</span>
+                <span class="discount">{{product.productDiscount_inPercentage}}% OFF</span>
             </div>
 
             <button class="wishlist-btn" onclick="addToWishlist(this)">

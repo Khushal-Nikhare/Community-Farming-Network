@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/seller.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -59,58 +61,66 @@
         <div class="registration-form" id="sellerRegistration">
             <h2>Become a Seller</h2>
             <p>Join our community of farmers and sellers to reach customers directly!</p>
-            
-            <form id="sellerForm">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+
+            <form id="sellerForm" action="{% url 'seller' %}" method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" required>
+                    <input type="text" name="username" id="name" required>
                 </div>
                 <div class="form-group">
                     <label for="tradingName">Trading Name</label>
-                    <input type="text" id="tradingName" required>
+                    <input type="text" name="tradingName" id="tradingName" required>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" id="address" required>
+                    <input type="text" name="address" id="address" required>
                 </div>
 
                 <div class="form-group">
                     <label for="mobile">Mobile Number</label>
-                    <input type="tel" id="mobile" pattern="[0-9]{10}" required>
+                    <input type="tel" name="mobile" id="mobile" pattern="[0-9]{10}" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="checkbox" id="upiConnected" style="width: auto;">
+                    <input type="checkbox" name="upiConnected" id="upiConnected" style="width: auto;">
                     <label for="upiConnected" style="display: inline;">This number is connected to UPI</label>
                 </div>
 
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" required>
+                    <input type="date" name="dob" id="dob" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" required>
+                    <input type="email" name="email" id="email" required>
                 </div>
 
                 <div class="form-group">
                     <label for="aadhar">Aadhar Number</label>
-                    <input type="text" id="aadhar" pattern="[0-9]{12}" required>
+                    <input type="text" name="aadhar" id="aadhar" pattern="[0-9]{12}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="pan">PAN Number</label>
-                    <input type="text" id="pan" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required>
+                    <input type="text" name="pan" id="pan" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="bank">Bank Account Number</label>
-                    <input type="text" id="bank" required>
+                    <input type="text" name="accountNumber" id="bank" required>
                 </div>
 
                 <div class="form-group">
                     <label for="ifsc">IFSC Code</label>
-                    <input type="text" id="ifsc" required>
+                    <input type="text" name="ifsc" id="ifsc" required>
                 </div>
 
                 <button type="submit" class="btn" id="sendOtp">Send OTP</button>
@@ -119,15 +129,15 @@
             <div id="otpVerification" style="display: none;">
                 <div class="form-group">
                     <label for="otp">Enter OTP</label>
-                    <input type="text" id="otp" maxlength="6">
+                    <input type="text" name="otp" id="otp" maxlength="6">
                 </div>
                 <button class="btn" id="verifyOtp">Verify & Continue</button>
             </div>
         </div>
 
-        <div class="product-listing" id="productListing" style="display: none;">
+        <!-- <div class="product-listing" id="productListing" style="display: none;">
             <h2>List Your Products</h2>
-            
+
             <form id="productForm">
                 <div class="form-group">
                     <label for="productName">Product Name</label>
@@ -166,7 +176,7 @@
 
                 <button type="submit" class="btn">List Product</button>
             </form>
-        </div>
+        </div> -->
     </div>
 
     <!-- Footer -->
@@ -210,6 +220,7 @@
         </div>
     </footer>
 
-    <script src="{% static 'js/seller.js' %}"></script>
+    <!-- <script src="{% static 'js/seller.js' %}"></script> -->
 </body>
+
 </html>
