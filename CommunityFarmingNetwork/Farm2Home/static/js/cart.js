@@ -10,72 +10,72 @@ const toastEl = document.getElementById('toast');
 // Get cart from localStorage
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Display cart items
-function displayCart() {
-  // Update cart count
-  updateCartCount();
+// // Display cart items
+// function displayCart() {
+//   // Update cart count
+//   updateCartCount();
   
-  // If cart is empty, show empty cart message
-  if (cart.length === 0) {
-    cartItemsContainer.innerHTML = `
-      <div class="empty-cart">
-        <i class="fas fa-shopping-cart"></i>
-        <h3>Your cart is empty</h3>
-        <p>Looks like you haven't added anything to your cart yet.</p>
-        <a href="/categories/" class="continue-shopping">Continue Shopping</a>
-      </div>
-    `;
+//   // If cart is empty, show empty cart message
+//   if (cart.length === 0) {
+//     cartItemsContainer.innerHTML = `
+//       <div class="empty-cart">
+//         <i class="fas fa-shopping-cart"></i>
+//         <h3>Your cart is empty</h3>
+//         <p>Looks like you haven't added anything to your cart yet.</p>
+//         <a href="/categories/" class="continue-shopping">Continue Shopping</a>
+//       </div>
+//     `;
     
-    // Update summary to zeros
-    updateSummary(0, 0, 0, 0);
-    return;
-  }
+//     // Update summary to zeros
+//     updateSummary(0, 0, 0, 0);
+//     return;
+//   }
   
-  // Clear container first
-  cartItemsContainer.innerHTML = '';
+//   // Clear container first
+//   cartItemsContainer.innerHTML = '';
   
-  // Calculate subtotal
-  let subtotal = 0;
+//   // Calculate subtotal
+//   let subtotal = 0;
   
-  // Add each item to the cart container
-  cart.forEach(item => {
-    const itemTotal = item.price * item.quantity;
-    subtotal += itemTotal;
+//   // Add each item to the cart container
+//   cart.forEach(item => {
+//     const itemTotal = item.price * item.quantity;
+//     subtotal += itemTotal;
     
-    const cartItemEl = document.createElement('div');
-    cartItemEl.className = 'cart-item';
-    cartItemEl.dataset.itemId = item.id;
+//     const cartItemEl = document.createElement('div');
+//     cartItemEl.className = 'cart-item';
+//     cartItemEl.dataset.itemId = item.id;
     
-    cartItemEl.innerHTML = `
-      <img src="${item.image}" alt="${item.name}" />
-      <div class="item-details">
-        <h3 class="item-name">${item.name}</h3>
-        <p class="item-price">₹${item.price}</p>
-        <div class="quantity-controls">
-          <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
-          <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
-            onchange="updateItemQuantity('${item.id}', this.value)" />
-          <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
-        </div>
-        <button class="remove-btn" onclick="removeItem('${item.id}')">
-          <i class="fas fa-trash"></i> Remove
-        </button>
-      </div>
-      <div class="item-total">
-        <p>Total: ₹${itemTotal}</p>
-      </div>
-    `;
+//     cartItemEl.innerHTML = `
+//       <img src="${item.image}" alt="${item.name}" />
+//       <div class="item-details">
+//         <h3 class="item-name">${item.name}</h3>
+//         <p class="item-price">₹${item.price}</p>
+//         <div class="quantity-controls">
+//           <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
+//           <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+//             onchange="updateItemQuantity('${item.id}', this.value)" />
+//           <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
+//         </div>
+//         <button class="remove-btn" onclick="removeItem('${item.id}')">
+//           <i class="fas fa-trash"></i> Remove
+//         </button>
+//       </div>
+//       <div class="item-total">
+//         <p>Total: ₹${itemTotal}</p>
+//       </div>
+//     `;
     
-    cartItemsContainer.appendChild(cartItemEl);
-  });
+//     cartItemsContainer.appendChild(cartItemEl);
+//   });
   
-  // Update order summary
-  const shipping = subtotal > 0 ? 40 : 0;
-  const tax = subtotal * 0.05; // 5% tax
-  const total = subtotal + shipping + tax;
+//   // Update order summary
+//   const shipping = subtotal > 0 ? 40 : 0;
+//   const tax = subtotal * 0.05; // 5% tax
+//   const total = subtotal + shipping + tax;
   
-  updateSummary(subtotal, shipping, tax, total);
-}
+//   updateSummary(subtotal, shipping, tax, total);
+// }
 
 // Update item quantity
 function updateItemQuantity(id, newQuantity) {

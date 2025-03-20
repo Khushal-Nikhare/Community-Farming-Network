@@ -78,10 +78,24 @@ class Product(models.Model):
     pesticidefree = models.BooleanField(default=False)
     freshHarvested = models.BooleanField(default=False)
     naturalFarming = models.BooleanField(default=False)
-
+    average_rating = models.FloatField(default=0.0)
+    
     def __str__(self):
         return str(self.productId) + " - " + self.productName
 
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='ratings', on_delete=models.CASCADE)
+    rating = models.IntegerField(
+        choices=[(i, i) for i in range(1, 6)],  # Ratings from 1 to 5
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')  # One rating per user per product
+
+    def __str__(self):
+        return f"{self.user.username} rated {self.product.productName} with {self.rating}"
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

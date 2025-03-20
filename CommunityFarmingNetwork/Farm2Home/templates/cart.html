@@ -37,10 +37,10 @@
                 {% if cart_items %}
                 {% for cart_item in cart_items %}
                 <div class="cart-item" data-item-id="{{ cart_item.id }}">
-                    <img src="{{ cart_item.product.photo.url }}" alt="{{ cart_item.product.name }}" />
+                    <img src="{{ cart_item.product.productImage.url }}" alt="{{ cart_item.product.productName }}" />
                     <div class="item-details">
-                        <h3 class="item-name">{{ cart_item.product.name }}</h3>
-                        <p class="item-price">₹{{ cart_item.product.price }}</p>
+                        <h3 class="item-name">{{ cart_item.product.productName }}</h3>
+                        <p class="item-price">₹{{ cart_item.product.productPrice }}</p>
                         <div class="quantity-controls">
                             <button class="quantity-btn"
                                 onclick="updateQuantity({{ cart_item.id }}, {{ cart_item.quantity|add:'-1' }})">
@@ -58,7 +58,7 @@
                         </button>
                     </div>
                     <div class="item-total">
-                        <p>Total: ₹{{ cart_item.product.price|multiply:cart_item.quantity }}</p>
+                        <p>Total: ₹{{ cart_item.product.productPrice|multiply:cart_item.quantity }}</p>
                     </div>
                 </div>
                 {% endfor %}

@@ -45,6 +45,8 @@ urlpatterns = [
     path("mail/", views.test_email),
     path("order/", views.order, name="order"),
     path("product/<int:productId>", views.product, name="product"),
+    # path("product/<int:productId>/", views.product_detail, name="product_detail"),
+    path('rate_product/', views.rate_product, name='rate_product'),
     path("profile/", views.profile, name="profile"),
     path("wishlist/", views.wishlist, name="wishlist"),
     path("categories/", views.categories, name="categories"),

@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .models import UserProfile, Product, Cart, TradingProfile
+from .models import Rating, UserProfile, Product, Cart, TradingProfile
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
+from django.db.models import Count
 
 
 # Create your views here.
@@ -40,12 +41,102 @@ def order(request):
 
 
 def product(request, productId):
-    print("Product view")
     if request.method == "GET":
         product = Product.objects.get(productId=productId)
-        print(product)
-        return render(request,"product.html",{"product": product,},)
+        num_reviewers = Rating.objects.filter(product=product).aggregate(
+            num_reviewers=Count("user", distinct=True)
+        )["num_reviewers"]
+        print(product, num_reviewers, product.average_rating)
+        average_rating = product.average_rating
+        average_rating_int = int(average_rating)
+        has_decimal = average_rating != average_rating_int
+        print(average_rating_int, has_decimal)
+        context = {
+            "product": product,
+            "num_reviewers": num_reviewers,
+            "average_rating": average_rating,
+            "average_rating_int": average_rating_int,
+            "has_decimal": has_decimal,
+        }
+        return render(request, "product.html", context)
     return redirect("home")
+
+
+# @login_required
+# def product_detail(request, productId):
+#     product = get_object_or_404(Product, productId=productId)
+#     rated = False
+#     user_rating = None
+
+#     try:
+#         rating = Rating.objects.get(user=request.user, product=product)
+#         rated = True
+#         user_rating = rating.rating
+#     except Rating.DoesNotExist:
+#         rating = None
+
+#     context = {
+#         'product': product,
+#         'rated': rated,
+#         'user_rating': user_rating,
+#     }
+#     return render(request, 'product_detail.html', context)
+
+
+@login_required
+def rate_product(request):
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        rating_value = request.POST.get("rating")
+
+        if not product_id or not rating_value:
+            return JsonResponse(
+                {"status": "error", "message": "Missing data"}, status=400
+            )
+
+        try:
+            product = Product.objects.get(productId=product_id)
+            rating_value = int(rating_value)
+            if not 1 <= rating_value <= 5:
+                return JsonResponse(
+                    {"status": "error", "message": "Invalid rating value"}, status=400
+                )
+        except Product.DoesNotExist:
+            return JsonResponse(
+                {"status": "error", "message": "Product not found"}, status=404
+            )
+        except ValueError:
+            return JsonResponse(
+                {"status": "error", "message": "Invalid rating value"}, status=400
+            )
+
+        try:
+            # Update existing rating
+            rating, created = Rating.objects.get_or_create(
+                user=request.user, product=product, defaults={"rating": rating_value}
+            )
+            if not created:
+                rating.rating = rating_value
+                rating.save()
+
+            # Calculate the number of reviewers
+            num_reviewers = Rating.objects.filter(product=product).aggregate(
+                num_reviewers=Count("user", distinct=True)
+            )["num_reviewers"]
+
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "message": "Rating submitted successfully",
+                    "average_rating": product.average_rating,
+                    "num_reviewers": num_reviewers,
+                }
+            )
+
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
 @login_required(login_url="/login/")
@@ -315,7 +406,7 @@ def add_to_cart(request):
 def cart_view(request):
     cart_items = Cart.objects.filter(user=request.user).select_related("product")
 
-    subtotal = sum(item.product.price * item.quantity for item in cart_items)
+    subtotal = sum(item.product.productPrice * item.quantity for item in cart_items)
     shipping = Decimal("40.00") if subtotal > 0 else Decimal("0.00")
     tax = subtotal * Decimal("0.18")
 
@@ -327,7 +418,7 @@ def cart_view(request):
     # Convert string to Decimal for total calculation
     total = Decimal(subtotal) + Decimal(shipping) + Decimal(tax)
     total = f"{total:.2f}"
-
+    print(cart_items)
     context = {
         "cart_items": cart_items,
         "subtotal": subtotal,

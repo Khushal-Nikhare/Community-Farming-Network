@@ -73,13 +73,22 @@
             
             <div class="rating">
                 <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
+                    
+                    {% for i in "12345" %}  
+                        
+                        {% if average_rating_int > i|add:"-1" %}
+                            <i class="star fas fa-star" data-rating="{{ i }}"></i>
+                        {% elif average_rating_int == i|add:"-1" %}
+                            {% if has_decimal %}
+                                <i class="star fas fa-star-half-alt" data-rating="{{ i }}"></i>
+                            {% endif %}
+                        {% else %}
+                            <i class="star far fa-star" data-rating="{{ i }}"></i>
+                        {% endif %}
+                    {% endfor %}
+                        
                 </div>
-                <span class="review-count">(4.5/5) - 128 Reviews</span>
+                <span class="review-count">({{ average_rating }}/5) - {{ num_reviewers }} Reviews</span>
             </div>
 
             <div class="price-section">
@@ -202,6 +211,7 @@
     </footer>
 
     <script src="{% static 'js/product.js' %}"></script>
+    {% comment %} <script src="{% static 'js/rate_product.js' %}"></script> {% endcomment %}
 
 </body>
 </html>
