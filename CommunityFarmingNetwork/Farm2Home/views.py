@@ -475,18 +475,17 @@ def categories(request):
 @require_GET
 @login_required
 def get_cart(request):
-    cart_items = Cart.objects.filter(user=request.user).select_related("product")
+    cart_items = Cart.objects.filter(user=request.user).select_related('product')
     cart_data = []
     for item in cart_items:
-        cart_data.append(
-            {
-                "id": item.id,
-                "product": {
-                    "name": item.product.name,
-                    "price": float(item.product.price),
-                    "photo": {"url": item.product.photo.url},
-                },
-                "quantity": item.quantity,
+        cart_data.append({
+            'id': item.id,
+            'quantity': item.quantity,
+            'product': {
+                'id': item.product.productId,
+                'name': item.product.productName,
+                'price': float(item.product.productPrice),  # Convert Decimal to float
+                'photo': {'url': item.product.productImage.url if item.product.productImage else ''}
             }
-        )
-    return JsonResponse({"cart_items": cart_data})
+        })
+    return JsonResponse({'cart_items': cart_data})
