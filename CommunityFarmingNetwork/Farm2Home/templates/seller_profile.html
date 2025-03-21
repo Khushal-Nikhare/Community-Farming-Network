@@ -3,6 +3,7 @@
 <head>
   {% load static %}
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farm2Home - Seller Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -15,19 +16,23 @@
   <header>
     <nav class="navbar">
       <div class="logo-container">
-        <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo">
+        <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo" />
       </div>
       <div class="search-container">
-        <input type="text" class="search-bar" placeholder="Search for fresh products...">
+        <input
+          type="text"
+          class="search-bar"
+          placeholder="Search for fresh products..."
+        />
         <i class="fas fa-search search-icon"></i>
       </div>
       <div class="nav-icons">
-        <a href="cart.html" class="cart-icon">
-          <span style="font-size: 18px;">🛒</span>
-          <span class="cart-count" id="cart-count">0</span>
-          <span style="color:white">Cart</span>
+        <a href="{% url 'cart' %}" class="cart-icon">
+          <span style="font-size: 18px">🛒</span>
+          <span class="cart-count" id="cart-count">{{ cart_count }}</span>
+          <span style="color: white">Cart</span>
         </a>
-        <a href="javascript:void(0);" id="menu-button" style="color:white">
+        <a href="javascript:void(0);" id="menu-button" style="color: white">
           <i class="fas fa-ellipsis-v"></i>
         </a>
       </div>

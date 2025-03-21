@@ -210,7 +210,12 @@ def seller_profile(request):
         trading_profile = TradingProfile.objects.get(user=request.user)
     except TradingProfile.DoesNotExist:
         return redirect("seller")
-
+    
+    cart_count = 0
+    
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).count()
+        
     context = {
         "tradingName": trading_profile.tradingName,
         "address": trading_profile.address,
@@ -221,6 +226,7 @@ def seller_profile(request):
         "pan": trading_profile.pan,
         "accountNumber": trading_profile.accountNumber,
         "ifsc": trading_profile.ifsc,
+        "cart_count": cart_count,
     }
 
     return render(request, "seller_profile.html", context)
@@ -229,7 +235,7 @@ def seller_profile(request):
 def add_product(request):
     if request.method == "POST":
         productName = request.POST.get("productName")
-        # productCategory = request.POST.get("productCategory")
+        productCategory = request.POST.get("productCategory")
         productDescription = request.POST.get("productDescription")
         productImage = request.FILES["productImage"]
         productPrice = request.POST.get("productPrice")
@@ -242,6 +248,7 @@ def add_product(request):
         naturalFarming = request.POST.get("naturalFarming") == "on"
         print(
             productName,
+            productCategory,
             productDescription,
             productImage,
             productPrice,
@@ -256,6 +263,7 @@ def add_product(request):
 
         product = Product.objects.create(
             user=request.user,
+            productCategory=productCategory,
             productName=productName,
             productDescription=productDescription,
             productImage=productImage,
@@ -468,24 +476,96 @@ def remove_from_cart(request):
         return JsonResponse({"message": str(e)}, status=500)
 
 
-def categories(request):
-    return render(request, "categories.html")
+def categories_vegetables(request):
+    products = Product.objects.filter(productCategory="Vegetables")
+
+    # Get cart count if user is authenticated
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).count()
+
+    # Create context dictionary with products
+    context = {
+        "products": products,
+        "top_products": Product.objects.filter(productCategory="Vegetables").order_by(
+            "-productId"
+        )[:8],
+        "suggested_products": Product.objects.filter(
+            productCategory="Vegetables"
+        ).order_by("productId")[:12],
+        "cart_count": cart_count,
+    }
+    return render(request, "categories.html", context)
+
+
+def categories_fruits(request):
+    products = Product.objects.filter(productCategory="Fruits")
+
+    # Get cart count if user is authenticated
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).count()
+
+    # Create context dictionary with products
+    context = {
+        "products": products,
+        "top_products": Product.objects.filter(productCategory="Fruits").order_by(
+            "-productId"
+        )[:8],
+        "suggested_products": Product.objects.filter(productCategory="Fruits").order_by(
+            "productId"
+        )[:12],
+        "cart_count": cart_count,
+    }
+    return render(request, "categories.html", context)
+
+
+def categories_grains(request):
+    products = Product.objects.filter(productCategory="Grains")
+
+    # Get cart count if user is authenticated
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).count()
+
+    # Create context dictionary with products
+    context = {
+        "products": products,
+        "top_products": Product.objects.filter(productCategory="Grains").order_by(
+            "-productId"
+        )[:8],
+        "suggested_products": Product.objects.filter(productCategory="Grains").order_by(
+            "productId"
+        )[:12],
+        "cart_count": cart_count,
+    }
+    return render(request, "categories.html", context)
 
 
 @require_GET
 @login_required
 def get_cart(request):
-    cart_items = Cart.objects.filter(user=request.user).select_related('product')
+    cart_items = Cart.objects.filter(user=request.user).select_related("product")
     cart_data = []
     for item in cart_items:
-        cart_data.append({
-            'id': item.id,
-            'quantity': item.quantity,
-            'product': {
-                'id': item.product.productId,
-                'name': item.product.productName,
-                'price': float(item.product.productPrice),  # Convert Decimal to float
-                'photo': {'url': item.product.productImage.url if item.product.productImage else ''}
+        cart_data.append(
+            {
+                "id": item.id,
+                "quantity": item.quantity,
+                "product": {
+                    "id": item.product.productId,
+                    "name": item.product.productName,
+                    "price": float(
+                        item.product.productPrice
+                    ),  # Convert Decimal to float
+                    "photo": {
+                        "url": (
+                            item.product.productImage.url
+                            if item.product.productImage
+                            else ""
+                        )
+                    },
+                },
             }
-        })
-    return JsonResponse({'cart_items': cart_data})
+        )
+    return JsonResponse({"cart_items": cart_data})

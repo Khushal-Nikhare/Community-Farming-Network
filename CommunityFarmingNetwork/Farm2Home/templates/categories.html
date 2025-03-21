@@ -59,27 +59,36 @@
     <section class="products-section">
       <h2 class="section-title">Top Products</h2>
       <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-        <div class="product-card">
-          <a href="{% url 'product' %}?id=mangoes&name=Fresh%20Mangoes&price=150&image=/static/img/mangoes.jpg&description=Sweet%20seasonal%20mangoes" class="product-link">
-            <span class="discount-badge">20% OFF</span>
-            <img src="{% static '/img/mangoes.jpg' %}" alt="Fresh Mangoes" class="product-image" />
-            <div class="product-info">
-              <div class="store-name">Tropical Farms</div>
-              <h3 class="product-name">Fresh Mangoes</h3>
-              <div class="rating">
-                ★★★★☆ <span>(4.5)</span>
-              </div>
-              <div class="product-price">
-                ₹ 150 <span class="original-price">₹ 188</span>
-              </div>
-            </div>
-          </a>
-          <button onclick="addToCart('mangoes', 'Fresh Mangoes', 150, '{% static '/img/mangoes.jpg' %}')" class="add-to-cart">
-            Add to Cart
-          </button>
-        </div>
         
-        <div class="product-card">
+        
+        {% for top_product in top_products %}
+          <div class="product-card">
+            <a
+              href="{% url 'product' top_product.productId %} "
+              class="product-link"
+            >
+              <span class="discount-badge">{{top_product.productDiscount_inPercentage}}% OFF</span>
+              <img
+                src="{{ top_product.productImage.url }}"
+                alt="Fresh Tomatoes"
+              />
+              <h4>{{ top_product.productName }}</h4>
+              <p>{{ top_product.productDescription }}</p>
+              <div class="price">
+                ₹{{ top_product.productPrice }}/{{ top_product.pricePerUnit }}
+              </div>
+            </a>
+            <button
+              onclick="addToCart({{ top_product.productId }})"
+              class="add-to-cart"
+            >
+              Add to Cart
+            </button>
+          </div>
+          {% endfor %} 
+          
+        
+        {% comment %} <div class="product-card">
           <a href="{% url 'product' %}?id=oranges&name=Juicy%20Oranges&price=80&image=/static/img/oranges.jpg&description=Juicy%20citrus%20oranges" class="product-link">
             <span class="discount-badge">15% OFF</span>
             <img src="{% static '/img/oranges.jpg' %}" alt="Juicy Oranges" class="product-image" />
@@ -117,10 +126,10 @@
           <button onclick="addToCart('bananas', 'Organic Bananas', 60, '{% static '/img/bananas.jpg' %}')" class="add-to-cart">
             Add to Cart
           </button>
-        </div>
+        </div> {% endcomment %}
       </div>
       
-      <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
+      {% comment %} <div class="products-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
         <div class="product-card">
           <a href="{% url 'product' %}?id=wheat&name=Organic%20Wheat&price=50&image=/static/img/wheat.jpg&description=Organic%20whole%20wheat" class="product-link">
             <span class="discount-badge">25% OFF</span>
@@ -180,31 +189,40 @@
             Add to Cart
           </button>
         </div>
-      </div>
+      </div> {% endcomment %}
     </section>
     
     <h1>RESULT</h1>
     <div class="products-grid">
       <!-- Product Card 1 -->
-      <div class="product-card">
-        <a href="{% url 'product' %}?id=tomatoes&name=Fresh%20Red%20Tomatoes&price=65&image=/static/img/tomatoes.jpg&description=Farm-fresh%20red%20tomatoes" class="product-link">
-          <span class="discount-badge">15% OFF</span>
-          <img src="{% static 'img/tomatoes.jpg' %}" alt="Fresh Tomatoes" class="product-image">
-          <div class="product-info">
-            <div class="store-name">Farmers Market</div>
-            <h3 class="product-name">Fresh Red Tomatoes</h3>
-            <div class="rating">
-              ★★★★☆ <span>(4.2)</span>
-            </div>
-            <div class="product-price">
-              ₹ 65 <span class="original-price">₹ 75</span>
-            </div>
+      {% for product in products %}
+          <div class="product-card">
+            <a
+              href="{% url 'product' product.productId %} "
+              class="product-link"
+            >
+              <span class="discount-badge">{{product.productDiscount_inPercentage}}% OFF</span>
+              <img
+                src="{{ product.productImage.url }}"
+                alt="Fresh Tomatoes"
+              />
+              <h4>{{ product.productName }}</h4>
+              <p>{{ product.productDescription }}</p>
+              <div class="price">
+                ₹{{ product.productPrice }}/{{ product.pricePerUnit }}
+              </div>
+            </a>
+            <button
+              onclick="addToCart({{ product.productId }})"
+              class="add-to-cart"
+            >
+              Add to Cart
+            </button>
           </div>
-        </a>
-        <button class="add-to-cart" onclick="addToCart('tomatoes', 'Fresh Red Tomatoes', 65, '{% static 'img/tomatoes.jpg' %}')">Add to Cart</button>
-      </div>
+          {% endfor %}
+        
 
-      <!-- Product Card 2 -->
+      {% comment %} <!-- Product Card 2 -->
       <div class="product-card">
         <a href="{% url 'product' %}?id=potatoes&name=Premium%20Potatoes&price=40&image=/static/img/potatoes.jpg&description=Premium%20quality%20potatoes" class="product-link">
           <span class="discount-badge">10% OFF</span>
@@ -411,10 +429,10 @@
           </div>
         </a>
         <button class="add-to-cart" onclick="addToCart('ginger', 'Fresh Ginger Root', 120, '{% static 'img/ginger.jpg' %}')">Add to Cart</button>
-      </div>
+      </div> {% endcomment %}
     </div>
     
-    <section class="products-section">
+    {% comment %} <section class="products-section">
       <h2 class="section-title">Suggested Products</h2>
       <div class="products-grid">
         <div class="product-card">
@@ -477,7 +495,7 @@
           </button>
         </div>
       </div>
-    </section>
+    </section> {% endcomment %}
   </main>
 
   <!-- Footer from home.html -->

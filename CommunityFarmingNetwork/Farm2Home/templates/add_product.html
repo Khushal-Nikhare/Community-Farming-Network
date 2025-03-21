@@ -70,11 +70,26 @@
         </div>
 
         <div class="form-group">
+            <div style="display: flex; gap: 20px; margin-top: 10px;">
+                <div style="flex: 1;">
+                    <label for="productCategory">Product Category</label>
+                    <select id="productCategory" name="productCategory" required>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="productDescription">Product Description*</label>
             <textarea id="productDescription" name="productDescription" 
                 placeholder="Describe your product in detail including variety, harvested date, etc."
                 required></textarea>
         </div>
+
+        
 
         <div class="form-group">
             <label for="productImage">Product Image*</label>

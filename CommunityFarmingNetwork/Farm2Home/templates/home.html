@@ -129,7 +129,7 @@
       <section class="category-section">
         <h2 class="section-title">Shop by Category</h2>
         <div class="categories-grid">
-          <a href="{% url 'categories' %}" class="category-link">
+          <a href="{% url 'categories_vegetables' %}" class="category-link">
             <div class="category">
               <img
                 src="{% static '/img/vegetables.jpg' %}"
@@ -139,14 +139,14 @@
               <p>Farm-fresh vegetables daily</p>
             </div>
           </a>
-          <a href="{% url 'categories' %}" class="category-link">
+          <a href="{% url 'categories_fruits' %}" class="category-link">
             <div class="category">
               <img src="{% static '/img/fruits.jpg' %}" alt="Organic Fruits" />
               <h3>Fruits</h3>
               <p>Seasonal and exotic fruits</p>
             </div>
           </a>
-          <a href="{% url 'categories' %}" class="category-link">
+          <a href="{% url 'categories_grains' %}" class="category-link">
             <div class="category">
               <img src="{% static '/img/grains.jpg' %}" alt="Organic Grains" />
               <h3>Grains</h3>
@@ -166,29 +166,13 @@
             gap: 30px;
           "
         >
-          {% comment %}
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=mangoes&name=Fresh%20Mangoes&price=150&image=/static/img/mangoes.jpg&description=Sweet%20seasonal%20mangoes"
-              class="product-link"
-            >
-              <span class="discount-badge">20% OFF</span>
-              <img src="{% static '/img/mangoes.jpg' %}" alt="Fresh Mangoes" />
-              <h4>Fresh Mangoes</h4>
-              <p>Sweet seasonal mangoes</p>
-              <div class="price">₹150/kg</div>
-            </a>
-            <button onclick="addToCart('mangoes')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-          {% endcomment %} {% for top_product in top_products %}
+           {% for top_product in top_products %}
           <div class="product-card">
             <a
               href="{% url 'product' top_product.productId %} "
               class="product-link"
             >
-              <span class="discount-badge">20% OFF</span>
+              <span class="discount-badge">{{top_product.productDiscount_inPercentage}}% OFF</span>
               <img
                 src="{{ top_product.productImage.url }}"
                 alt="Fresh Tomatoes"
@@ -206,100 +190,7 @@
               Add to Cart
             </button>
           </div>
-          {% endfor %} {% comment %}
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=oranges&name=Juicy%20Oranges&price=80&image=/static/img/oranges.jpg&description=Juicy%20citrus%20oranges"
-              class="product-link"
-            >
-              <span class="discount-badge">15% OFF</span>
-              <img src="{% static '/img/oranges.jpg' %}" alt="Juicy Oranges" />
-              <h4>Juicy Oranges</h4>
-              <p>Juicy citrus oranges</p>
-              <div class="price">₹80/kg</div>
-            </a>
-            <button onclick="addToCart('oranges')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=bananas&name=Organic%20Bananas&price=60&image=/static/img/bananas.jpg&description=Organic%20fresh%20bananas"
-              class="product-link"
-            >
-              <span class="discount-badge">10% OFF</span>
-              <img
-                src="{% static '/img/bananas.jpg' %}"
-                alt="Organic Bananas"
-              />
-              <h4>Organic Bananas</h4>
-              <p>Organic fresh bananas</p>
-              <div class="price">₹60/kg</div>
-            </a>
-            <button onclick="addToCart('bananas')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <div
-          class="products-grid"
-          style="
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 30px;
-          "
-        >
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=wheat&name=Organic%20Wheat&price=50&image=/static/img/wheat.jpg&description=Organic%20whole%20wheat"
-              class="product-link"
-            >
-              <span class="discount-badge">25% OFF</span>
-              <img src="{% static '/img/wheat.jpg' %}" alt="Organic Wheat" />
-              <h4>Organic Wheat</h4>
-              <p>Organic whole wheat</p>
-              <div class="price">₹50/kg</div>
-            </a>
-            <button onclick="addToCart('wheat')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=millets&name=Mixed%20Millets&price=70&image=/static/img/millets.jpg&description=Nutritious%20mixed%20millets"
-              class="product-link"
-            >
-              <span class="discount-badge">18% OFF</span>
-              <img src="{% static '/img/millets.jpg' %}" alt="Mixed Millets" />
-              <h4>Mixed Millets</h4>
-              <p>Nutritious mixed millets</p>
-              <div class="price">₹70/kg</div>
-            </a>
-            <button onclick="addToCart('millets')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=honey&name=Pure%20Honey&price=220&image=/static/img/honey.jpg&description=Pure%20natural%20honey"
-              class="product-link"
-            >
-              <span class="discount-badge">12% OFF</span>
-              <img src="{% static '/img/honey.jpg' %}" alt="Pure Honey" />
-              <h4>Pure Honey</h4>
-              <p>Pure natural honey</p>
-              <div class="price">₹220/kg</div>
-            </a>
-            <button onclick="addToCart('honey')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-          {% endcomment %}
+          {% endfor %} 
         </div>
       </section>
 
