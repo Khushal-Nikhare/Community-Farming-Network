@@ -96,6 +96,8 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.user.username} rated {self.product.productName} with {self.rating}"
+    
+
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -104,3 +106,12 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.product.productName} ({self.quantity})"
+
+class ChatMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_message = models.TextField()
+    bot_response = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"User: {self.user.username} | User Message: {self.user_message} | Bot: {self.bot_response}"

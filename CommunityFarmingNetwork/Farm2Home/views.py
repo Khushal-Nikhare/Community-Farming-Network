@@ -1,12 +1,13 @@
-from decimal import Decimal
 import json
+from decimal import Decimal
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .models import Rating, UserProfile, Product, Cart, TradingProfile
+from .services import get_gemini_response
+from .models import ChatMessage, Rating, UserProfile, Product, Cart, TradingProfile
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
 from django.db.models import Count
 
@@ -51,36 +52,20 @@ def product(request, productId):
         average_rating_int = int(average_rating)
         has_decimal = average_rating != average_rating_int
         print(average_rating_int, has_decimal)
+        cart_count = 0
+
+        if request.user.is_authenticated:
+            cart_count = Cart.objects.filter(user=request.user).count()
         context = {
             "product": product,
             "num_reviewers": num_reviewers,
             "average_rating": average_rating,
             "average_rating_int": average_rating_int,
             "has_decimal": has_decimal,
+            "cart_count": cart_count,
         }
         return render(request, "product.html", context)
     return redirect("home")
-
-
-# @login_required
-# def product_detail(request, productId):
-#     product = get_object_or_404(Product, productId=productId)
-#     rated = False
-#     user_rating = None
-
-#     try:
-#         rating = Rating.objects.get(user=request.user, product=product)
-#         rated = True
-#         user_rating = rating.rating
-#     except Rating.DoesNotExist:
-#         rating = None
-
-#     context = {
-#         'product': product,
-#         'rated': rated,
-#         'user_rating': user_rating,
-#     }
-#     return render(request, 'product_detail.html', context)
 
 
 @login_required
@@ -210,12 +195,12 @@ def seller_profile(request):
         trading_profile = TradingProfile.objects.get(user=request.user)
     except TradingProfile.DoesNotExist:
         return redirect("seller")
-    
+
     cart_count = 0
-    
+
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user).count()
-        
+
     context = {
         "tradingName": trading_profile.tradingName,
         "address": trading_profile.address,
@@ -569,3 +554,16 @@ def get_cart(request):
             }
         )
     return JsonResponse({"cart_items": cart_data})
+
+
+def chat_view(request):
+    if request.method == "POST":
+        user_message = request.POST.get("message")
+        if user_message:
+            bot_response = get_gemini_response(user_message)
+            ChatMessage.objects.create(
+                user_message=user_message, bot_response=bot_response
+            )
+            return redirect("chat")
+    messages = ChatMessage.objects.all()
+    return render(request, "chatbot/chat.html", {"messages": messages})
