@@ -216,6 +216,8 @@ def seller_profile(request):
 
     return render(request, "seller_profile.html", context)
 
+def seller_my_product(request):
+    return render(request,"seller_my_product.html")
 
 def add_product(request):
     if request.method == "POST":
@@ -398,9 +400,12 @@ def add_to_cart(request):
 @login_required
 def cart_view(request):
     cart_items = Cart.objects.filter(user=request.user).select_related("product")
-
+    shipping = 0
     subtotal = sum(item.product.productPrice * item.quantity for item in cart_items)
-    shipping = Decimal("40.00") if subtotal > 0 else Decimal("0.00")
+    
+    if subtotal <= 20:
+        shipping = Decimal("40.00") if subtotal > 0 else Decimal("0.00")
+    
     tax = subtotal * Decimal("0.18")
 
     # Format all monetary values to 2 decimal places
@@ -555,15 +560,18 @@ def get_cart(request):
         )
     return JsonResponse({"cart_items": cart_data})
 
+@login_required
+def asak_ai_page(request):
+    messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+    return render(request, "AsakAI.html", {"messages": messages})
 
-def chat_view(request):
+@login_required
+def asak_ai_chat(request):
     if request.method == "POST":
         user_message = request.POST.get("message")
         if user_message:
             bot_response = get_gemini_response(user_message)
-            ChatMessage.objects.create(
-                user_message=user_message, bot_response=bot_response
-            )
-            return redirect("chat")
-    messages = ChatMessage.objects.all()
-    return render(request, "chatbot/chat.html", {"messages": messages})
+            return JsonResponse({"status": "success", "bot_response": bot_response})
+        else:
+            return JsonResponse({"status": "error", "message": "No message provided."})
+    return JsonResponse({"status": "error", "message": "Invalid request method."})

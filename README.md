@@ -59,7 +59,10 @@ The Community Farming Network is a platform designed to connect local farmers wi
     ```
 
 5.  **Configure the database:**
-
+    
+    ```bash
+    cd CommunityFarmingNetwork
+    ```
     *   Update the database settings in `settings.py` with your database credentials.
 
 6.  **Run migrations:**

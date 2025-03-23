@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AaskAI - Your Farm2Home Intelligent Assistant</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/asak_ai.css' %}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo-container">
+          <img src="img/logo.png" alt="Farm2Home Logo" />
+        </div>
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search for fresh products..."
+          />
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="nav-icons">
+          <a href="javascript:void(0);" id="menu-button" style="color: white">
+            <i class="fas fa-ellipsis-v"></i>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>Menu</h3>
+        <i class="fas fa-times close-sidebar"></i>
+      </div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="{% url 'login' %}"
+            ><i class="fas fa-sign-in-alt"></i> Login & Signup</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'profile' %}"
+            ><i class="fas fa-user"></i> Your Profile</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'order' %}"><i class="fas fa-box"></i> Your Orders</a>
+        </li>
+        <li>
+          <a href="{% url 'wishlist' %}"
+            ><i class="fas fa-heart"></i> Wishlist</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'cart' %}"
+            ><i class="fas fa-shopping-cart"></i> Cart</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'seller' %}"
+            ><i class="fas fa-store"></i> Become a Seller</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'seller_profile' %}"
+            ><i class="fas fa-user-tie"></i> Seller Profile</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'help' %}"
+            ><i class="fas fa-question-circle"></i> Help Center</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'logout' %}"
+            ><i class="fas fa-sign-out-alt"></i> Log Out</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <main>
+      <div class="ai-container">
+        <div class="ai-header">
+          <h1>
+            AaskAI<span style="font-size: 1.5rem; color: var(--ai-accent)"
+              >🌿</span
+            >
+          </h1>
+          <p>
+            Your intelligent assistant for all farming, shopping and product
+            needs. Ask anything about products, farming techniques, or get
+            personalized recommendations!
+          </p>
+        </div>
+        <div class="user-type-container">
+          <button class="user-type-btn active" data-type="user">
+            I'm a Customer
+          </button>
+          <button class="user-type-btn" data-type="seller">I'm a Seller</button>
+        </div>
+        <div class="chat-interface">
+          <div class="chat-main">
+            <div class="chat-messages" id="chatMessages">
+              <div class="message ai-message">
+                Hello! I'm AaskAI, your personal assistant for Farm2Home. How
+                can I help you today?
+              </div>
+              {% comment %}
+                <div class="message user-message">
+                  Hello! I'm AaskAI, your personal assistant for Farm2Home. How
+                  can I help you today?
+                </div>
+              {% endcomment %}
+            </div>
+            <div class="chat-input-container">
+              <input
+                type="text"
+                class="chat-input"
+                id="chatInput"
+                name="message"
+                placeholder="Ask me anything about products, farming or our services..."
+              />
+              <button class="chat-send-btn" id="sendBtn" type="submit">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="chat-history">
+            <div class="history-header">
+              <h3>Chat History</h3>
+              <button id="clearHistory"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="history-list" id="historyList">
+              <!-- History items will be added here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="features-section">
+          <h2 class="features-title">How AaskAI Can Help You</h2>
+          <div class="features-container">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-shopping-basket"></i>
+              </div>
+              <h3>Product Recommendations</h3>
+              <p>
+                Get personalized product suggestions based on your preferences
+                and needs.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-store"></i>
+              </div>
+              <h3>Seller Support</h3>
+              <p>
+                Business insights, marketing tips, and inventory management
+                assistance for sellers.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <h3>Farming Knowledge</h3>
+              <p>
+                Learn about sustainable farming practices, crop management, and
+                more.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-question-circle"></i>
+              </div>
+              <h3>Customer Support</h3>
+              <p>
+                Get instant answers to your questions about orders, shipping,
+                and returns.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/asak_ai.js' %}"></script>
+  </body>
+</html>

@@ -92,7 +92,7 @@
             </div>
 
             <div class="price-section">
-                <span class="price">₹2.99/kg</span>
+                <span class="price">₹{{ product.discountedPrice|floatformat:2 }} / {{ product.pricePerUnit }}</span>
                 <span class="original-price">₹{{product.productPrice}}/{{product.pricePerUnit}}</span>
                 <span class="discount">{{product.productDiscount_inPercentage}}% OFF</span>
             </div>

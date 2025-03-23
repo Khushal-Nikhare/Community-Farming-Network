@@ -23,7 +23,7 @@ GEMINI_GENERATION_CONFIG = {
   "temperature": 0,
   "top_p": 0.95,
   "top_k": 64,
-  "max_output_tokens": 8192,
+  "max_output_tokens": 4068,
   "response_mime_type": "text/plain",
 }
 GEMINI_SAFETY_SETTINGS = [

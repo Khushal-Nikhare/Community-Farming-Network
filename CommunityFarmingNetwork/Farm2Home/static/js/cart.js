@@ -72,7 +72,7 @@ function updateCart() {
 }
 
 function updateSummary(subtotal) {
-    const shipping = subtotal > 0 ? 50 : 0;
+    const shipping = subtotal > 20 ? 40 : 0;
     const tax = subtotal * 0.18; // 18% tax
     const total = subtotal + shipping + tax;
 
@@ -84,45 +84,45 @@ function updateSummary(subtotal) {
 }
 
 async function updateQuantity(index, quantity) {
-  quantity = parseInt(quantity);
-  if (quantity < 1) quantity = 1;
-  if (quantity > 99) quantity = 99;
+    quantity = parseInt(quantity);
+    if (quantity < 1) quantity = 1;
+    if (quantity > 99) quantity = 99;
 
-  if (index < 0 || index >= cart.length) {
-      console.error('Index out of bounds:', index);
-      showToast('Invalid cart item');
-      return;
-  }
+    if (index < 0 || index >= cart.length) {
+        console.error('Index out of bounds:', index);
+        showToast('Invalid cart item');
+        return;
+    }
 
-  const item = cart[index];
-  item.quantity = quantity;
+    const item = cart[index];
+    item.quantity = quantity;
 
-  try {
-      const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-      const response = await fetch('/update-cart/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': csrfToken,
-          },
-          body: JSON.stringify({
-              cart_item_id: item.id,
-              quantity: quantity
-          })
-      });
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        const response = await fetch('/update-cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                cart_item_id: item.id,
+                quantity: quantity
+            })
+        });
 
-      const data = await response.json();
-      if (response.ok) {
-          localStorage.setItem("cart", JSON.stringify(cart));
-          updateCart();
-          showToast("Quantity updated");
-      } else {
-          showToast(data.message || 'Failed to update quantity');
-      }
-  } catch (error) {
-      console.error('Error:', error);
-      showToast('An error occurred while updating quantity');
-  }
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+            showToast("Quantity updated");
+        } else {
+            showToast(data.message || 'Failed to update quantity');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('An error occurred while updating quantity');
+    }
 }
 async function removeItem(index) {
     const item = cart[index];

@@ -50,7 +50,7 @@ class Product(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     productId = models.AutoField(primary_key=True)
-    productName = models.CharField(max_length=255)
+    productName = models.CharField(max_length=255,db_index=True)
     productCategory = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
@@ -79,6 +79,11 @@ class Product(models.Model):
     freshHarvested = models.BooleanField(default=False)
     naturalFarming = models.BooleanField(default=False)
     average_rating = models.FloatField(default=0.0)
+    
+    @property
+    def discountedPrice(self):
+        discount_amount = (self.productPrice * self.productDiscount_inPercentage) / 100
+        return self.productPrice - discount_amount
     
     def __str__(self):
         return str(self.productId) + " - " + self.productName

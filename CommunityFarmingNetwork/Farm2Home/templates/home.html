@@ -180,7 +180,7 @@
               <h4>{{ top_product.productName }}</h4>
               <p>{{ top_product.productDescription }}</p>
               <div class="price">
-                ₹{{ top_product.productPrice }}/{{ top_product.pricePerUnit }}
+                ₹{{ top_product.discountedPrice|floatformat:2 }} / {{ top_product.pricePerUnit }}
               </div>
             </a>
             <button
