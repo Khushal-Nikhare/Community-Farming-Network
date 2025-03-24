@@ -31,6 +31,11 @@
           />
           <i class="fas fa-search search-icon"></i>
         </div>
+        <div class="asak-ai-container">
+          <a href="{% url 'asak_ai_page' %}" class="asak-ai-link">
+            <span style="color: white">Asak AI</span>
+          </a>
+        </div>
         <div class="nav-icons">
           <a href="{% url 'cart' %}" class="cart-icon">
             <span style="font-size: 18px">🛒</span>
@@ -166,7 +171,7 @@
             gap: 30px;
           "
         >
-           {% for top_product in top_products %}
+          {% for top_product in top_products %}
           <div class="product-card">
             <a
               href="{% url 'product' top_product.productId %} "
@@ -191,236 +196,6 @@
             </button>
           </div>
           {% endfor %} 
-        </div>
-      </section>
-
-      <section class="products-section">
-        <h2 class="section-title">Suggested Products</h2>
-        <div class="products-grid">
-          {% comment %}
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=tomatoes&name=Fresh%20Tomatoes&price=65&image=/static/img/tomatoes.jpg&description=Farm-fresh%20red%20tomatoes"
-              class="product-link"
-            >
-              <span class="discount-badge">15% OFF</span>
-              <img
-                src="{% static '/img/tomatoes.jpg' %}"
-                alt="Fresh Tomatoes"
-              />
-              <h4>Fresh Tomatoes</h4>
-              <p>Farm-fresh red tomatoes</p>
-              <div class="price">₹65/kg</div>
-            </a>
-            <button onclick="addToCart('tomatoes')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=apples&name=Organic%20Apples&price=120&image=/static/img/apples.jpg&description=Sweet%20and%20juicy%20apples"
-              class="product-link"
-            >
-              <span class="discount-badge">10% OFF</span>
-              <img src="{% static '/img/apples.jpg' %}" alt="Organic Apples" />
-              <h4>Organic Apples</h4>
-              <p>Sweet and juicy apples</p>
-              <div class="price">₹120/kg</div>
-            </a>
-            <button onclick="addToCart('apples')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=rice&name=Organic%20Rice&price=90&image=/static/img/rice.jpg&description=Premium%20quality%20rice"
-              class="product-link"
-            >
-              <span class="discount-badge">20% OFF</span>
-              <img src="{% static '/img/rice.jpg' %}" alt="Organic Rice" />
-              <h4>Organic Rice</h4>
-              <p>Premium quality rice</p>
-              <div class="price">₹90/kg</div>
-            </a>
-            <button onclick="addToCart('rice')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <!-- Additional Product Cards -->
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=potatoes&name=Premium%20Potatoes&price=40&image=/static/img/potatoes.jpg&description=Premium%20quality%20potatoes"
-              class="product-link"
-            >
-              <span class="discount-badge">10% OFF</span>
-              <img
-                src="{% static '/img/potatoes.jpg' %}"
-                alt="Premium Potatoes"
-              />
-              <h4>Premium Potatoes</h4>
-              <p>Premium quality potatoes</p>
-              <div class="price">₹40/kg</div>
-            </a>
-            <button onclick="addToCart('potatoes')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=onions&name=Farm%20Fresh%20Red%20Onions&price=55&image=/static/img/onions.jpg&description=Farm%20fresh%20red%20onions"
-              class="product-link"
-            >
-              <span class="discount-badge">20% OFF</span>
-              <img
-                src="{% static '/img/onions.jpg' %}"
-                alt="Farm Fresh Red Onions"
-              />
-              <h4>Farm Fresh Red Onions</h4>
-              <p>Farm fresh red onions</p>
-              <div class="price">₹55/kg</div>
-            </a>
-            <button onclick="addToCart('onions')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=carrots&name=Fresh%20Orange%20Carrots&price=45&image=/static/img/carrots.jpg&description=Fresh%20orange%20carrots"
-              class="product-link"
-            >
-              <span class="discount-badge">25% OFF</span>
-              <img
-                src="{% static '/img/carrots.jpg' %}"
-                alt="Fresh Orange Carrots"
-              />
-              <h4>Fresh Orange Carrots</h4>
-              <p>Fresh orange carrots</p>
-              <div class="price">₹45/kg</div>
-            </a>
-            <button onclick="addToCart('carrots')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=cauliflower&name=Organic%20Cauliflower&price=35&image=/static/img/cauliflower.jpg&description=Organic%20cauliflower"
-              class="product-link"
-            >
-              <span class="discount-badge">12% OFF</span>
-              <img
-                src="{% static '/img/cauliflower.jpg' %}"
-                alt="Organic Cauliflower"
-              />
-              <h4>Organic Cauliflower</h4>
-              <p>Organic cauliflower</p>
-              <div class="price">₹35/kg</div>
-            </a>
-            <button onclick="addToCart('cauliflower')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=cucumbers&name=Green%20Cucumbers&price=30&image=/static/img/cucumbers.jpg&description=Fresh%20green%20cucumbers"
-              class="product-link"
-            >
-              <span class="discount-badge">18% OFF</span>
-              <img
-                src="{% static '/img/cucumbers.jpg' %}"
-                alt="Green Cucumbers"
-              />
-              <h4>Green Cucumbers</h4>
-              <p>Fresh green cucumbers</p>
-              <div class="price">₹30/kg</div>
-            </a>
-            <button onclick="addToCart('cucumbers')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=spinach&name=Fresh%20Green%20Spinach&price=30&image=/static/img/spinach.jpg&description=Fresh%20green%20spinach"
-              class="product-link"
-            >
-              <span class="discount-badge">15% OFF</span>
-              <img
-                src="{% static '/img/spinach.jpg' %}"
-                alt="Fresh Green Spinach"
-              />
-              <h4>Fresh Green Spinach</h4>
-              <p>Fresh green spinach</p>
-              <div class="price">₹30/kg</div>
-            </a>
-            <button onclick="addToCart('spinach')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=capsicum&name=Colorful%20Bell%20Peppers&price=80&image=/static/img/capsicum.jpg&description=Colorful%20bell%20peppers"
-              class="product-link"
-            >
-              <span class="discount-badge">22% OFF</span>
-              <img
-                src="{% static '/img/capsicum.jpg' %}"
-                alt="Colorful Bell Peppers"
-              />
-              <h4>Colorful Bell Peppers</h4>
-              <p>Colorful bell peppers</p>
-              <div class="price">₹80/kg</div>
-            </a>
-            <button onclick="addToCart('capsicum')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=brinjal&name=Purple%20Eggplant&price=45&image=/static/img/brinjal.jpg&description=Purple%20eggplant"
-              class="product-link"
-            >
-              <span class="discount-badge">10% OFF</span>
-              <img
-                src="{% static '/img/brinjal.jpg' %}"
-                alt="Purple Eggplant"
-              />
-              <h4>Purple Eggplant</h4>
-              <p>Purple eggplant</p>
-              <div class="price">₹45/kg</div>
-            </a>
-            <button onclick="addToCart('brinjal')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-card">
-            <a
-              href="{% url 'product' %}?id=ginger&name=Fresh%20Ginger%20Root&price=120&image=/static/img/ginger.jpg&description=Fresh%20ginger%20root"
-              class="product-link"
-            >
-              <span class="discount-badge">14% OFF</span>
-              <img
-                src="{% static '/img/ginger.jpg' %}"
-                alt="Fresh Ginger Root"
-              />
-              <h4>Fresh Ginger Root</h4>
-              <p>Fresh ginger root</p>
-              <div class="price">₹120/kg</div>
-            </a>
-            <button onclick="addToCart('ginger')" class="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
-          {% endcomment %}
         </div>
       </section>
 
