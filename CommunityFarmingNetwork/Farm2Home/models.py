@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Avg
 
 
 class UserProfile(models.Model):
@@ -50,7 +51,7 @@ class Product(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     productId = models.AutoField(primary_key=True)
-    productName = models.CharField(max_length=255,db_index=True)
+    productName = models.CharField(max_length=255, db_index=True)
     productCategory = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
@@ -68,7 +69,9 @@ class Product(models.Model):
         choices=PRICE_PER_UNIT,
         default="Kg",
     )
-    productDiscount_inPercentage = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    productDiscount_inPercentage = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0
+    )
     returnPolicy_inHours = models.CharField(
         max_length=13,
         choices=RETURN_POLICY_TIME_IN_HOURS,
@@ -79,29 +82,44 @@ class Product(models.Model):
     freshHarvested = models.BooleanField(default=False)
     naturalFarming = models.BooleanField(default=False)
     average_rating = models.FloatField(default=0.0)
-    
+
     @property
     def discountedPrice(self):
         discount_amount = (self.productPrice * self.productDiscount_inPercentage) / 100
         return self.productPrice - discount_amount
+
+    def update_average_rating(self):
+        """
+        Calculates and updates the average rating for the product.
+        """
+        average = self.ratings.aggregate(Avg('rating'))['rating__avg']
+        if average is not None:
+            self.average_rating = round(average, 2)  # Round to 2 decimal places
+        else:
+            self.average_rating = 0.0  # Set to 0 if there are no ratings
+        self.save()
     
     def __str__(self):
         return str(self.productId) + " - " + self.productName
 
+
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, related_name='ratings', on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name="ratings", on_delete=models.CASCADE
+    )
     rating = models.IntegerField(
         choices=[(i, i) for i in range(1, 6)],  # Ratings from 1 to 5
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'product')  # One rating per user per product
+        unique_together = ("user", "product")  # One rating per user per product
 
     def __str__(self):
-        return f"{self.user.username} rated {self.product.productName} with {self.rating}"
-    
+        return (
+            f"{self.user.username} rated {self.product.productName} with {self.rating}"
+        )
 
 
 class Cart(models.Model):
@@ -112,6 +130,7 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.product.productName} ({self.quantity})"
 
+
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_message = models.TextField()
@@ -120,3 +139,34 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"User: {self.user.username} | User Message: {self.user_message} | Bot: {self.bot_response}"
+
+
+class Order(models.Model):
+    orderId = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    order_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order ID: {self.orderId} - User: {self.user.username} - Product: {self.product.productName}"
+
+
+class SellerProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    total_orders = models.PositiveIntegerField(default=0)
+    revenue = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    def __str__(self):
+        return f"Seller: {self.user.username} - Product: {self.product.productName} - Total Orders: {self.total_orders} - Revenue: {self.revenue}"
+
+    def update_total_orders(self):
+        self.total_orders = Order.objects.filter(
+            product=self.product, user=self.user
+        ).count()
+        self.update_revenue()
+        self.save()
+
+    def update_revenue(self):
+        self.revenue = self.product.productPrice * self.total_orders

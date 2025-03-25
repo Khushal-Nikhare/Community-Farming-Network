@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from .services import get_gemini_response
-from .models import ChatMessage, Rating, UserProfile, Product, Cart, TradingProfile
+from .models import ChatMessage, Rating, UserProfile, Product, Cart, TradingProfile, SellerProduct
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
 from django.db.models import Count
 
@@ -216,8 +216,18 @@ def seller_profile(request):
 
     return render(request, "seller_profile.html", context)
 
+
+@login_required
 def seller_my_product(request):
-    return render(request,"seller_my_product.html")
+    seller_products = SellerProduct.objects.filter(user=request.user)
+    
+    if seller_products.exists():
+        context = {"seller_products": seller_products}
+    else:
+        context = {"seller_products": None}
+
+    return render(request, "seller_my_product.html", context)
+
 
 def add_product(request):
     if request.method == "POST":
@@ -227,6 +237,7 @@ def add_product(request):
         productImage = request.FILES["productImage"]
         productPrice = request.POST.get("productPrice")
         pricePerUnit = request.POST.get("pricePerUnit")
+        stockQuantity = request.POST.get("stockQuantity")
         productDiscount_inPercentage = request.POST.get("productOffer")
         returnPolicy_inHours = request.POST.get("returnPolicy")
         organicCertified = request.POST.get("organicCertified") == "on"
@@ -240,6 +251,7 @@ def add_product(request):
             productImage,
             productPrice,
             pricePerUnit,
+            stockQuantity,
             productDiscount_inPercentage,
             returnPolicy_inHours,
             organicCertified,
@@ -264,8 +276,10 @@ def add_product(request):
             naturalFarming=naturalFarming,
         )
         product.save()
+        SellerProduct.objects.create(user=request.user, product=product)
+
         messages.success(request, "Product added successfully!")
-        return redirect("seller_profile")
+        return redirect("seller_my_product")
     return render(request, "add_product.html")
 
 
@@ -402,10 +416,10 @@ def cart_view(request):
     cart_items = Cart.objects.filter(user=request.user).select_related("product")
     shipping = 0
     subtotal = sum(item.product.productPrice * item.quantity for item in cart_items)
-    
+
     if subtotal <= 20:
         shipping = Decimal("40.00") if subtotal > 0 else Decimal("0.00")
-    
+
     tax = subtotal * Decimal("0.18")
 
     # Format all monetary values to 2 decimal places
@@ -560,10 +574,16 @@ def get_cart(request):
         )
     return JsonResponse({"cart_items": cart_data})
 
+
 @login_required
 def asak_ai_page(request):
-    messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
-    return render(request, "AsakAI.html", {"messages": messages})
+    cart_count = 0
+    if request.user.is_authenticated:
+        cart_count = Cart.objects.filter(user=request.user).count()
+
+    messages = ChatMessage.objects.filter(user=request.user).order_by("timestamp")
+    return render(request, "AsakAI.html", {"messages": messages,"cart_count":cart_count})
+
 
 @login_required
 def asak_ai_chat(request):

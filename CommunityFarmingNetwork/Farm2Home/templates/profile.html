@@ -22,7 +22,7 @@
         <i class="fas fa-search search-icon"></i>
       </div>
       <div class="nav-icons">
-        <a href="cart.html" class="cart-icon">
+        <a href="{% url 'cart' %}" class="cart-icon">
           <span style="font-size: 18px;">🛒</span>
           <span class="cart-count" id="cart-count">0</span>
           <span style="color:white">Cart</span>
@@ -56,7 +56,7 @@
   <div class="container">
     <div class="welcome-header">
       <div class="profile-photo-container">
-        <img src="{% static '/img/user-placeholder.png' %}" alt="Profile Photo" class="profile-photo" id="profile-img">
+        <img src="{% static '/img/defualt.png' %}" alt="Profile Photo" class="profile-photo" id="profile-img">
         <div class="change-photo" onclick="openModal('photo-modal')">
           <i class="fas fa-camera"></i>
         </div>

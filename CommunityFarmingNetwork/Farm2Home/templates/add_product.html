@@ -16,8 +16,10 @@
     <header>
         <nav class="navbar">
             <div class="logo-container">
-                <img src="logo.png" alt="Farm2Home Logo">
-            </div>
+                <a href="{% url 'home' %}">
+                    <img src="{% static '/img/logo.png' %}" alt="Farm2Home Logo">
+                </a>
+              </div>
             <div class="search-container">
                 <input type="text" class="search-bar" placeholder="Search for fresh products...">
                 <i class="fas fa-search search-icon"></i>

@@ -16,8 +16,9 @@
   <header>
     <nav class="navbar">
       <div class="logo-container">
-        <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo" />
-      </div>
+        <a href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" alt="Farm2Home Logo">
+        </a>      </div>
       <div class="search-container">
         <input
           type="text"
@@ -61,7 +62,7 @@
   <div class="container">
     <div class="welcome-header">
       <div class="profile-photo-container">
-        <img src="user-placeholder.jpg" alt="Profile Photo" class="profile-photo" id="profile-img">
+        <img src="{% static '/img/defualt.png' %}" alt="Profile Photo" class="profile-photo" id="profile-img">
         <div class="change-photo" onclick="openModal('photo-modal')">
           <i class="fas fa-camera"></i>
         </div>
