@@ -62,11 +62,11 @@
             <h2>Become a Seller</h2>
             <p>Join our community of farmers and sellers to reach customers directly!</p>
 
-            {% if messages %}
+            {% comment %} {% if messages %}
                 {% for message in messages %}
                     <p style="color: red;">{{ message }}</p>
                 {% endfor %}
-            {% endif %}
+            {% endif %} {% endcomment %}
 
 
             <form id="sellerForm" action="{% url 'seller' %}" method="POST">
@@ -123,7 +123,7 @@
                     <input type="text" name="ifsc" id="ifsc" required>
                 </div>
 
-                <button type="submit" class="btn" id="sendOtp">Send OTP</button>
+                <button type="submit" class="btn" id="sendOtp">Submit</button>
             </form>
 
             <div id="otpVerification" style="display: none;">

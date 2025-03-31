@@ -193,6 +193,7 @@
 }
 
 .ai-message {
+    white-space: pre-wrap; /* Preserve spaces and line breaks */
     align-self: flex-start;
     background-color: var(--ai-gray);
     color: var(--text-color);
