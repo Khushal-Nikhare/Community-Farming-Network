@@ -238,6 +238,7 @@ def add_product(request):
         productPrice = request.POST.get("productPrice")
         pricePerUnit = request.POST.get("pricePerUnit")
         stockQuantity = request.POST.get("stockQuantity")
+        print(stockQuantity)
         productDiscount_inPercentage = request.POST.get("productOffer")
         returnPolicy_inHours = request.POST.get("returnPolicy")
         organicCertified = request.POST.get("organicCertified") == "on"
@@ -268,6 +269,7 @@ def add_product(request):
             productImage=productImage,
             productPrice=productPrice,
             pricePerUnit=pricePerUnit,
+            stockQuantity=stockQuantity,
             productDiscount_inPercentage=productDiscount_inPercentage,
             returnPolicy_inHours=returnPolicy_inHours,
             organicCertified=organicCertified,

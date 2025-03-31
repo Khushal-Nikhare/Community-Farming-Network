@@ -15,7 +15,7 @@ from pathlib import Path
 from decouple import config
 
 
-GEMINI_API_KEY = config('GEMINI_API_KEY')
+GEMINI_API_KEY = 'AIzaSyAPfig8QoHF16UbhVWwK_6J8Ipzuqme3Fg'
 
 # Gemini AI Configuration
 GEMINI_MODEL_NAME = "gemini-2.0-pro-exp-02-05"
@@ -59,7 +59,7 @@ SECRET_KEY = 'django-insecure-3&8vvxx^+bdpby4)nuv_ol=+@52o771oy^p8qa$vziyig#)#3$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -108,13 +108,22 @@ WSGI_APPLICATION = 'CommunityFarmingNetwork.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '/cloudsql/airy-office-452812-u4:us-central1:farm2home-mysql',
+        'PORT' : '3306',
+        'USER': 'root',
+        'PASSWORD': 'J>~ASbfL{8U^52e#',
+        'NAME': 'farm2home-db',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -154,7 +163,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") # Changed to "staticfiles"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

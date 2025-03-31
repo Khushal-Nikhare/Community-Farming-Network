@@ -75,7 +75,7 @@ class Product(models.Model):
     returnPolicy_inHours = models.CharField(
         max_length=13,
         choices=RETURN_POLICY_TIME_IN_HOURS,
-        default=0,
+        default="0",
     )
     organicCertified = models.BooleanField(default=False)
     pesticidefree = models.BooleanField(default=False)
