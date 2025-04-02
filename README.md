@@ -19,9 +19,7 @@ The Community Farming Network is a platform designed to connect local farmers wi
 
 *   **Frontend:** HTML, CSS, JavaScript
 *   **Backend:** Python, Django
-*   **Database:** (Specify your database here, e.g., PostgreSQL, MySQL, SQLite)
-*   **Payment Gateway:** (Specify your payment gateway integration, e.g., Stripe, PayPal)
-*   **Other Libraries/Frameworks:** (List any other relevant libraries or frameworks)
+*   **Database:** MySQL
 
 ## Setup Instructions
 
@@ -97,14 +95,10 @@ We welcome contributions to the Community Farming Network project! If you'd like
 4.  Write tests to ensure your changes are working correctly.
 5.  Submit a pull request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Contact
 
 For questions or inquiries, please contact:
 
 *   [Khushal Nikhare] - [khushalnikhare@proton.me]
-*   [Another Contributor's Name] - [Their Email]
+
 
