@@ -4,6 +4,8 @@
 
 The Community Farming Network is a platform designed to connect local farmers with consumers, promoting sustainable agriculture and providing access to fresh, locally-sourced produce. This project aims to create a community-driven ecosystem that supports local farmers, reduces carbon footprint, and enhances access to healthy food options.
 
+**Video Link:** [https://drive.google.com/file/d/1B7JNHMUSzt_y7LugQvtezwtcgohkL1jT/view?usp=sharing]
+
 ## Features
 
 *   **Product Listings:** Farmers can easily list their products with detailed descriptions, pricing, and availability.
