@@ -58,6 +58,6 @@ urlpatterns = [
     path("seller-profile/", views.seller_profile, name="seller_profile"),
     path("seller/my-product/", views.seller_my_product, name="seller_my_product"),
     path("add-product/", views.add_product, name="add_product"),
-    path("asak_ai/", views.asak_ai_page, name="asak_ai_page"),
-    path("asak_ai_chat/", views.asak_ai_chat, name="asak_ai_chat"),
+    path("aask_ai/", views.aask_ai_page, name="aask_ai_page"),
+    path("aask_ai_chat/", views.aask_ai_chat, name="aask_ai_chat"),
 ]

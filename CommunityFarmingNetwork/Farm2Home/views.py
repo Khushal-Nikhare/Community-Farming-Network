@@ -578,17 +578,17 @@ def get_cart(request):
 
 
 @login_required
-def asak_ai_page(request):
+def aask_ai_page(request):
     cart_count = 0
     if request.user.is_authenticated:
         cart_count = Cart.objects.filter(user=request.user).count()
 
     messages = ChatMessage.objects.filter(user=request.user).order_by("timestamp")
-    return render(request, "AsakAI.html", {"messages": messages,"cart_count":cart_count})
+    return render(request, "AaskAI.html", {"messages": messages,"cart_count":cart_count})
 
 
 @login_required
-def asak_ai_chat(request):
+def aask_ai_chat(request):
     if request.method == "POST":
         user_message = request.POST.get("message")
         if user_message:

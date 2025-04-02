@@ -266,7 +266,7 @@ async function generateAIResponse(message) {
     console.log('CSRF token:', csrftoken ? 'Found' : 'Not found');
 
     try {
-        const response = await fetch("/asak_ai_chat/", {
+        const response = await fetch("/aask_ai_chat/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -297,7 +297,7 @@ async function generateAIResponse(message) {
 }
 // Simple AI response generator (would be replaced with actual AI)
 // function generateAIResponse(message) {
-//     fetch("/asak_ai_chat/", {
+//     fetch("/aask_ai_chat/", {
 //         method: 'POST',
 //         headers: {
 //             'Content-Type': 'application/x-www-form-urlencoded',
