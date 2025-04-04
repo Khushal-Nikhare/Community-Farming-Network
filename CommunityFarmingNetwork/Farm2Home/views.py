@@ -124,7 +124,7 @@ def rate_product(request):
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
-@login_required(login_url="/login/")
+@login_required
 def profile(request):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
@@ -298,9 +298,11 @@ def signup_view(request):
         confirm_password = request.POST.get("confirm_password")
 
         print(username, email, mobile, password, confirm_password)
-        user = User.objects.filter(username=username, email=email)
+        
+        user = User.objects.filter(username=username) | User.objects.filter(email=email)
         if user.exists():
             messages.info(request, "Username or email already exists!")
+            return render(request, "login.html")
 
         if password == confirm_password:
             try:
@@ -310,10 +312,10 @@ def signup_view(request):
                 user.save()
                 user_profile = UserProfile(user=user, mobile=mobile)
                 user_profile.save()
-                login(request, user)
                 print("User created")
                 return redirect("profile")
-            except:
+            except Exception as e:
+                print("Error: ",e)
                 messages.error(request, "Username already exists.")
         else:
             messages.error(request, "Passwords do not match.")

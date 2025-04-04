@@ -45,9 +45,9 @@ function toggleSidebar() {
     document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
 }
 
-// menuButton.addEventListener('click', toggleSidebar);
-// closeButton.addEventListener('click', toggleSidebar);
-// overlay.addEventListener('click', toggleSidebar);
+menuButton.addEventListener('click', toggleSidebar);
+closeButton.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
 //  // Form submission event
 //  document.getElementById('sellerForm').addEventListener('submit', function(e) {
 //     e.preventDefault();

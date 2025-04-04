@@ -15,7 +15,7 @@ from pathlib import Path
 from decouple import config
 
 
-GEMINI_API_KEY = 'AIzaSyAPfig8QoHF16UbhVWwK_6J8Ipzuqme3Fg'
+GEMINI_API_KEY = 'AIzaSyDb8fDEg420-m59E-9uUcfRREel0dJVnuk'
 
 # Gemini AI Configuration
 GEMINI_MODEL_NAME = "gemini-2.0-pro-exp-02-05"
