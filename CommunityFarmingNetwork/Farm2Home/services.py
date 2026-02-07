@@ -3,7 +3,14 @@ import google.generativeai as genai
 from .models import Product
 
 # Configure the Gemini API with the API key from settings
-genai.configure(api_key=settings.GEMINI_API_KEY)
+if settings.GEMINI_API_KEY:
+    genai.configure(api_key=settings.GEMINI_API_KEY)
+else:
+    import warnings
+    warnings.warn(
+        "GEMINI_API_KEY is not configured. Gemini AI features will not work.",
+        RuntimeWarning
+    )
 
 generation_config = settings.GEMINI_GENERATION_CONFIG
 safety_settings = settings.GEMINI_SAFETY_SETTINGS
