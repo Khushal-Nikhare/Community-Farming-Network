@@ -15,7 +15,16 @@ from pathlib import Path
 from decouple import config
 
 
-GEMINI_API_KEY = 'AIzaSyDb8fDEg420-m59E-9uUcfRREel0dJVnuk'
+GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
+
+# Validate GEMINI_API_KEY is provided
+if not GEMINI_API_KEY:
+    import warnings
+    warnings.warn(
+        "GEMINI_API_KEY is not set. Gemini AI features will not work. "
+        "Please set GEMINI_API_KEY in your environment variables or .env file.",
+        RuntimeWarning
+    )
 
 # Gemini AI Configuration
 GEMINI_MODEL_NAME = "gemini-2.0-pro-exp-02-05"
