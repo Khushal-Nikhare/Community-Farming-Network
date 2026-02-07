@@ -2,6 +2,9 @@ from django.conf import settings
 import google.generativeai as genai
 from .models import Product
 
+# Configure the Gemini API with the API key from settings
+genai.configure(api_key=settings.GEMINI_API_KEY)
+
 generation_config = settings.GEMINI_GENERATION_CONFIG
 safety_settings = settings.GEMINI_SAFETY_SETTINGS
 
